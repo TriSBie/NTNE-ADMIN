@@ -57,6 +57,9 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
+                            <li class="nav-small-cap">                            
+                                <span class="hide-menu">Nguyễn Thành Đạt (ADMIN)</span>
+                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Trang chủ</span>
@@ -64,7 +67,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./index.html"
+                                    href="<c:url value="/"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -82,7 +85,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTour.html"
+                                    href="<c:url value="/tour/listTour.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -97,7 +100,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTourItems.html"
+                                    href="<c:url value="/tour/listTourItems.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -148,9 +151,13 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
+
                                     <span class="hide-menu">Quản lí Booking</span>
                                 </a>
                             </li>
+                            <!-- End Booking management- -->
+
+                           
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->

@@ -57,6 +57,9 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
+                            <li class="nav-small-cap">                            
+                                <span class="hide-menu">Nguyễn Thành Đạt (ADMIN)</span>
+                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Trang chủ</span>
@@ -64,7 +67,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./index.html"
+                                    href="<c:url value="/"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -77,11 +80,12 @@
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Danh mục</span>
                             </li>
+
                             <!-- Begin tour manage -->
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTour.html"
+                                    href="<c:url value="/tour/listTour.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -96,7 +100,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTourItems.html"
+                                    href="<c:url value="/tour/listTourItems.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -111,7 +115,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTrip.html"
+                                    href="<c:url value="/tour/listTrip.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -145,43 +149,15 @@
                                     aria-expanded="false"
                                     >
                                     <span>
-                                        <span> <i class="fa-solid fa-list-check"></i> </span>
+                                        <i class="fa-solid fa-list"></i>
                                     </span>
+
                                     <span class="hide-menu">Quản lí Booking</span>
                                 </a>
                             </li>
                             <!-- End Booking management- -->
 
-                            <!-- Account Tab -->
-                            <!-- <li class="nav-small-cap">
-                              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                              <span class="hide-menu">Tài khoản</span>
-                            </li>
-                            <li class="sidebar-item">
-                              <a
-                                class="sidebar-link"
-                                href="./authentication-login.html"
-                                aria-expanded="false"
-                              >
-                                <span>
-                                  <i class="ti ti-login"></i>
-                                </span>
-                                <span class="hide-menu">Đăng nhập</span>
-                              </a>
-                            </li>
-                            <li class="sidebar-item">
-                              <a
-                                class="sidebar-link"
-                                href="./authentication-register.html"
-                                aria-expanded="false"
-                              >
-                                <span>
-                                  <i class="ti ti-user-plus"></i>
-                                </span>
-                                <span class="hide-menu">Đăng kí</span>
-                              </a>
-                            </li> -->
-                            <!-- End Account Tab -->
+                           
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
