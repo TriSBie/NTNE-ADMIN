@@ -130,7 +130,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-destination.html"
+                                    href="<c:url value="/tour/listDestination.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -157,7 +157,7 @@
                             </li>
                             <!-- End Booking management- -->
 
-                           
+
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -236,7 +236,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <h3 class="mb-3">DANH SÁCH TRIP</h3>
-                                        <a href="./ui-createTrip.html" alt="createTour">
+                                        <a href="<c:url value="/tour/createTrip.do"/>" alt="createTour">
                                             <button class="btn btn-primary">Tạo TRIP</button>
                                         </a>
                                         <table class="table">

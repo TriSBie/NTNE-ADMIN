@@ -1,20 +1,20 @@
 <%-- 
-    Document   : ui-listTour
-    Created on : Jun 14, 2023, 2:12:45 PM
+    Document   : ui-createTrip
+    Created on : Jun 14, 2023, 11:10:50 PM
     Author     : buidu
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<
 <fmt:setLocale value="vi_VN"/>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Danh sách TOUR</title>
+        <title>Tạo TRIP</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
@@ -58,9 +58,6 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
-                            <li class="nav-small-cap">                            
-                                <span class="hide-menu">Nguyễn Thành Đạt (ADMIN)</span>
-                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Trang chủ</span>
@@ -68,7 +65,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/"/>"
+                                    href="./index.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -86,7 +83,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/tour/listTour.do"/>"
+                                    href="./ui-listTour.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -101,7 +98,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/tour/listTourItems.do"/>"
+                                    href="./ui-listTourItems.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -116,7 +113,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/tour/listTrip.do"/>"
+                                    href="./ui-listTrip.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -152,13 +149,9 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-
                                     <span class="hide-menu">Quản lí Booking</span>
                                 </a>
                             </li>
-                            <!-- End Booking management- -->
-
-
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -171,17 +164,6 @@
                 <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <ul class="navbar-nav">
-                            <li class="nav-item d-block d-xl-none">
-                                <a
-                                    class="nav-link sidebartoggler nav-icon-hover"
-                                    id="headerCollapse"
-                                    href="javascript:void(0)"
-                                    >
-                                    <i class="ti ti-menu-2"></i>
-                                </a>
-                            </li>
-                        </ul>
                         <div
                             class="navbar-collapse justify-content-end px-0"
                             id="navbarNav"
@@ -215,13 +197,13 @@
                                                 class="d-flex align-items-center gap-2 dropdown-item"
                                                 >
                                                 <i class="ti ti-mail fs-6"></i>
-                                                <p class="mb-0 fs-3">Tài khoản</p>
+                                                <p class="mb-0 fs-3">Quản lí tài khoản</p>
                                             </a>
                                             <a
                                                 href="./authentication-login.html"
                                                 class="btn btn-outline-primary mx-3 mt-2 d-block"
-                                                >Đăng xuất
-                                            </a>
+                                                >Đăng xuất</a
+                                            >
                                         </div>
                                     </div>
                                 </li>
@@ -232,105 +214,149 @@
                 <!--  Header End -->
                 <div class="container-fluid">
                     <div class="container-fluid">
+                        <h2 class="card-title fw-semibold mb-4">Tạo TRIP</h2>
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h3 class="mb-3">DANH SÁCH TOUR</h3>
-                                        <a href="./ui-createTour.html" alt="createTour">
-                                            <button class="btn btn-primary">Tạo TOUR</button>
-                                        </a>
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Tên Tour</th>
-                                                    <th scope="col">Hình ảnh</th>
-                                                    <th scope="col">Địa điểm đến</th>
-                                                    <th scope="col">Giá người lớn</th>
-                                                    <th scope="col">Giá trẻ em</th>
-                                                    <th scope="col">Chức năng</th>
-                                                    <th scope="col">
-                                                        Chi tiết
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <c:if test="${not empty requestScope.LIST_TOUR}">
-                                                <tbody>
-                                                    <c:forEach var="tour" items="${LIST_TOUR}">
-                                                        <tr>
-                                                            <th scope="row">${tour.tourID}</th>
-                                                            <td 
-                                                                style="width: 300px">${tour.tourName}</td>
-                                                            <td>
-                                                                <img
-                                                                    style="
-                                                                    width: 60px;
-                                                                    height: 60px;
-                                                                    border-radius: 5px;
-                                                                    "
-                                                                    src="${tour.thumbnail}"
-                                                                    />
-                                                            </td>
-                                                            <td style="width: 150px">
-                                                                <p>${tour.location}</p>
-                                                            </td>
-
-                                                            <td>
-                                                                <fmt:formatNumber value ="${tour.priceAdult}" type = "currency"/></span>
-                                                            </td>
-                                                            <td>
-                                                                <fmt:formatNumber value ="${tour.priceChild}" type = "currency"/></span>
-                                                            </td>
-                                                            <td>
-                                                                <a href="./ui-editTour.html">
-                                                                    <button class="btn btn-warning">
-                                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                                    </button>
-                                                                </a>
-                                                                <button class="btn btn btn-danger">
-                                                                    <i class="fa-solid fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
-                                                                    <c:param name="id" value="${tour.tourID}"/>
-                                                                </c:url>
-                                                                <a href="${getDetaiTourlLink}">
-                                                                    <i class="fa-solid fa-circle-info"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </c:if>
-                                            <c:if test="${empty requestScope.LIST_TOUR}">
-                                                <h1>List of Tours is Empty</h1>
-                                            </c:if>
-                                        </table>
+                                <form>
+                                    <!-- Select TOUR -->
+                                    <div class="mb-3">
+                                        <label id="tour-selection">
+                                            Mời bạn chọn Tour
+                                            <select
+                                                name="tour-selection"
+                                                class="form-select"
+                                                aria-label="Default select example"
+                                                >
+                                                <c:forEach var="tour" items="${requestScope.LIST_TOUR}" varStatus="counter">
+                                                    <option value="${tour.tourID}">${counter.count} - ${tour.tourName}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
                                     </div>
-                                </div>
+                                    <br />
+                                    <!-- CREATE TRIP -->
+                                    <div class="formTour">
+                                        <div class="formTour-package">
+                                            <div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label
+                                                        style="color: red"
+                                                        for="exampleInputEmail1"
+                                                        class="form-label"
+                                                        >Giá người lớn (VND)</label
+                                                    >
+                                                    <input
+                                                        name="priceAdult"
+                                                        type="number"
+                                                        class="form-control"
+                                                        id="exampleInputEmail1"
+                                                        aria-describedby="emailHelp"
+                                                        value=""
+                                                        />
+                                                </div>
+                                                <div class="col-6">
+                                                    <label
+                                                        style="color: red"
+                                                        for="exampleInputEmail1"
+                                                        class="form-label"
+                                                        >Giá trẻ em (VND)</label
+                                                    >
+                                                    <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        id="exampleInputEmail1"
+                                                        name="priceChild"
+                                                        aria-describedby="emailHelp"
+                                                        value=""
+                                                        />
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label style="color: red" class="form-label"
+                                                           >Ngày khởi hành</label
+                                                    >
+                                                    <input name="departureDate" type="date" class="form-control" value=""/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label
+                                                        style="color: red"
+                                                        class="form-label"
+                                                        for="tour"
+                                                        >Số chỗ cho phép
+                                                    </label>
+                                                    <input name="seatTrip" type="number" class="form-control" value=""/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END CREATE TRIP -->
+
+                                    <!-- Hình Ảnh TOUR -->
+                                    <!-- Check Box -->
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" 
+                                               required />
+                                        <label class="form-check-label">Xác thực tạo TRIP</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        Tạo TRIP
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <style>
-
-        </style>
-        <script>
-            const btnActive = document.querySelector(".btnActive");
-
-            function changeStatus() {
-                btnActive.innerText = "Tạm dừng";
-            }
-        </script>
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
+        <!-- <script src="../assets/js/editor.js"></script> -->
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script>
+            const buttonCreate = document.querySelector(".btnCreate");
+            const formCreate = document.querySelector(".formTour");
+            const formTour_package = document.querySelector(".formTour-package");
+            console.log(formTour_package);
+            function createTourForm(e) {
+                const div = document.createElement("div");
+                div.innerHTML = `<div class="mb-3 row">
+                                <div class="col-6">
+                                  <label class="form-label">Mốc thời gian</label>
+                                <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-6">
+                                  <label class="form-label" for="tour">Mời bạn chọn địa điểm: </label>
+                                  <select class="form-select col-2" name="select_tour" id="tour" aria-label="Default select example">
+                                    <option value="1">khu quần thể Vinpearl</option>
+                                    <option value="2">VinWonders Nha Trang</option>
+                                    <option value="3">Vườn Quý Vương </option>
+                                    <option value="4">Khu trò chơi cảm giác mạnh ngoài trời</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="mb-3 col-12">
+                                <label class="form-label">Chi tiết</label>
+                                <textarea
+                                  rows="5"
+                                  class="form-control"
+                                  name="editor1"
+                                >
+                                </textarea>
+                              </div>`;
+                div.classList.add("formTour-package");
+                formCreate.appendChild(div);
+            }
+        </script>
+
+        <!-- CKEditor -->
+        <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace("editor1");
+        </script>
+        <!-- CKEditor -->
     </body>
 </html>
 

@@ -6,9 +6,11 @@
 package com.admin.controller;
 
 import com.admin.config.Config;
+import com.admin.dao.DestinationDAO;
 import com.admin.dao.TourDAO;
 import com.admin.dao.TourItemDAO;
 import com.admin.dao.TripDAO;
+import com.admin.model.DestinationDTO;
 import com.admin.model.TourDTO;
 import com.admin.model.TourItemDTO;
 import com.admin.model.TripDTO;
@@ -34,12 +36,17 @@ public class TourController extends HttpServlet {
     String LIST_TOUR_ITEMS_URL = "ui-listTourItems.jsp";
     String ERROR_URL = "error.jsp";
     String LIST_TRIP_URL = "ui-listTrip.jsp";
+    String LIST_DESTINATION_URL = "ui-destination.jsp";
+    String CREATE_TRIP_URL = "ui-createTrip.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = (String) request.getAttribute("action");
         switch (action) {
+            /*------------------------------------------------------------------------------
+                                FUNCTION XU LY YEU CAU GET
+        ------------------------------------------------------------------------------*/
             case "listTour":
                 listTour(request, response);
                 break;
@@ -48,6 +55,18 @@ public class TourController extends HttpServlet {
                 break;
             case "listTrip":
                 listTrip(request, response);
+                break;
+            case "listDestination":
+                listDestination(request, response);
+                break;
+            case "tourDetailByID":
+                getListOfTourItemFromTourByID(request, response);
+                break;
+            /*------------------------------------------------------------------------------
+                                FUNCTION XU LY YEU CAU CREATE
+        ------------------------------------------------------------------------------*/
+            case "createTrip":
+                createTripForm(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -108,6 +127,66 @@ public class TourController extends HttpServlet {
             if (listTrip != null) {
                 url = Config.LAYOUT + LIST_TRIP_URL;
                 request.setAttribute("LIST_TRIP", listTrip);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Get list of destination
+    protected void listDestination(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            DestinationDAO dao = new DestinationDAO();
+            List<DestinationDTO> listDestination = dao.getAllDestination();
+            if (listDestination != null) {
+                url = Config.LAYOUT + LIST_DESTINATION_URL;
+                request.setAttribute("LIST_DESTINATION", listDestination);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void getListOfTourItemFromTourByID(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int tourID = Integer.parseInt(request.getParameter("id"));
+            System.out.println(tourID);
+            TourItemDAO dao = new TourItemDAO();
+            List<TourItemDTO> listTourItemByTourID = dao.getListTourItemByTourID(tourID);
+            if (listTourItemByTourID != null) {
+                url = Config.LAYOUT + LIST_TOUR_ITEMS_URL;
+                request.setAttribute("LIST_TOUR_ITEM_DETAIL_BY_TOUR_ID", listTourItemByTourID);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void createTripForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            List<TourDTO> listTour = new TourDAO().getAllTours();
+            TourItemDAO dao = new TourItemDAO();
+            if (listTour != null) {
+                url = Config.LAYOUT + CREATE_TRIP_URL;
+                request.setAttribute("LIST_TOUR", listTour);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {

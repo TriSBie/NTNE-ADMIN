@@ -1,21 +1,25 @@
 <%-- 
-    Document   : ui-listTour
-    Created on : Jun 14, 2023, 2:12:45 PM
+    Document   : ui-destination
+    Created on : Jun 14, 2023, 10:29:49 PM
     Author     : buidu
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <fmt:setLocale value="vi_VN"/>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Danh sách TOUR</title>
-        <link rel="shortcut icon" type="image/png" href="" />
+        <title>Modernize Free</title>
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href="../assets/images/logos/favicon.png"
+            />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
             rel="stylesheet"
@@ -58,9 +62,6 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
-                            <li class="nav-small-cap">                            
-                                <span class="hide-menu">Nguyễn Thành Đạt (ADMIN)</span>
-                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Trang chủ</span>
@@ -68,7 +69,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/"/>"
+                                    href="./index.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -86,7 +87,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/tour/listTour.do"/>"
+                                    href="./ui-listTour.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -101,7 +102,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/tour/listTourItems.do"/>"
+                                    href="./ui-listTourItems.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -116,7 +117,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/tour/listTrip.do"/>"
+                                    href="./ui-listTrip.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -152,13 +153,41 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-
                                     <span class="hide-menu">Quản lí Booking</span>
                                 </a>
                             </li>
                             <!-- End Booking management- -->
 
-
+                            <!-- Account regis/login -->
+                            <!-- <li class="nav-small-cap">
+                              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                              <span class="hide-menu">Tài khoản - Quản lí Tài Khoản</span>
+                            </li> -->
+                            <!-- <li class="sidebar-item">
+                              <a
+                                class="sidebar-link"
+                                href="./authentication-login.html"
+                                aria-expanded="false"
+                              >
+                                <span>
+                                  <i class="ti ti-login"></i>
+                                </span>
+                                <span class="hide-menu">Đăng nhập</span>
+                              </a>
+                            </li>
+                            <li class="sidebar-item">
+                              <a
+                                class="sidebar-link"
+                                href="./authentication-register.html"
+                                aria-expanded="false"
+                              >
+                                <span>
+                                  <i class="ti ti-user-plus"></i>
+                                </span>
+                                <span class="hide-menu">Đăng kí</span>
+                              </a>
+                            </li> -->
+                            <!-- End regis/login -->
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -220,8 +249,8 @@
                                             <a
                                                 href="./authentication-login.html"
                                                 class="btn btn-outline-primary mx-3 mt-2 d-block"
-                                                >Đăng xuất
-                                            </a>
+                                                >Đăng xuất</a
+                                            >
                                         </div>
                                     </div>
                                 </li>
@@ -236,77 +265,35 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h3 class="mb-3">DANH SÁCH TOUR</h3>
-                                        <a href="./ui-createTour.html" alt="createTour">
-                                            <button class="btn btn-primary">Tạo TOUR</button>
-                                        </a>
+                                        <h3 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h3>
+                                        <!-- <a href="./ui-createTour.html" alt="createTour">
+                                          <button class="btn btn-primary">Tạo Địa Điểm</button>
+                                        </a> -->
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID</th>
-                                                    <th scope="col">Tên Tour</th>
-                                                    <th scope="col">Hình ảnh</th>
-                                                    <th scope="col">Địa điểm đến</th>
-                                                    <th scope="col">Giá người lớn</th>
-                                                    <th scope="col">Giá trẻ em</th>
+                                                    <th scope="col">Tên Địa Điểm</th>
                                                     <th scope="col">Chức năng</th>
-                                                    <th scope="col">
-                                                        Chi tiết
-                                                    </th>
                                                 </tr>
                                             </thead>
-                                            <c:if test="${not empty requestScope.LIST_TOUR}">
-                                                <tbody>
-                                                    <c:forEach var="tour" items="${LIST_TOUR}">
-                                                        <tr>
-                                                            <th scope="row">${tour.tourID}</th>
-                                                            <td 
-                                                                style="width: 300px">${tour.tourName}</td>
-                                                            <td>
-                                                                <img
-                                                                    style="
-                                                                    width: 60px;
-                                                                    height: 60px;
-                                                                    border-radius: 5px;
-                                                                    "
-                                                                    src="${tour.thumbnail}"
-                                                                    />
-                                                            </td>
-                                                            <td style="width: 150px">
-                                                                <p>${tour.location}</p>
-                                                            </td>
-
-                                                            <td>
-                                                                <fmt:formatNumber value ="${tour.priceAdult}" type = "currency"/></span>
-                                                            </td>
-                                                            <td>
-                                                                <fmt:formatNumber value ="${tour.priceChild}" type = "currency"/></span>
-                                                            </td>
+                                            <tbody>
+                                                <c:if test="${not empty requestScope.LIST_DESTINATION}">
+                                                    <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}">
+                                                        <tr scope="row">
+                                                            <td>${destination.id}</td>
+                                                            <td>${destination.name}</td>
                                                             <td>
                                                                 <a href="./ui-editTour.html">
                                                                     <button class="btn btn-warning">
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
                                                                 </a>
-                                                                <button class="btn btn btn-danger">
-                                                                    <i class="fa-solid fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
-                                                                    <c:param name="id" value="${tour.tourID}"/>
-                                                                </c:url>
-                                                                <a href="${getDetaiTourlLink}">
-                                                                    <i class="fa-solid fa-circle-info"></i>
-                                                                </a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
-                                                </tbody>
-                                            </c:if>
-                                            <c:if test="${empty requestScope.LIST_TOUR}">
-                                                <h1>List of Tours is Empty</h1>
-                                            </c:if>
+                                                </c:if>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -316,21 +303,13 @@
                 </div>
             </div>
         </div>
-        <style>
-
-        </style>
-        <script>
-            const btnActive = document.querySelector(".btnActive");
-
-            function changeStatus() {
-                btnActive.innerText = "Tạm dừng";
-            }
-        </script>
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
         <script src="../assets/js/app.min.js"></script>
+        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="../assets/js/dashboard.js"></script>
     </body>
 </html>
 

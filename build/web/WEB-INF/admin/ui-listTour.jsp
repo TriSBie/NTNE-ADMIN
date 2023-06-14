@@ -158,7 +158,7 @@
                             </li>
                             <!-- End Booking management- -->
 
-                           
+
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -250,6 +250,9 @@
                                                     <th scope="col">Giá người lớn</th>
                                                     <th scope="col">Giá trẻ em</th>
                                                     <th scope="col">Chức năng</th>
+                                                    <th scope="col">
+                                                        Chi tiết
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <c:if test="${not empty requestScope.LIST_TOUR}">
@@ -288,6 +291,14 @@
                                                                 <button class="btn btn btn-danger">
                                                                     <i class="fa-solid fa-trash"></i>
                                                                 </button>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
+                                                                    <c:param name="id" value="${tour.tourID}"/>
+                                                                </c:url>
+                                                                <a href="${getDetaiTourlLink}">
+                                                                    <i class="fa-solid fa-circle-info"></i>
+                                                                </a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

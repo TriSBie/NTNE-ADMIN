@@ -157,7 +157,7 @@
                             </li>
                             <!-- End Booking management- -->
 
-                           
+
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -251,6 +251,42 @@
                                             <tbody>
                                                 <c:if test="${not empty requestScope.LIST_TOUR_ITEMS}">
                                                     <c:forEach var="tourItem" items="${LIST_TOUR_ITEMS}">    
+                                                        <tr scope="row">
+                                                            <td>${tourItem.tourItemID}</td>
+                                                            <td>${tourItem.tourName}</td>
+                                                            <td>
+                                                                <img
+                                                                    style="
+                                                                    width: 80px;
+                                                                    height: 60px;
+                                                                    border-radius: 5px;
+                                                                    "
+                                                                    src="${tourItem.tourThumbnail}"
+                                                                    />
+                                                            </td>
+                                                            <td style="width: 150px">
+                                                                <p>${tourItem.duration}</p>
+                                                            </td>
+                                                            <!-- destination -->
+                                                            <td>${tourItem.destinationName}</td>
+                                                            <td style="width: 300px; min-height: 50px">
+                                                                ${tourItem.description}
+                                                            </td>
+                                                            <td>
+                                                                <c:url var="modifyTourItemLink" value="/tour/modifyTourItems">
+                                                                    <c:param name="tourItemID" value="${tourItem.tourItemID}"/>
+                                                                </c:url>
+                                                                <form action="<c:url value="${modifyTourItemLink}"/>">
+                                                                    <button class="btn btn-warning">
+                                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
+                                                <c:if test="${not empty requestScope.LIST_TOUR_ITEM_DETAIL_BY_TOUR_ID}">
+                                                    <c:forEach var="tourItem" items="${LIST_TOUR_ITEM_DETAIL_BY_TOUR_ID}">    
                                                         <tr scope="row">
                                                             <td>${tourItem.tourItemID}</td>
                                                             <td>${tourItem.tourName}</td>
