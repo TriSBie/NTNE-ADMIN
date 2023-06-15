@@ -40,6 +40,7 @@ public class TourController extends HttpServlet {
     String LIST_TRIP_URL = "ui-listTrip.jsp";
     String LIST_DESTINATION_URL = "ui-destination.jsp";
     String CREATE_TRIP_URL = "ui-createTrip.jsp";
+    String DASHBORAD_URL = "ui-dashborad.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,6 +64,9 @@ public class TourController extends HttpServlet {
                 break;
             case "tourDetailByID":
                 getListOfTourItemFromTourByID(request, response);
+                break;
+            case "dashborad":
+                get_Info_Dashborad(request, response);
                 break;
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
@@ -153,7 +157,7 @@ public class TourController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             DestinationDAO dao = new DestinationDAO();
-            List<DestinationDTO> listDestination = dao.getAllDestination();
+            List<DestinationDTO> listDestination = dao.getAll_List_Destination();
             if (listDestination != null) {
                 url = Config.LAYOUT + LIST_DESTINATION_URL;
                 request.setAttribute("LIST_DESTINATION", listDestination);
@@ -175,10 +179,13 @@ public class TourController extends HttpServlet {
             System.out.println(tourID);
             TourItemDAO dao = new TourItemDAO();
             List<TourItemDTO> listTourItemByTourID = dao.getListTourItemByTourID(tourID);
+
             System.out.println(listTourItemByTourID.get(1).getDescription());
             if (listTourItemByTourID != null) {
                 url = Config.LAYOUT + LIST_TOUR_ITEMS_URL;
                 request.setAttribute("LIST_TOUR_ITEM_DETAIL_BY_TOUR_ID", listTourItemByTourID);
+                request.setAttribute("TOUR_ITEM_NAME", listTourItemByTourID.get(1).getTourName());
+                request.setAttribute("TOUR_ITEM_IMG", listTourItemByTourID.get(1).getTourThumbnail());
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -187,6 +194,15 @@ public class TourController extends HttpServlet {
         } catch (ClassNotFoundException | IOException | SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    // getInfomation Dashborad
+    protected void get_Info_Dashborad(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        url = Config.LAYOUT + DASHBORAD_URL;
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
     /*------------------------------------------------------------------------------

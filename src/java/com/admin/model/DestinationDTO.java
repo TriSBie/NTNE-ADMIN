@@ -15,6 +15,9 @@ public class DestinationDTO implements Serializable {
 
     private int id;
     private String name;
+    private String description;
+    private String lat;
+    private String lon;
 
     public DestinationDTO() {
     }
@@ -22,6 +25,38 @@ public class DestinationDTO implements Serializable {
     public DestinationDTO(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public DestinationDTO(int id, String name, String description, String lat, String lon) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
     }
 
     public DestinationDTO(String name) {

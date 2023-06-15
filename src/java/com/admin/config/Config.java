@@ -6,7 +6,6 @@
 package com.admin.config;
 
 public class Config {
-
     public static final String LAYOUT = "/WEB-INF/admin/";
 
 }

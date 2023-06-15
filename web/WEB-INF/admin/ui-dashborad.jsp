@@ -1,21 +1,24 @@
 <%-- 
-    Document   : ui-listTourItems
-    Created on : Jun 14, 2023, 3:05:32 PM
+    Document   : index.jsp
+    Created on : Jun 11, 2023, 8:21:52 PM
     Author     : buidu
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Danh sách lịch trình</title>
-        <link rel="shortcut icon" type="image/png" href="" />
-        <link rel="stylesheet" href="../assets/css/styles.min.css" />
+        <title>NTNE BOOKING SYSTEM</title>
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href=""
+            />
+        <link rel="stylesheet" href="<c:url value="../assets/css/styles.min.css"/>" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -176,10 +179,9 @@
             </aside>
             <!--  Sidebar End -->
 
-
             <!--  Main wrapper -->
             <div class="body-wrapper">
-                                <!--  Header Start -->
+                <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <ul class="navbar-nav">
@@ -242,58 +244,73 @@
                 </header>
                 <!--  Header End -->
                 <div class="container-fluid">
-                    <h3 class="mb-3">Chi tiết lịch trình của "${TOUR_ITEM_NAME}"</h3>
-                    <div class="container-fluid">
-                        <div class="card">
-                            <div class="card-body">
-                                <!-- Tên TOUR -->
-                                <div class="mb-3">
-                                    <img
-                                        src="${TOUR_ITEM_IMG}"
-                                        alt="#"
-                                        class="img-thumbnail"
-                                        style="width: 150px"
-                                        />
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <table class="table">
-                                            <thead>
+                    <div class="row">
+                        <div class="col-lg-12 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-semibold mb-4">
+                                        TOP DOANH THU THEO TOUR
+                                    </h5>
+                                    <div class="table-responsive">
+                                        <table class="table text-nowrap mb-0 align-middle">
+                                            <thead class="text-dark fs-4">
                                                 <tr>
-                                                    <th scope="col">STT</th>
-                                                    <th scope="col">Thời gian</th>
-                                                    <th scope="col">Địa điểm</th>
-                                                    <th scope="col">Chi tiết</th>
-                                                    <th scope="col" style="width: 150px;" >Chức năng</th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">ID</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Tên TOUR</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Hình ảnh</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Tổng Doanh Thu</h6>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:if test="${not empty requestScope.LIST_TOUR_ITEM_DETAIL_BY_TOUR_ID}">
-                                                    <c:forEach var="tourItem" items="${LIST_TOUR_ITEM_DETAIL_BY_TOUR_ID}" varStatus="counter">    
-                                                        <tr scope="row">
-                                                            <!--<td>${tourItem.tourItemID}</td>-->
-                                                            <td>${counter.count}</td>
-                                                            <td style="width: 150px">
-                                                                <p>${tourItem.duration}</p>
-                                                            </td>
-                                                            <!-- destination -->
-                                                            <td style="width: 270px">${tourItem.destinationName}</td>
-                                                            <td>
-                                                                ${tourItem.description}
-                                                            </td>
-                                                            <td>
-                                                                <c:url var="modifyTourItemLink" value="/tour/modifyTourItems">
-                                                                    <c:param name="tourItemID" value="${tourItem.tourItemID}"/>
-                                                                </c:url>
-                                                                <form action="<c:url value="${modifyTourItemLink}"/>">
-                                                                    <button class="btn btn-primary">
-                                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                                    </button>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </c:if>
+                                                <!-- Du lieu -->
+                                                <tr>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">1</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">TOUR 3 ĐẢO</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">
+                                                            <img
+                                                                style="width: 60px; height: 60px"
+                                                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
+                                                                />
+                                                        </h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">50.000.000đ</p>
+                                                    </td>
+                                                </tr>
+                                                <!-- Du lieu -->
+                                                <tr>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">2</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">VINPEARL NHA TRANG</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">
+                                                            <img
+                                                                style="width: 60px; height: 60px"
+                                                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
+                                                                />
+                                                        </h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">45.700.000đ</p>
+                                                    </td>
+                                                </tr>
+                                                <!-- Du lieu -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -301,21 +318,124 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- <div class="row">
+                      <div class="col-sm-6 col-xl-3">
+                        <div class="card overflow-hidden rounded-2">
+                          <div class="position-relative">
+                            <a href="javascript:void(0)"
+                              ><img
+                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
+                                class="card-img-top rounded-0"
+                                alt="..."
+                            /></a>
+                          </div>
+                          <div class="card-body pt-3 p-4">
+                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <h6 class="fw-semibold fs-4 mb-0">
+                                750.000đ
+                                <span class="ms-2 fw-normal text-muted fs-3"
+                                  ><del>600.000đ</del></span
+                                >
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+          
+                      <div class="col-sm-6 col-xl-3">
+                        <div class="card overflow-hidden rounded-2">
+                          <div class="position-relative">
+                            <a href="javascript:void(0)"
+                              ><img
+                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
+                                class="card-img-top rounded-0"
+                                alt="..."
+                            /></a>
+                          </div>
+                          <div class="card-body pt-3 p-4">
+                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <h6 class="fw-semibold fs-4 mb-0">
+                                750.000đ
+                                <span class="ms-2 fw-normal text-muted fs-3"
+                                  ><del>600.000đ</del></span
+                                >
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+          
+          
+                      <div class="col-sm-6 col-xl-3">
+                        <div class="card overflow-hidden rounded-2">
+                          <div class="position-relative">
+                            <a href="javascript:void(0)"
+                              ><img
+                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
+                                class="card-img-top rounded-0"
+                                alt="..."
+                            /></a>
+                          </div>
+                          <div class="card-body pt-3 p-4">
+                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <h6 class="fw-semibold fs-4 mb-0">
+                                750.000đ
+                                <span class="ms-2 fw-normal text-muted fs-3"
+                                  ><del>600.000đ</del></span
+                                >
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+          
+          
+                      <div class="col-sm-6 col-xl-3">
+                        <div class="card overflow-hidden rounded-2">
+                          <div class="position-relative">
+                            <a href="javascript:void(0)"
+                              ><img
+                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
+                                class="card-img-top rounded-0"
+                                alt="..."
+                            /></a>
+                          </div>
+                          <div class="card-body pt-3 p-4">
+                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <h6 class="fw-semibold fs-4 mb-0">
+                                750.000đ
+                                <span class="ms-2 fw-normal text-muted fs-3"
+                                  ><del>600.000đ</del></span
+                                >
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div> -->
                 </div>
             </div>
         </div>
-        <script>
-            const btnActive = document.querySelector(".btnActive");
-
-            function changeStatus() {
-                btnActive.innerText = "Tạm dừng";
-            }
-        </script>
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
         <script src="../assets/js/app.min.js"></script>
+        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="../assets/js/dashboard.js"></script>
     </body>
 </html>
 

@@ -54,12 +54,41 @@ public class DestinationDAO implements Serializable {
         }
         return list;
     }
+//    Get all list destination
+    public List<DestinationDTO> getAll_List_Destination()
+            throws ClassNotFoundException, SQLException {
+        List<DestinationDTO> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT * from  [dbo].[Destination]";
+                list = new ArrayList<>();
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    DestinationDTO dto = new DestinationDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
     
 //    public static void main(String[] args) {
 //        try {
-//            List<DestinationDTO> dto = new DestinationDAO().getAllDestination();
+//            List<DestinationDTO> dto = new DestinationDAO().getAll_List_Destination();
 //            for (DestinationDTO item : dto) {
-//                System.out.println(item.getName());
+//                System.out.println(item.getLat());
 //            }
 //        } catch (ClassNotFoundException | SQLException e) {
 //            System.out.println(e.getMessage());

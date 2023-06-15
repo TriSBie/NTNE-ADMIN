@@ -45,7 +45,7 @@
                     <div
                         class="brand-logo d-flex align-items-center justify-content-between"
                         >
-                        <a href="<c:url value="/"/>"class="text-nowrap logo-img">
+                        <a href="<c:url value="/tour/dashborad.do"/>"class="text-nowrap logo-img">
                             <img
                                 src="https://firebasestorage.googleapis.com/v0/b/nha-trang-nature-elite.appspot.com/o/Images%20For%20Logo%20-%20Sliders%20-%20Other%2FTrang%20ch%E1%BB%A7%2Flogo.png?alt=media&token=2b706eb6-a8dd-488b-a807-bd03f3c56ad4&_gl=1*5k32sh*_ga*MTU1OTk0NzM3OC4xNjgzNTA1MDE2*_ga_CW55HF8NVT*MTY4NjEyMDM5NS40MS4xLjE2ODYxMjA4NzAuMC4wLjA."
                                 width="180"
@@ -63,7 +63,7 @@
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
                             <li class="nav-small-cap">                            
-                                <span class="hide-menu">Nguyễn Thành Đạt (ADMIN)</span>
+                                <span class="hide-menu">${admin.name}</span>
                             </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -72,7 +72,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/"/>"
+                                    href="<c:url value="/tour/dashborad.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -81,70 +81,12 @@
                                     <span class="hide-menu">Dashboard</span>
                                 </a>
                             </li>
+
+                            <!-- Start service management- -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">Danh mục</span>
+                                <span class="hide-menu">Quản lí dịch vụ</span>
                             </li>
-
-                            <!-- Begin tour manage -->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="<c:url value="/tour/listTour.do"/>"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách TOUR</span>
-                                </a>
-                            </li>
-                            <!-- End tour manage -->
-
-                            <!-- Begin Tour Item management -->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="<c:url value="/tour/listTourItems.do"/>"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách Lịch trình</span>
-                                </a>
-                            </li>
-                            <!-- End Tour Item management -->
-
-                            <!--LIST TRIP-->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="<c:url value="/tour/listTrip.do"/>"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase-rolling"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách TRIP</span>
-                                </a>
-                            </li>
-                            <!--LIST TRIP-->
-
-                            <!-- manage Destination -->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="<c:url value="/tour/listDestination.do"/>"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-list"></i>
-                                    </span>
-                                    <span class="hide-menu">Quản lí Destination</span>
-                                </a>
-                            </li>
-                            <!-- End destination management -->
 
                             <!-- Booking management-->
                             <li class="sidebar-item">
@@ -157,12 +99,80 @@
                                         <i class="fa-solid fa-list"></i>
                                     </span>
 
-                                    <span class="hide-menu">Quản lí Booking</span>
+                                    <span class="hide-menu">Booking</span>
                                 </a>
                             </li>
                             <!-- End Booking management- -->
 
-                           
+                            <!--LIST TRIP-->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listTrip.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+                                    <span class="hide-menu">TRIP</span>
+                                </a>
+                            </li>
+                            <!--LIST TRIP-->
+
+                            <!-- End service management- -->
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">DANH SÁCH</span>
+                            </li>
+
+                            <!-- Begin tour manage -->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listTour.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-suitcase"></i>
+                                    </span>
+                                    <span class="hide-menu">TOUR</span>
+                                </a>
+                            </li>
+                            <!-- End tour manage -->
+
+                            <!-- Manage Destination -->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listDestination.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+                                    <span class="hide-menu">Địa điểm</span>
+                                </a>
+                            </li>
+                            <!-- End destination management -->
+
+                            <!-- Manage Account -->
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">QUẢN LÍ TÀI KHOẢN</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="./authentication-login.html"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+                                    <span class="hide-menu">Người dùng</span>
+                                </a>
+                            </li>                           
+                            <!-- Manage Account -->
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -170,10 +180,11 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
-            
+
+
             <!--  Main wrapper -->
             <div class="body-wrapper">
-                <!--  Header Start -->
+                                <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <ul class="navbar-nav">
@@ -203,7 +214,7 @@
                                         aria-expanded="false"
                                         >
                                         <img
-                                            src="../assets/images/profile/user-1.jpg"
+                                            src="${admin.linkImg}"
                                             alt=""
                                             width="35"
                                             height="35"
@@ -223,7 +234,7 @@
                                                 <p class="mb-0 fs-3">Tài khoản</p>
                                             </a>
                                             <a
-                                                href="./authentication-login.html"
+                                                href="<c:url value="/account/hanleLogout.do"/>"
                                                 class="btn btn-outline-primary mx-3 mt-2 d-block"
                                                 >Đăng xuất</a
                                             >
@@ -241,15 +252,20 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h3 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h3>
-                                        <!-- <a href="./ui-createTour.html" alt="createTour">
-                                          <button class="btn btn-primary">Tạo Địa Điểm</button>
-                                        </a> -->
+                                        <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
+                                            <h3 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h3>
+                                            <a href="#" alt="createTour">
+                                                <button class="btn btn-primary">Tạo địa điểm mới</button>
+                                            </a>
+                                        </div>                                    
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID</th>
-                                                    <th scope="col">Tên Địa Điểm</th>
+                                                    <th scope="col">Tên Địa Điểm</th>    
+                                                    <th scope="col">Vĩ độ</th>
+                                                    <th scope="col">Kinh độ</th>
+                                                    <th scope="col">Mô tả ngắn</th>
                                                     <th scope="col">Chức năng</th>
                                                 </tr>
                                             </thead>
@@ -258,7 +274,10 @@
                                                     <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}">
                                                         <tr scope="row">
                                                             <td>${destination.id}</td>
-                                                            <td>${destination.name}</td>
+                                                            <td>${destination.name}</td>    
+                                                            <td>${destination.lat}</td>
+                                                            <td>${destination.lon}</td>
+                                                            <td>${destination.description}</td>
                                                             <td>
                                                                 <a href="./ui-editTour.html">
                                                                     <button class="btn btn-warning">
