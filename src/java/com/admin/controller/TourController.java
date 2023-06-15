@@ -15,10 +15,7 @@ import com.admin.model.TourDTO;
 import com.admin.model.TourItemDTO;
 import com.admin.model.TripDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,11 +37,14 @@ public class TourController extends HttpServlet {
     String LIST_TRIP_URL = "ui-listTrip.jsp";
     String LIST_DESTINATION_URL = "ui-destination.jsp";
     String CREATE_TRIP_URL = "ui-createTrip.jsp";
+    String CREATE_TOUR_URL = "ui-createTour.jsp";
     String DASHBORAD_URL = "ui-dashborad.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
         String action = (String) request.getAttribute("action");
         switch (action) {
             /*------------------------------------------------------------------------------
@@ -81,6 +81,14 @@ public class TourController extends HttpServlet {
             // Xử lý khi ADMIN muốn thay đổi trạng thái của TRIP
             case "hanleChangeState":
                 hanleChangeState(request, response);
+                break;
+            // Xử lí khi Admin click vào tạo tour khi điền đầy đủ tt
+            case "handleCreateDestination":
+                handleCreateDestination(request, response);
+                break;
+            // Điều hướng qua page Tạo mới tour         
+            case "createTourForm":
+                createTourForm(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -257,7 +265,6 @@ public class TourController extends HttpServlet {
     protected void hanleChangeState(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
-        System.out.println("Im here");
         try {
             // Get Parameter
             int tripID = Integer.parseInt(request.getParameter("tripID"));
@@ -274,6 +281,41 @@ public class TourController extends HttpServlet {
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    protected void handleCreateDestination(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            //get Parameters from destination
+            String desName = request.getParameter("destinationName");
+            String latitude = (request.getParameter("latitude"));
+            String longitude = (request.getParameter("longitude"));
+            //using text editor'index' -> get description detail of destination
+            String desc_des = request.getParameter("editor1");
+            if (desName != null && latitude != null && longitude != null && desc_des != null) {
+                DestinationDTO dto = new DestinationDTO(desName, desc_des, latitude, longitude);
+                // Call DAO
+                DestinationDAO dao = new DestinationDAO();
+                boolean result = dao.createDestination(dto);
+                if (result) {
+                    String message = "Địa điểm mới: " + desName + " được thêm vào thành công!";
+                    request.setAttribute("messageSc", message);
+                    request.getRequestDispatcher("/tour/listDestination.do").forward(request, response);
+                } else {
+                    response.sendRedirect(url);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void createTourForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + CREATE_TOUR_URL;
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

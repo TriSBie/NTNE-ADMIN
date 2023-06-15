@@ -19,11 +19,11 @@ import java.util.List;
  * @author buidu
  */
 public class DestinationDAO implements Serializable {
-    
+
     private Connection con = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
-    
+
     public List<DestinationDTO> getAllDestination()
             throws ClassNotFoundException, SQLException {
         List<DestinationDTO> list = null;
@@ -55,6 +55,7 @@ public class DestinationDAO implements Serializable {
         return list;
     }
 //    Get all list destination
+
     public List<DestinationDTO> getAll_List_Destination()
             throws ClassNotFoundException, SQLException {
         List<DestinationDTO> list = null;
@@ -83,7 +84,44 @@ public class DestinationDAO implements Serializable {
         }
         return list;
     }
+
+    public boolean createDestination(DestinationDTO dto)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "INSERT INTO [dbo].[Destination]\n"
+                        + "           ([name]\n"
+                        + "           ,[description]\n"
+                        + "           ,[lat]\n"
+                        + "           ,[lon])\n"
+                        + "     VALUES(?, ?, ?, ?)";
+                ps = con.prepareStatement(SQL);
+                ps.setString(1, dto.getName());
+                ps.setNString(2, dto.getDescription());
+                ps.setString(3, dto.getLat());
+                ps.setString(4, dto.getLon());
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return false;
+    }
     
+    
+
 //    public static void main(String[] args) {
 //        try {
 //            List<DestinationDTO> dto = new DestinationDAO().getAll_List_Destination();
@@ -94,5 +132,4 @@ public class DestinationDAO implements Serializable {
 //            System.out.println(e.getMessage());
 //        }
 //    }
-    
 }

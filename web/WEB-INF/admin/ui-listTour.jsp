@@ -250,7 +250,7 @@
                                     <div class="col-12">
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h3 class="mb-3">DANH SÁCH TOUR</h3>
-                                            <a href="./ui-createTour.html" alt="createTour">
+                                            <a href="<c:url value="/tour/createTourForm.do"/>" alt="createTour">
                                                 <button class="btn btn-primary">Tạo TOUR</button>
                                             </a>
                                         </div>

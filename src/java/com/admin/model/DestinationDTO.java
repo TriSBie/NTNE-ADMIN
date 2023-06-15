@@ -35,6 +35,13 @@ public class DestinationDTO implements Serializable {
         this.lon = lon;
     }
 
+    public DestinationDTO(String name, String description, String lat, String lon) {
+        this.name = name;
+        this.description = description;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     public String getDescription() {
         return description;
     }

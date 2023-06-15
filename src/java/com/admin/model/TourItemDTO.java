@@ -26,6 +26,12 @@ public class TourItemDTO implements Serializable {
     public TourItemDTO() {
     }
 
+    public TourItemDTO(int destinationID, String duration, String description) {
+        this.destinationID = destinationID;
+        this.duration = duration;
+        this.description = description;
+    }
+
     public TourItemDTO(int tourID, int destinationID, String duration, String description) {
         this.tourID = tourID;
         this.destinationID = destinationID;

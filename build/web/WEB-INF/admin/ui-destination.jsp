@@ -184,7 +184,7 @@
 
             <!--  Main wrapper -->
             <div class="body-wrapper">
-                                <!--  Header Start -->
+                <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <ul class="navbar-nav">
@@ -254,43 +254,110 @@
                                     <div class="col-12">
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h3 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h3>
-                                            <a href="#" alt="createTour">
-                                                <button class="btn btn-primary">Tạo địa điểm mới</button>
+                                            <a href="#popup1" class="openPopup" onclick="openPopup()">
+                                                <button class="btn btn-primary">Tạo địa điểm mới </button>
                                             </a>
-                                        </div>                                    
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Tên Địa Điểm</th>    
-                                                    <th scope="col">Vĩ độ</th>
-                                                    <th scope="col">Kinh độ</th>
-                                                    <th scope="col">Mô tả ngắn</th>
-                                                    <th scope="col">Chức năng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:if test="${not empty requestScope.LIST_DESTINATION}">
-                                                    <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}">
-                                                        <tr scope="row">
-                                                            <td>${destination.id}</td>
-                                                            <td>${destination.name}</td>    
-                                                            <td>${destination.lat}</td>
-                                                            <td>${destination.lon}</td>
-                                                            <td>${destination.description}</td>
-                                                            <td>
-                                                                <a href="./ui-editTour.html">
-                                                                    <button class="btn btn-warning">
-                                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                                    </button>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </div>
+                                        <div class="container-fluid">
+                                            <div class="card">
+                                                <div class="card-body overlay" id="popup1">
+                                                    <form class="popup" action="<c:url value="/tour/handleCreateDestination.do"/>" method="post">
+                                                        <!-- CREATE TRIP -->
+                                                        <div class="formTour">
+                                                            <a class="close" href="#" onclick="showZindex()">&times;</a> 
+                                                            <div class="formTour-package">
+                                                                <div class="mb-3 row">
+                                                                    <div class="col">
+                                                                        <label
+                                                                            style="color: red"
+                                                                            for="exampleInputEmail1"
+                                                                            class="form-label"
+                                                                            >Nhập tên Địa điểm mới</label
+                                                                        >
+                                                                        <input
+                                                                            name="destinationName"
+                                                                            type="text"
+                                                                            class="form-control"
+                                                                            id="exampleInputEmail1"
+                                                                            aria-describedby="destination_name"
+                                                                            value=""
+                                                                            />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-6">
+                                                                        <label style="color: red" class="form-label"
+                                                                               >Nhập vĩ độ </label
+                                                                        >
+                                                                        <input name="latitude" type="number" class="form-control" value=""/>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <label
+                                                                            style="color: red"
+                                                                            class="form-label"
+                                                                            for="tour"
+                                                                            >Nhập kinh độ
+                                                                        </label>
+                                                                        <input name="longitude" type="number" class="form-control" value=""/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 col-12">
+                                                                    <label class="form-label">Mô tả địa điểm</label>
+                                                                    <textarea rows="5" class="form-control" name="editor1" value="">
+                                                                    </textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- END CREATE TRIP -->
+
+                                                        <!-- Check Box -->
+                                                        <div class="mb-3 form-check">
+                                                            <input type="checkbox" class="form-check-input" 
+                                                                   required />
+                                                            <label class="form-check-label">Xác thực tạo Địa điểm</label>
+                                                            <br>
+                                                            <p style="color : #06D85F">${requestScope.messageSc}<p> 
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary" onclick="closePopup()">
+                                                            Tạo địa điểm
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Tên Địa Điểm</th>    
+                                                <th scope="col">Vĩ độ</th>
+                                                <th scope="col">Kinh độ</th>
+                                                <th scope="col">Mô tả ngắn</th>
+                                                <th scope="col">Chức năng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:if test="${not empty requestScope.LIST_DESTINATION}">
+                                                <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}">
+                                                    <tr scope="row">
+                                                        <td>${destination.id}</td>
+                                                        <td>${destination.name}</td>    
+                                                        <td>${destination.lat}</td>
+                                                        <td>${destination.lon}</td>
+                                                        <td>${destination.description}</td>
+                                                        <td>
+                                                            <a href="./ui-editTour.html">
+                                                                <button class="btn btn-warning">
+                                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                                </button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:if>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -298,13 +365,94 @@
                 </div>
             </div>
         </div>
-        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/sidebarmenu.js"></script>
-        <script src="../assets/js/app.min.js"></script>
-        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-        <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-        <script src="../assets/js/dashboard.js"></script>
-    </body>
+    </div>
+    <style>
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header{
+            z-index: 0;
+        }
+        .popup {
+            margin: 70px auto;
+            padding: 5px;
+            background: #fff;
+            border-radius: 5px;
+            width: 50%;
+            position: relative;
+            top: -5%;
+            left: 10%;
+            transition: all 5s ease-in-out;
+        }
+        .popup img{ width: 100%;}
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: -10px;
+            right: 12px;
+            transition: all 200ms;
+            font-size: 36px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+        .popup .close:hover {color: #06D85F;}
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+    </style>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+    <script>
+                                                            CKEDITOR.replace("editor1");
+    </script>
+
+    <script>
+        var btnOpenPopup = document.querySelector('.openPopup');
+        var popup = document.querySelector('.overlay');
+        function openPopup() {
+            document.querySelector(".app-header").style.zIndex = 0;
+        }
+//        addEventListener(btnOpenPopup, function () {
+//            document.querySelector(".app-header").style.zIndex = 0;
+//        })
+
+        function showZindex() {
+            document.querySelector(".app-header").style.zIndex = 10;
+        }
+
+//        function closePopup() {
+//            popup.style.visibility = "visibility: hidden";
+//            popup.style.opacity = "0"
+//        }
+    </script>
+</body>
 </html>
 
