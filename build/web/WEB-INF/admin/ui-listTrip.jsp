@@ -40,7 +40,7 @@
                     <div
                         class="brand-logo d-flex align-items-center justify-content-between"
                         >
-                        <a href="./icon-tabler.html" class="text-nowrap logo-img">
+                        <a href="<c:url value="/"/>"class="text-nowrap logo-img">
                             <img
                                 src="https://firebasestorage.googleapis.com/v0/b/nha-trang-nature-elite.appspot.com/o/Images%20For%20Logo%20-%20Sliders%20-%20Other%2FTrang%20ch%E1%BB%A7%2Flogo.png?alt=media&token=2b706eb6-a8dd-488b-a807-bd03f3c56ad4&_gl=1*5k32sh*_ga*MTU1OTk0NzM3OC4xNjgzNTA1MDE2*_ga_CW55HF8NVT*MTY4NjEyMDM5NS40MS4xLjE2ODYxMjA4NzAuMC4wLjA."
                                 width="180"
@@ -157,7 +157,7 @@
                             </li>
                             <!-- End Booking management- -->
 
-
+                           
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -165,6 +165,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
+            
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
@@ -248,7 +249,7 @@
                                                     <th scope="col">Ngày khởi hành</th>
                                                     <th scope="col">Giá người lớn</th>
                                                     <th scope="col">Giá trẻ em</th>
-                                                    <th scope="col">Số lượng</th>
+                                                    <th scope="col">SL</th>
                                                     <th scope="col">Trạng thái</th>
                                                     <th scope="col">Chức năng</th>
                                                 </tr>
@@ -274,24 +275,28 @@
                                                             <td style="width: 150px">
                                                                 <p>${tripItem.depart_time}</p>
                                                             </td>
-                                                            <td>
+                                                            <td style="width: 130px;">
                                                                 <fmt:formatNumber value ="${tripItem.priceAdult}" type = "currency"/></span>
                                                             </td>
-                                                            <td>
+                                                            <td style="width: 130px;">
                                                                 <fmt:formatNumber value ="${tripItem.priceChild}" type = "currency"/></span>
                                                             </td>
                                                             <td>${tripItem.quantity}</td>
                                                             <td>
-                                                                <form>
+                                                                <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
+                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                                     
+                                                                    <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
                                                                     <c:if test="${tripItem.availability == true}">
-                                                                        <button class="btn btn-primary">Active</button>
+                                                                        <button type="submit" class="btn btn-primary">Active</button>
                                                                     </c:if>
                                                                     <c:if test="${tripItem.availability != true}">
-                                                                        <button class="btn btn-warning">Inactive</button>
+                                                                        <button type="submit" class="btn btn-warning">Inactive</button>
                                                                     </c:if>
+                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
                                                                 </form>
                                                             </td>
-                                                            <td>
+                                                            <td style="width: 130px;">
                                                                 <a href="./ui-editTrip.html">
                                                                     <button class="btn btn-warning">
                                                                         <i class="fa-solid fa-pen-to-square"></i>

@@ -66,7 +66,7 @@ public class TourItemDAO implements Serializable {
         return list;
     }
     
-    public List<TourItemDTO> getListTourItemByTourID(int tourID)
+     public List<TourItemDTO> getListTourItemByTourID(int tourID)
             throws ClassNotFoundException, SQLException {
         List<TourItemDTO> list = null;
         try {
@@ -105,10 +105,10 @@ public class TourItemDAO implements Serializable {
         return list;
     }
     
-//    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//        List<TourItemDTO> list = new TourItemDAO().getListTourItemByTourID(1);
-//        for (TourItemDTO tourItemDTO : list) {
-//            System.out.println(tourItemDTO.getDescription());
-//        }
-//    }
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        List<TourItemDTO> list = new TourItemDAO().getListTourItemByTourID(1);
+        for (TourItemDTO tourItemDTO : list) {
+            System.out.println(tourItemDTO.getDescription());
+        }
+    }
 }

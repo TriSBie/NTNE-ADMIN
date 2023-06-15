@@ -14,11 +14,11 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Modernize Free</title>
+        <title>Quản lí danh sách Địa Điểm</title>
         <link
             rel="shortcut icon"
             type="image/png"
-            href="../assets/images/logos/favicon.png"
+            href=""
             />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
@@ -45,7 +45,7 @@
                     <div
                         class="brand-logo d-flex align-items-center justify-content-between"
                         >
-                        <a href="./icon-tabler.html" class="text-nowrap logo-img">
+                        <a href="<c:url value="/"/>"class="text-nowrap logo-img">
                             <img
                                 src="https://firebasestorage.googleapis.com/v0/b/nha-trang-nature-elite.appspot.com/o/Images%20For%20Logo%20-%20Sliders%20-%20Other%2FTrang%20ch%E1%BB%A7%2Flogo.png?alt=media&token=2b706eb6-a8dd-488b-a807-bd03f3c56ad4&_gl=1*5k32sh*_ga*MTU1OTk0NzM3OC4xNjgzNTA1MDE2*_ga_CW55HF8NVT*MTY4NjEyMDM5NS40MS4xLjE2ODYxMjA4NzAuMC4wLjA."
                                 width="180"
@@ -62,6 +62,9 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
+                            <li class="nav-small-cap">                            
+                                <span class="hide-menu">Nguyễn Thành Đạt (ADMIN)</span>
+                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Trang chủ</span>
@@ -69,7 +72,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./index.html"
+                                    href="<c:url value="/"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -87,7 +90,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTour.html"
+                                    href="<c:url value="/tour/listTour.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -102,7 +105,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTourItems.html"
+                                    href="<c:url value="/tour/listTourItems.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -117,7 +120,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTrip.html"
+                                    href="<c:url value="/tour/listTrip.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -132,7 +135,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-destination.html"
+                                    href="<c:url value="/tour/listDestination.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -153,41 +156,13 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
+
                                     <span class="hide-menu">Quản lí Booking</span>
                                 </a>
                             </li>
                             <!-- End Booking management- -->
 
-                            <!-- Account regis/login -->
-                            <!-- <li class="nav-small-cap">
-                              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                              <span class="hide-menu">Tài khoản - Quản lí Tài Khoản</span>
-                            </li> -->
-                            <!-- <li class="sidebar-item">
-                              <a
-                                class="sidebar-link"
-                                href="./authentication-login.html"
-                                aria-expanded="false"
-                              >
-                                <span>
-                                  <i class="ti ti-login"></i>
-                                </span>
-                                <span class="hide-menu">Đăng nhập</span>
-                              </a>
-                            </li>
-                            <li class="sidebar-item">
-                              <a
-                                class="sidebar-link"
-                                href="./authentication-register.html"
-                                aria-expanded="false"
-                              >
-                                <span>
-                                  <i class="ti ti-user-plus"></i>
-                                </span>
-                                <span class="hide-menu">Đăng kí</span>
-                              </a>
-                            </li> -->
-                            <!-- End regis/login -->
+                           
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -195,6 +170,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
+            
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
