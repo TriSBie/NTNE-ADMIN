@@ -17,6 +17,7 @@ import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +43,8 @@ public class TourController extends HttpServlet {
     String CREATE_TRIP_URL = "ui-createTrip.jsp";
     String CREATE_TOUR_URL = "ui-createTour.jsp";
     String DASHBORAD_URL = "ui-dashborad.jsp";
+    String UPDATE_TRIP = "ui-editTrip.jsp";
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -96,6 +99,17 @@ public class TourController extends HttpServlet {
             // Xử lí khi Admin click vào tạo tour khi điền đầy đủ tt
             case "handleCreateTour":
                 handleCreateTour(request, response);
+                break;
+            /*------------------------------------------------------------------------------
+                                FUNCTION XU LY YEU CAU UPDATE
+            ------------------------------------------------------------------------------*/
+            // Xử lí chuyển trang đến editTrip
+            case "editTrip":
+                editTrip(request, response);
+                break;
+            // Xử lí cập nhật thông tin TRIP
+            case "hanleEditTrip":
+                hanleEditTrip(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -346,6 +360,7 @@ public class TourController extends HttpServlet {
         String location = request.getParameter("location");
         double priceAdult = Double.parseDouble(request.getParameter("priceAdult"));
         double priceChild = Double.parseDouble(request.getParameter("priceChild"));
+        String thumbnail = request.getParameter("thumbnail");
 
         //get Parameters from TOURITEM
         String[] duration = request.getParameterValues("duration");
@@ -363,7 +378,7 @@ public class TourController extends HttpServlet {
         }
         
                
-        TourDTO tour = new TourDTO(name, priceAdult, priceChild, name, location);
+        TourDTO tour = new TourDTO(name, priceAdult, priceChild, thumbnail, location);
         
         ArrayList<TourItemDTO> listTourITem = new ArrayList<>();
             for (int i = 0; i < destination_id_translate.length; i++) {
@@ -380,6 +395,55 @@ public class TourController extends HttpServlet {
                 response.sendRedirect(url);
             }
         } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
+    /*------------------------------------------------------------------------------
+                                FUNCTION XU LY YEU CAU UPDATE
+    ------------------------------------------------------------------------------*/
+    // Chuyển trang đến editTrip   
+    protected void editTrip(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int tripID = Integer.parseInt(request.getParameter("tripID"));
+            TripDAO dao = new TripDAO();
+            TripDTO trip = dao.getTrip_by_tripID(tripID);
+            if (trip != null) {
+                url = Config.LAYOUT + UPDATE_TRIP;
+                request.setAttribute("TRIP_DETAIL", trip);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    // Xử lí cập nhật thông tin TRIP
+    protected void hanleEditTrip(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int tripID = Integer.parseInt(request.getParameter("tripID"));
+            double priceAdult = Double.parseDouble(request.getParameter("priceAdult"));
+            double priceChild = Double.parseDouble(request.getParameter("priceChild"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            String depart_time = (request.getParameter("depart_time"));
+            
+            
+            TripDAO dao = new TripDAO();
+            boolean checkUpdateTrip = dao.updateTrip(priceAdult, priceChild, quantity, depart_time, tripID);
+            if (checkUpdateTrip) {
+                request.getRequestDispatcher("/tour/listTrip.do").forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
             System.out.println(e.getMessage());
         }
     }

@@ -89,7 +89,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-manageBooking.html"
+                                    href="<c:url value="/booking/viewBooking.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -177,6 +177,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
+            
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
@@ -357,9 +358,9 @@
                                     <!-- Hình Ảnh TOUR -->
                                     <div class="mb-3">
                                         <label class="form-label" style="color: red"
-                                               >Mời bạn chọn Ảnh
+                                               >Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com/)
                                         </label>
-                                        <input type="file" class="form-control" name="thumbnail"/>
+                                        <input type="text" class="form-control" name="thumbnail"/>
                                     </div>
                                     <!-- Check Box -->
                                     <div class="mb-3 form-check">

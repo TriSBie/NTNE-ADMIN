@@ -88,7 +88,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-manageBooking.html"
+                                    href="<c:url value="/booking/viewBooking.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -302,9 +302,9 @@
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
                                                                 </a>
-                                                                <button class="btn btn btn-danger">
+<!--                                                                <button class="btn btn btn-danger">
                                                                     <i class="fa-solid fa-trash"></i>
-                                                                </button>
+                                                                </button>-->
                                                             </td>
                                                             <td class="border-bottom-0">
                                                                 <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">

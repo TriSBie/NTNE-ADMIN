@@ -92,7 +92,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-manageBooking.html"
+                                    href="<c:url value="/booking/viewBooking.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -180,7 +180,6 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
-
 
             <!--  Main wrapper -->
             <div class="body-wrapper">

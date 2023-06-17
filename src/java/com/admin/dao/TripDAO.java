@@ -149,12 +149,75 @@ public class TripDAO implements Serializable {
         return false;
     }
 
+    // Lấy dữ liệu thông tin TRIP theo tripID
+    public TripDTO getTrip_by_tripID(int tripID) throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT tp.id, t.name, t.thumbnail, tp.[priceAdult], tp.[priceChild], tp.[quantity], tp.[depart_time]\n"
+                        + "FROM [dbo].[Trip] as tp, [dbo].[Tour] as t \n"
+                        + "WHERE tp.tour_id = t.id AND tp.id = ?";
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, tripID);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TripDTO trip = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getFloat(5), rs.getInt(6), rs.getDate(7));
+                    return trip;
+                }
+
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return null;
+    }
+
+    // Xử lí update dữ liệu cho thông tin TRIP theo TRIP ID; 
+    public boolean updateTrip(double priceAdult, double priceChild, int quantity, String depart_time, int tripID)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "UPDATE [dbo].[Trip]\n"
+                        + "SET [priceAdult] = ?, [priceChild] = ?, [quantity] = ?, [depart_time] = ?\n"
+                        + "WHERE [id] = ?";
+                ps = con.prepareStatement(SQL);
+                ps.setDouble(1, priceAdult);
+                ps.setDouble(2, priceChild);
+                ps.setInt(3, quantity);
+                ps.setString(4, depart_time);
+                ps.setInt(5, tripID);
+                ps.execute();
+                ps.close();
+                return true;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return false;
+    }
     public static void main(String[] args) {
 
         TripDAO dao = new TripDAO();
         try {
-            boolean checkCreate = dao.changeStateTrip(1);
-            System.out.println(checkCreate);
+            dao.updateTrip(900000, 700000, 10, "2023/06/23", 1);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }

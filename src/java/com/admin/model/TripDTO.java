@@ -28,6 +28,16 @@ public class TripDTO implements Serializable {
     public TripDTO() {
     }
 
+    public TripDTO(int tripID, double priceAdult, double priceChild, int quantity, Date depart_time) {
+        this.tripID = tripID;
+        this.priceAdult = priceAdult;
+        this.priceChild = priceChild;
+        this.quantity = quantity;
+        this.depart_time = depart_time;
+    }
+    
+    
+
     public TripDTO(boolean availability, double priceAdult, double priceChild, int quantity, Date depart_time, int tourID) {
         this.availability = availability;
         this.priceAdult = priceAdult;
@@ -35,6 +45,16 @@ public class TripDTO implements Serializable {
         this.quantity = quantity;
         this.depart_time = depart_time;
         this.tourID = tourID;
+    }
+
+    public TripDTO(int tripID ,String tourName, String thumbnail, double priceAdult, double priceChild, int quantity, Date depart_time) {
+        this.tripID = tripID;
+        this.tourName = tourName;
+        this.thumbnail = thumbnail;
+        this.priceAdult = priceAdult;
+        this.priceChild = priceChild;
+        this.quantity = quantity;
+        this.depart_time = depart_time;
     }
 
     public TripDTO(int tripID, boolean availability, double priceAdult, double priceChild, int quantity, Date depart_time, int tourID) {

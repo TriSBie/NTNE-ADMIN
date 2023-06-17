@@ -13,11 +13,11 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Modernize Free</title>
+        <title>Quản lí Booking</title>
         <link
             rel="shortcut icon"
             type="image/png"
-            href="../assets/images/logos/favicon.png"
+            href=""
             />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
@@ -44,7 +44,7 @@
                     <div
                         class="brand-logo d-flex align-items-center justify-content-between"
                         >
-                        <a href="./icon-tabler.html" class="text-nowrap logo-img">
+                        <a href="<c:url value="/tour/dashborad.do"/>"class="text-nowrap logo-img">
                             <img
                                 src="https://firebasestorage.googleapis.com/v0/b/nha-trang-nature-elite.appspot.com/o/Images%20For%20Logo%20-%20Sliders%20-%20Other%2FTrang%20ch%E1%BB%A7%2Flogo.png?alt=media&token=2b706eb6-a8dd-488b-a807-bd03f3c56ad4&_gl=1*5k32sh*_ga*MTU1OTk0NzM3OC4xNjgzNTA1MDE2*_ga_CW55HF8NVT*MTY4NjEyMDM5NS40MS4xLjE2ODYxMjA4NzAuMC4wLjA."
                                 width="180"
@@ -61,6 +61,9 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
+                            <li class="nav-small-cap">                            
+                                <span class="hide-menu">${admin.name}</span>
+                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Trang chủ</span>
@@ -68,7 +71,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./index.html"
+                                    href="<c:url value="/tour/dashborad.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -77,116 +80,98 @@
                                     <span class="hide-menu">Dashboard</span>
                                 </a>
                             </li>
+
+                            <!-- Start service management- -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">Danh mục</span>
+                                <span class="hide-menu">Quản lí dịch vụ</span>
+                            </li>
+
+                            <!-- Booking management-->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/booking/viewBooking.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+
+                                    <span class="hide-menu">Booking</span>
+                                </a>
+                            </li>
+                            <!-- End Booking management- -->
+
+                            <!--LIST TRIP-->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listTrip.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+                                    <span class="hide-menu">TRIP</span>
+                                </a>
+                            </li>
+                            <!--LIST TRIP-->
+
+                            <!-- End service management- -->
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">DANH SÁCH</span>
                             </li>
 
                             <!-- Begin tour manage -->
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTour.html"
+                                    href="<c:url value="/tour/listTour.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
                                         <i class="fa-solid fa-suitcase"></i>
                                     </span>
-                                    <span class="hide-menu">Danh sách TOUR</span>
+                                    <span class="hide-menu">TOUR</span>
                                 </a>
                             </li>
                             <!-- End tour manage -->
 
-                            <!-- Begin Tour Item management -->
+                            <!-- Manage Destination -->
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-listTourItems.html"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách Lịch trình</span>
-                                </a>
-                            </li>
-                            <!-- End Tour Item management -->
-
-                            <!--LIST TRIP-->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="./ui-listTrip.html"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase-rolling"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách TRIP</span>
-                                </a>
-                            </li>
-                            <!--LIST TRIP-->
-
-                            <!-- manage Destination -->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="./ui-destination.html"
+                                    href="<c:url value="/tour/listDestination.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">Quản lí Destination</span>
+                                    <span class="hide-menu">Địa điểm</span>
                                 </a>
                             </li>
                             <!-- End destination management -->
 
-                            <!-- Booking management-->
+                            <!-- Manage Account -->
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">QUẢN LÍ TÀI KHOẢN</span>
+                            </li>
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-manageBooking.html"
+                                    href="./authentication-login.html"
                                     aria-expanded="false"
                                     >
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">Quản lí Booking</span>
+                                    <span class="hide-menu">Người dùng</span>
                                 </a>
-                            </li>
-                            <!-- End Booking management- -->
-
-                            <!-- Account Tab -->
-                            <!-- <li class="nav-small-cap">
-                              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                              <span class="hide-menu">Tài khoản</span>
-                            </li>
-                            <li class="sidebar-item">
-                              <a
-                                class="sidebar-link"
-                                href="./authentication-login.html"
-                                aria-expanded="false"
-                              >
-                                <span>
-                                  <i class="ti ti-login"></i>
-                                </span>
-                                <span class="hide-menu">Đăng nhập</span>
-                              </a>
-                            </li>
-                            <li class="sidebar-item">
-                              <a
-                                class="sidebar-link"
-                                href="./authentication-register.html"
-                                aria-expanded="false"
-                              >
-                                <span>
-                                  <i class="ti ti-user-plus"></i>
-                                </span>
-                                <span class="hide-menu">Đăng kí</span>
-                              </a>
-                            </li> -->
-                            <!-- End Account Tab -->
+                            </li>                           
+                            <!-- Manage Account -->
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -226,7 +211,7 @@
                                         aria-expanded="false"
                                         >
                                         <img
-                                            src="../assets/images/profile/user-1.jpg"
+                                            src="${admin.linkImg}"
                                             alt=""
                                             width="35"
                                             height="35"
@@ -246,7 +231,7 @@
                                                 <p class="mb-0 fs-3">Tài khoản</p>
                                             </a>
                                             <a
-                                                href="./authentication-login.html"
+                                                href="<c:url value="/account/hanleLogout.do"/>"
                                                 class="btn btn-outline-primary mx-3 mt-2 d-block"
                                                 >Đăng xuất</a
                                             >
@@ -270,7 +255,7 @@
                                             <thead class="text-dark fs-4">
                                                 <tr>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">ID</h6>
+                                                        <h6 class="fw-semibold mb-0">Mã Booking</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">Tên Tour</h6>

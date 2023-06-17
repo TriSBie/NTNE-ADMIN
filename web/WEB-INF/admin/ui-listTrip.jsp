@@ -87,7 +87,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-manageBooking.html"
+                                    href="<c:url value="/booking/viewBooking.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -179,7 +179,7 @@
 
             <!--  Main wrapper -->
             <div class="body-wrapper">
-                                <!--  Header Start -->
+                <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <ul class="navbar-nav">
@@ -297,17 +297,17 @@
                                                         </td>-->
                                                             <td>${tripItem.quantity}</td>
                                                             <td>
-                                                                    <c:if test="${tripItem.availability == true}">
-                                                                        <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>
-                                                                        <!--<button type="submit" class="btn btn-primary">Active</button>-->
-                                                                    </c:if>
-                                                                    <c:if test="${tripItem.availability != true}">
-                                                                        <span class="badge bg-danger rounded-3 fw-semibold">Tạm dừng</span>
-                                                                        <!--<button type="submit" class="btn btn-warning">Inactive</button>-->
-                                                                    </c:if>
+                                                                <c:if test="${tripItem.availability == true}">
+                                                                    <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>
+                                                                    <!--<button type="submit" class="btn btn-primary">Active</button>-->
+                                                                </c:if>
+                                                                <c:if test="${tripItem.availability != true}">
+                                                                    <span class="badge bg-danger rounded-3 fw-semibold">Tạm dừng</span>
+                                                                    <!--<button type="submit" class="btn btn-warning">Inactive</button>-->
+                                                                </c:if>
                                                             </td>
                                                             <td>
-                                                               <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
+                                                                <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
                                                                     <!-- Nơi xử lý đổi trạng thái của trip -->
 
                                                                     <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
@@ -318,19 +318,15 @@
                                                                         <button type="submit" class="btn">Bật</button>
                                                                     </c:if>
                                                                     <!-- Nơi xử lý đổi trạng thái của trip -->
-                                                                    
+
                                                                 </form>
                                                             </td>
                                                             <td style="width: 130px;">
-                                                                <a href="./ui-editTrip.html">
+                                                                <form action="<c:url value="/tour/editTrip.do"/>" method="post">
                                                                     <button class="btn btn-warning">
+                                                                        <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
-                                                                </a>
-                                                                <button class="btn btn btn-danger">
-                                                                    <i class="fa-solid fa-trash"></i>
-                                                                </button>
-                    
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
