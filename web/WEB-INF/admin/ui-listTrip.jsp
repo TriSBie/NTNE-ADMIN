@@ -264,6 +264,7 @@
                                                     <!--                                                    <th scope="col">Giá trẻ em</th>-->
                                                     <th scope="col">SL</th>
                                                     <th scope="col">Trạng thái</th>
+                                                    <th scope="col">Thay đổi TT</th>
                                                     <th scope="col">Chức năng</th>
                                                 </tr>
                                             </thead>
@@ -274,7 +275,7 @@
                                                     <c:forEach var="tripItem" items="${requestScope.LIST_TRIP}">
                                                         <tr>
                                                             <th scope="row">${tripItem.tripID}</th>
-                                                            <td>${tripItem.tourName}</td>
+                                                            <td style="width: 230px;">${tripItem.tourName}</td>
                                                             <td>
                                                                 <img
                                                                     style="
@@ -296,10 +297,6 @@
                                                         </td>-->
                                                             <td>${tripItem.quantity}</td>
                                                             <td>
-                                                                <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
-                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
-
-                                                                    <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
                                                                     <c:if test="${tripItem.availability == true}">
                                                                         <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>
                                                                         <!--<button type="submit" class="btn btn-primary">Active</button>-->
@@ -308,7 +305,20 @@
                                                                         <span class="badge bg-danger rounded-3 fw-semibold">Tạm dừng</span>
                                                                         <!--<button type="submit" class="btn btn-warning">Inactive</button>-->
                                                                     </c:if>
+                                                            </td>
+                                                            <td>
+                                                               <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
                                                                     <!-- Nơi xử lý đổi trạng thái của trip -->
+
+                                                                    <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
+                                                                    <c:if test="${tripItem.availability == true}">
+                                                                        <button type="submit" class="btn">Tắt</button> 
+                                                                    </c:if>
+                                                                    <c:if test="${tripItem.availability != true}">
+                                                                        <button type="submit" class="btn">Bật</button>
+                                                                    </c:if>
+                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                                    
                                                                 </form>
                                                             </td>
                                                             <td style="width: 130px;">
@@ -320,6 +330,7 @@
                                                                 <button class="btn btn btn-danger">
                                                                     <i class="fa-solid fa-trash"></i>
                                                                 </button>
+                    
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

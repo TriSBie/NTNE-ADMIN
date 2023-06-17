@@ -14,6 +14,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- CKEditor -->
+        <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js" type="text/javascript"></script>
         <title>Tạo TOUR</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
@@ -41,7 +43,7 @@
                     <div
                         class="brand-logo d-flex align-items-center justify-content-between"
                         >
-                        <a href="./icon-tabler.html" class="text-nowrap logo-img">
+                        <a href="<c:url value="/tour/dashborad.do"/>"class="text-nowrap logo-img">
                             <img
                                 src="https://firebasestorage.googleapis.com/v0/b/nha-trang-nature-elite.appspot.com/o/Images%20For%20Logo%20-%20Sliders%20-%20Other%2FTrang%20ch%E1%BB%A7%2Flogo.png?alt=media&token=2b706eb6-a8dd-488b-a807-bd03f3c56ad4&_gl=1*5k32sh*_ga*MTU1OTk0NzM3OC4xNjgzNTA1MDE2*_ga_CW55HF8NVT*MTY4NjEyMDM5NS40MS4xLjE2ODYxMjA4NzAuMC4wLjA."
                                 width="180"
@@ -58,6 +60,9 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
+                            <li class="nav-small-cap">                            
+                                <span class="hide-menu">${admin.name}</span>
+                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Trang chủ</span>
@@ -65,7 +70,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./index.html"
+                                    href="<c:url value="/tour/dashborad.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -74,70 +79,12 @@
                                     <span class="hide-menu">Dashboard</span>
                                 </a>
                             </li>
+
+                            <!-- Start service management- -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">Danh mục</span>
+                                <span class="hide-menu">Quản lí dịch vụ</span>
                             </li>
-
-                            <!-- Begin tour manage -->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="./ui-listTour.html"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách TOUR</span>
-                                </a>
-                            </li>
-                            <!-- End tour manage -->
-
-                            <!-- Begin Tour Item management -->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="./ui-listTourItems.html"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách Lịch trình</span>
-                                </a>
-                            </li>
-                            <!-- End Tour Item management -->
-
-                            <!--LIST TRIP-->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="./ui-listTrip.html"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-suitcase-rolling"></i>
-                                    </span>
-                                    <span class="hide-menu">Danh sách TRIP</span>
-                                </a>
-                            </li>
-                            <!--LIST TRIP-->
-
-                            <!-- manage Destination -->
-                            <li class="sidebar-item">
-                                <a
-                                    class="sidebar-link"
-                                    href="./ui-destination.html"
-                                    aria-expanded="false"
-                                    >
-                                    <span>
-                                        <i class="fa-solid fa-list"></i>
-                                    </span>
-                                    <span class="hide-menu">Quản lí Destination</span>
-                                </a>
-                            </li>
-                            <!-- End destination management -->
 
                             <!-- Booking management-->
                             <li class="sidebar-item">
@@ -149,9 +96,81 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">Quản lí Booking</span>
+
+                                    <span class="hide-menu">Booking</span>
                                 </a>
                             </li>
+                            <!-- End Booking management- -->
+
+                            <!--LIST TRIP-->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listTrip.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+                                    <span class="hide-menu">TRIP</span>
+                                </a>
+                            </li>
+                            <!--LIST TRIP-->
+
+                            <!-- End service management- -->
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">DANH SÁCH</span>
+                            </li>
+
+                            <!-- Begin tour manage -->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listTour.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-suitcase"></i>
+                                    </span>
+                                    <span class="hide-menu">TOUR</span>
+                                </a>
+                            </li>
+                            <!-- End tour manage -->
+
+                            <!-- Manage Destination -->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listDestination.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+                                    <span class="hide-menu">Địa điểm</span>
+                                </a>
+                            </li>
+                            <!-- End destination management -->
+
+                            <!-- Manage Account -->
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">QUẢN LÍ TÀI KHOẢN</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="./authentication-login.html"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-list"></i>
+                                    </span>
+                                    <span class="hide-menu">Người dùng</span>
+                                </a>
+                            </li>                           
+                            <!-- Manage Account -->
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -164,6 +183,17 @@
                 <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
+                        <ul class="navbar-nav">
+                            <li class="nav-item d-block d-xl-none">
+                                <a
+                                    class="nav-link sidebartoggler nav-icon-hover"
+                                    id="headerCollapse"
+                                    href="javascript:void(0)"
+                                    >
+                                    <i class="ti ti-menu-2"></i>
+                                </a>
+                            </li>
+                        </ul>
                         <div
                             class="navbar-collapse justify-content-end px-0"
                             id="navbarNav"
@@ -180,7 +210,7 @@
                                         aria-expanded="false"
                                         >
                                         <img
-                                            src="../assets/images/profile/user-1.jpg"
+                                            src="${admin.linkImg}"
                                             alt=""
                                             width="35"
                                             height="35"
@@ -197,10 +227,10 @@
                                                 class="d-flex align-items-center gap-2 dropdown-item"
                                                 >
                                                 <i class="ti ti-mail fs-6"></i>
-                                                <p class="mb-0 fs-3">Quản lí tài khoản</p>
+                                                <p class="mb-0 fs-3">Tài khoản</p>
                                             </a>
                                             <a
-                                                href="./authentication-login.html"
+                                                href="<c:url value="/account/hanleLogout.do"/>"
                                                 class="btn btn-outline-primary mx-3 mt-2 d-block"
                                                 >Đăng xuất</a
                                             >
@@ -217,7 +247,7 @@
                         <h2 class="card-title fw-semibold mb-4">TẠO TOUR</h2>
                         <div class="card">
                             <div class="card-body">
-                                <form>
+                                <form action="<c:url value="/tour/handleCreateTour.do"/>" method="post">
                                     <!-- Tên TOUR -->
                                     <div class="mb-3 row">
                                         <div class="col-6">
@@ -232,6 +262,7 @@
                                                 class="form-control"
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
+                                                name="name"
                                                 />
                                         </div>
                                         <div class="col-6">
@@ -246,6 +277,7 @@
                                                 class="form-control"
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
+                                                name="location"
                                                 />
                                         </div>
                                     </div>
@@ -262,6 +294,7 @@
                                                 class="form-control"
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
+                                                name="priceAdult"
                                                 />
                                         </div>
                                         <div class="col-6">
@@ -276,6 +309,7 @@
                                                 class="form-control"
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
+                                                name="priceChild"
                                                 />
                                         </div>
                                     </div>
@@ -286,31 +320,31 @@
                                             <div class="mb-3 row">
                                                 <div class="col-6">
                                                     <label class="form-label">Mốc thời gian</label>
-                                                    <input type="text" class="form-control" />
+                                                    <input type="text" class="form-control" name="duration"/>
                                                 </div>
                                                 <div class="col-6">
                                                     <label class="form-label" for="tour"
                                                            >Mời bạn chọn địa điểm:
                                                     </label>
                                                     <select
+                                                        name="destination_id"
                                                         class="form-select col-2"
-                                                        name="select_tour"
                                                         id="tour"
                                                         aria-label="Default select example"
                                                         >
-                                                        <option value="1">khu quần thể Vinpearl</option>
-                                                        <option value="2">VinWonders Nha Trang</option>
-                                                        <option value="3">Vườn Quý Vương</option>
-                                                        <option value="4">
-                                                            Khu trò chơi cảm giác mạnh ngoài trời
-                                                        </option>
+                                                        <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
+                                                            <option value="${destination.id}">${counter.count} - ${destination.name}</option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-12">
                                                 <label class="form-label">Chi tiết</label>
-                                                <textarea rows="5" class="form-control" name="editor1">
-                                                </textarea>
+                                                <textarea id="textarea1" name="script" rows="5" class="form-control" >
+                                                </textarea>                                               
+                                                <script>
+                                                    CKEDITOR.replace('textarea1');
+                                                </script>
                                             </div>
                                         </div>
                                     </div>
@@ -329,11 +363,11 @@
                                         <label class="form-label" style="color: red"
                                                >Mời bạn chọn Ảnh
                                         </label>
-                                        <input type="file" class="form-control" />
+                                        <input type="file" class="form-control" name="thumbnail"/>
                                     </div>
                                     <!-- Check Box -->
                                     <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" />
+                                        <input type="checkbox" class="form-check-input" required/>
                                         <label class="form-check-label">Xác thực tạo TOUR</label>
                                     </div>
                                     <button type="submit" class="btn btn-primary">
@@ -349,51 +383,50 @@
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
-        <!-- <script src="../assets/js/editor.js"></script> -->
+        <script src="../assets/js/editor.js"></script> 
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <!-- CKEditor -->
-        <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
-        <script></script>
-        <!-- CKEditor -->
         <script>
-            const buttonCreate = document.querySelector(".btnCreate");
-            const formCreate = document.querySelector(".formTour");
-            const formTour_package = document.querySelector(".formTour-package");
-            var index = 1;
-            CKEDITOR.replace(`editor${index}`);
-
-            function createTourForm(e) {
-                index += 1;
-                const div = document.createElement("div");
-                div.innerHTML = `<div class="mb-3 row">
-                                <div class="col-6">
-                                  <label class="form-label">Mốc thời gian</label>
-                                <input type="text" class="form-control" />
-                                </div>
-                                <div class="col-6">
-                                  <label class="form-label" for="tour">Mời bạn chọn địa điểm: </label>
-                                  <select class="form-select col-2" name="select_tour" id="tour" aria-label="Default select example">
-                                    <option value="1">khu quần thể Vinpearl</option>
-                                    <option value="2">VinWonders Nha Trang</option>
-                                    <option value="3">Vườn Quý Vương </option>
-                                    <option value="4">Khu trò chơi cảm giác mạnh ngoài trời</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="mb-3 col-12">
-                                <label class="form-label">Chi tiết</label>
-                                <textarea
-                                  rows="5"
-                                  class="form-control"
-                                  name=editor${index}
-                                >
-                                </textarea>
-                              </div>`;
-        div.classList.add("formTour-package");
-        formCreate.appendChild(div);
-        CKEDITOR.replace(`editor${index}`);
-            }
+                                            const buttonCreate = document.querySelector(".btnCreate");
+                                            const formCreate = document.querySelector(".formTour");
+                                            const formTour_package = document.querySelector(".formTour-package");
+                                            var index = 1;
+                                            function createTourForm(e) {
+                                                index += 1;
+                                                const div = document.createElement("div");
+                                                div.innerHTML = `<div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label class="form-label">Mốc thời gian</label>
+                                                    <input type="text" class="form-control" name="duration"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label" for="tour"
+                                                           >Mời bạn chọn địa điểm:
+                                                    </label>
+                                                    <select
+                                                        name="destination_id"
+                                                        class="form-select col-2"
+                                                        id="tour"
+                                                        aria-label="Default select example"
+                                                        >
+                                                    <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
+                                                                                                    <option value="${destination.id}">${counter.count} - ${destination.name}</option>
+                                                    </c:forEach>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-12">
+                                                <label class="form-label">Chi tiết</label>
+                                                <textarea id="textarea"${index}"" name="script" rows="5" class="form-control">
+                                                </textarea>                                              
+                                            </div>`;
+                                                div.classList.add("formTour-package");
+                                                formCreate.appendChild(div);
+                                                console.log(index);
+                                                CKEDITOR.replace(`textarea${index}`);
+                                            }
         </script>
+        
     </body>
 </html>

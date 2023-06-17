@@ -69,27 +69,8 @@ public class TourDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "BEGIN TRY\n"
-                        + "		BEGIN TRANSACTION\n"
-                        + "		INSERT INTO Tour\n"
-                        + "		VALUES(?, ?, ?, ?, ?)\n"
-                        + "		DECLARE @TOURID INT;\n"
-                        + "		SELECT TOP 1 @TOURID = Tour.ID FROM [dbo].[Tour]\n"
-                        + "		ORDER BY Tour.id DESC\n"
-                        + "		DECLARE @COUNT INT = 0;\n"
-                        + "		WHILE @COUNT < ?\n"
-                        + "		BEGIN\n"
-                        + "		INSERT INTO TourItem\n"
-                        + "		VALUES(@TOURID,?, ?, ?)\n"
-                        + "		SET @COUNT = @COUNT + 1;\n"
-                        + "		END\n"
-                        + "		COMMIT TRANSACTION\n"
-                        + "END TRY\n"
-                        + "BEGIN CATCH\n"
-                        + "    IF @@TRANCOUNT > 0\n"
-                        + "        ROLLBACK TRANSACTION;\n"
-                        + "    PRINT ERROR_MESSAGE();\n"
-                        + "END CATCH;";
+                String SQL = "INSERT INTO Tour \n"
+                        + "VALUES(?, ?, ?, ?, ?)";
                 ps = con.prepareStatement(SQL);
                 //Insert tour
                 ps.setString(1, tourDTO.getTourName());
@@ -97,21 +78,22 @@ public class TourDAO implements Serializable {
                 ps.setDouble(3, tourDTO.getPriceChild());
                 ps.setString(4, tourDTO.getThumbnail());
                 ps.setString(5, tourDTO.getLocation());
-
-                ps.setInt(6, tourItemDTO.size());
+                ps.executeUpdate();
+                String SQL_1 = "DECLARE @TOURID INT;\n"
+                        + "SELECT TOP 1 @TOURID = Tour.ID FROM [dbo].[Tour]\n"
+                        + "ORDER BY Tour.id DESC\n"
+                        + "INSERT INTO TourItem\n"
+                        + "VALUES(@TOURID, ?, ?, ?)";
+                
                 //Vòng lặp để tạo các TourItem
-                for (int i = 0; i < tourItemDTO.size(); i++) {
-                    System.out.println(tourItemDTO.get(i).getDestinationID());
-                    System.out.println(tourItemDTO.get(i).getDescription());
-                    System.out.println(tourItemDTO.get(i).getDuration());
-                    ps.setInt(7, tourItemDTO.get(i).getDestinationID());
-                    ps.setString(8, tourItemDTO.get(i).getDescription());
-                    ps.setString(9, tourItemDTO.get(i).getDuration());
+                for (TourItemDTO item : tourItemDTO) {
+                    PreparedStatement ps1 = con.prepareStatement(SQL_1);
+                    ps1.setInt(1, item.getDestinationID());
+                    ps1.setString(2, item.getDescription());
+                    ps1.setString(3, item.getDuration());
+                    ps1.executeUpdate();
                 }
-                int result = ps.executeUpdate();
-                if (result > 0) {
-                    return true;
-                }
+            return true;
             }
         } finally {
             if (con != null) {
@@ -130,8 +112,10 @@ public class TourDAO implements Serializable {
     public static void main(String[] args) {
         TourDTO tourDTO = new TourDTO("Da nang 1 Minh Em", 1000000, 2000000, "abcdxez.com", "dia diem1, dia diem 2, dia diem 3");
         List<TourItemDTO> tourItemsDTO = new ArrayList<>();
-        tourItemsDTO.add(new TourItemDTO(3, "8h-12h", "Sang di ban ca, toi ve ban em"));
-
+        tourItemsDTO.add(new TourItemDTO(3, "8h-12h", "test4"));
+        tourItemsDTO.add(new TourItemDTO(3, "12h-15h", "test5"));
+        tourItemsDTO.add(new TourItemDTO(3, "15h-19h", "test6"));
+        System.out.println(tourDTO.getLocation());
         try {
             boolean result = new TourDAO().createNewTour(tourDTO, tourItemsDTO);
             if (result) {

@@ -302,7 +302,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="mb-3 col-12">
-                                                                    <label class="form-label">Mô tả địa điểm</label>
+                                                                    <label class="form-label">Mô tả ngắn</label>
                                                                     <textarea rows="5" class="form-control" name="editor1" value="">
                                                                     </textarea>
                                                                 </div>
@@ -318,7 +318,7 @@
                                                             <br>
                                                             <p style="color : #06D85F">${requestScope.messageSc}<p> 
                                                         </div>
-                                                        <button type="submit" class="btn btn-primary" onclick="closePopup()">
+                                                        <button style="margin-bottom:10px; margin-left: 15px" type="submit" class="btn btn-primary" onclick="closePopup()">
                                                             Tạo địa điểm
                                                         </button>
                                                     </form>

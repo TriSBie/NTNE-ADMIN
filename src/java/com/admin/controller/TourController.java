@@ -16,7 +16,10 @@ import com.admin.model.TourItemDTO;
 import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -82,13 +85,17 @@ public class TourController extends HttpServlet {
             case "hanleChangeState":
                 hanleChangeState(request, response);
                 break;
-            // Xử lí khi Admin click vào tạo tour khi điền đầy đủ tt
+            // Xử lí khi Admin click vào tạo des khi điền đầy đủ tt
             case "handleCreateDestination":
                 handleCreateDestination(request, response);
                 break;
             // Điều hướng qua page Tạo mới tour         
             case "createTourForm":
                 createTourForm(request, response);
+                break;
+            // Xử lí khi Admin click vào tạo tour khi điền đầy đủ tt
+            case "handleCreateTour":
+                handleCreateTour(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -311,11 +318,70 @@ public class TourController extends HttpServlet {
         }
     }
 
+    // Xử lí TourForm    
     protected void createTourForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = Config.LAYOUT + CREATE_TOUR_URL;
-        RequestDispatcher rd = request.getRequestDispatcher(url);
-        rd.forward(request, response);
+        try {
+            String url = Config.LAYOUT + CREATE_TOUR_URL;
+            DestinationDAO dao = new DestinationDAO();
+            List<DestinationDTO> listDestination = dao.getAll_List_Destination();
+            request.setAttribute("LIST_DESTINATION", listDestination);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TourController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TourController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // Xử lí quá trình tạo TOUR
+    protected void handleCreateTour(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            
+        //get Parameters from TOUR
+        String name = request.getParameter("name");
+        String location = request.getParameter("location");
+        double priceAdult = Double.parseDouble(request.getParameter("priceAdult"));
+        double priceChild = Double.parseDouble(request.getParameter("priceChild"));
+
+        //get Parameters from TOURITEM
+        String[] duration = request.getParameterValues("duration");
+        String[] destination_id = request.getParameterValues("destination_id");
+        String[] script = request.getParameterValues("script");
+
+        // Do destination_id phải là 1 mảng int nên sẽ chuyển sang int
+        int[] destination_id_translate = new int[destination_id.length];
+        try {
+            for (int i = 0; i < destination_id.length; i++) {
+                destination_id_translate[i] = Integer.parseInt(destination_id[i]);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+               
+        TourDTO tour = new TourDTO(name, priceAdult, priceChild, name, location);
+        
+        ArrayList<TourItemDTO> listTourITem = new ArrayList<>();
+            for (int i = 0; i < destination_id_translate.length; i++) {
+                TourItemDTO tourItem = new TourItemDTO(destination_id_translate[i], script[i], duration[i]);
+                listTourITem.add(tourItem);
+            }
+        // CALL DAO
+        TourDAO dao = new TourDAO();
+        boolean checkCreate = dao.createNewTour(tour, listTourITem);
+            if (checkCreate) {
+                // Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
+                request.getRequestDispatcher("/tour/listTour.do").forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -177,10 +177,10 @@
             </aside>
             <!--  Sidebar End -->
 
-            
+
             <!--  Main wrapper -->
             <div class="body-wrapper">
-                                <!--  Header Start -->
+                <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <ul class="navbar-nav">

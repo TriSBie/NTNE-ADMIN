@@ -27,6 +27,8 @@ public class TourDTO implements Serializable {
         this.tourName = tourName;
         this.priceAdult = priceAdult;
         this.priceChild = priceChild;
+        this.thumbnail = thumbnail;
+        this.location = location;
     }
 
     public TourDTO(int tourID, String tourName, double priceAdult, double priceChild, String thumbnail, String location) {
