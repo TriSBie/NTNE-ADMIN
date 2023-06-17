@@ -15,7 +15,6 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- CKEditor -->
-        <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js" type="text/javascript"></script>
         <title>Tạo TOUR</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
@@ -342,9 +341,6 @@
                                                 <label class="form-label">Chi tiết</label>
                                                 <textarea id="textarea1" name="script" rows="5" class="form-control" >
                                                 </textarea>                                               
-                                                <script>
-                                                    CKEDITOR.replace('textarea1');
-                                                </script>
                                             </div>
                                         </div>
                                     </div>
@@ -383,15 +379,19 @@
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
-        <script src="../assets/js/editor.js"></script> 
+        <script src="<c:url value="assets/js/editor.js"/>"</script> 
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <!-- CKEditor -->
+        <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
         <script>
                                             const buttonCreate = document.querySelector(".btnCreate");
                                             const formCreate = document.querySelector(".formTour");
                                             const formTour_package = document.querySelector(".formTour-package");
                                             var index = 1;
+                                            var textArea = "textarea" + index;
+                                            console.log(textArea)
+                                            CKEDITOR.replace(textArea);
                                             function createTourForm(e) {
                                                 index += 1;
                                                 const div = document.createElement("div");
@@ -410,23 +410,24 @@
                                                         id="tour"
                                                         aria-label="Default select example"
                                                         >
-                                                    <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
+            <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
                                                                                                     <option value="${destination.id}">${counter.count} - ${destination.name}</option>
-                                                    </c:forEach>
+            </c:forEach>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-12">
-                                                <label class="form-label">Chi tiết</label>
-                                                <textarea id="textarea"${index}"" name="script" rows="5" class="form-control">
+                                                <label class="form-label">Chi tiết</label>` +
+                                                        `<textarea id=` + `"textarea` + index + `" name="script" rows="5" class="form-control">
                                                 </textarea>                                              
                                             </div>`;
                                                 div.classList.add("formTour-package");
                                                 formCreate.appendChild(div);
                                                 console.log(index);
-                                                CKEDITOR.replace(`textarea${index}`);
+                                                var textArea = "textarea" + index;
+                                                CKEDITOR.replace(textArea);
                                             }
         </script>
-        
+
     </body>
 </html>

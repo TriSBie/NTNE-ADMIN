@@ -28,9 +28,42 @@ public class BookingDTO implements Serializable {
     private int quantityChild;
     private int trip_id;
 
+    //Extra attributes
+    private AccountDTO accountDTO;
+    private TripDTO tripDTO;
+    private PaymentDTO paymentDTO;
+    private int totalQuantity;
+
     public BookingDTO() {
     }
 
+    public BookingDTO(int id, double totalPrice, String cusBook, Date expireDate, int totalQuantity, boolean status, TripDTO tripDTO) {
+        this.id = id;
+        this.totalPrice = totalPrice;
+        this.cusBook = cusBook;
+        this.expireDate = expireDate;
+        this.status = status;
+        this.totalQuantity = totalQuantity;
+        this.tripDTO = tripDTO;
+    }
+
+    //get full details of Booking
+    public BookingDTO(double totalPrice, String requirement, String cusBook, String cusMail, String cusPhone, Date expireDate, boolean status, PaymentDTO paymentDTO, AccountDTO accountDTO, int quantityAdult, int quantityChild, TripDTO tripDTO) {
+        this.totalPrice = totalPrice;
+        this.requirement = requirement;
+        this.cusBook = cusBook;
+        this.cusMail = cusMail;
+        this.cusPhone = cusPhone;
+        this.expireDate = expireDate;
+        this.status = status;
+        this.paymentDTO = paymentDTO;
+        this.accountDTO = accountDTO;
+        this.quantityAdult = quantityAdult;
+        this.quantityChild = quantityChild;
+        this.tripDTO = tripDTO;
+    }
+
+    //get details - without id
     public BookingDTO(double totalPrice, String requirement, String cusBook, String cusMail, String cusPhone, Date expireDate, boolean status, int payment_id, int account_id, int quantityAdult, int quantityChild, int trip_id) {
         this.totalPrice = totalPrice;
         this.requirement = requirement;
@@ -46,6 +79,7 @@ public class BookingDTO implements Serializable {
         this.trip_id = trip_id;
     }
 
+    //get full column values
     public BookingDTO(int id, double totalPrice, String requirement, String cusBook, String cusMail, String cusPhone, Date expireDate, boolean status, int payment_id, int account_id, int quantityAdult, int quantityChild, int trip_id) {
         this.id = id;
         this.totalPrice = totalPrice;
@@ -164,6 +198,43 @@ public class BookingDTO implements Serializable {
 
     public void setTrip_id(int trip_id) {
         this.trip_id = trip_id;
+    }
+
+    public AccountDTO getAccountDTO() {
+        return accountDTO;
+    }
+
+    public void setAccountDTO(AccountDTO accountDTO) {
+        this.accountDTO = accountDTO;
+    }
+
+    public TripDTO getTripDTO() {
+        return tripDTO;
+    }
+
+    public void setTripDTO(TripDTO tripDTO) {
+        this.tripDTO = tripDTO;
+    }
+
+    public PaymentDTO getPaymentDTO() {
+        return paymentDTO;
+    }
+
+    public void setPaymentDTO(PaymentDTO paymentDTO) {
+        this.paymentDTO = paymentDTO;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingDTO{" + "id=" + id + ", totalPrice=" + totalPrice + ", requirement=" + requirement + ", cusBook=" + cusBook + ", cusMail=" + cusMail + ", cusPhone=" + cusPhone + ", expireDate=" + expireDate + ", status=" + status + ", payment_id=" + payment_id + ", account_id=" + account_id + ", quantityAdult=" + quantityAdult + ", quantityChild=" + quantityChild + ", trip_id=" + trip_id + ", accountDTO=" + accountDTO + ", tripDTO=" + tripDTO + ", paymentDTO=" + paymentDTO + ", totalQuantity=" + totalQuantity + '}';
     }
 
 }
