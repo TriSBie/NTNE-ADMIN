@@ -20,6 +20,73 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+
+        <!--Style CSS-->
+        <style>
+            /* The switch - the box around the slider */
+            .switch {
+                font-size: 12px;
+                position: relative;
+                display: inline-block;
+                width: 3.5em;
+                height: 2em;
+            }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            /* The slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #B0B0B0;
+                border: 1px solid #B0B0B0;
+                -webkit-transition: .4s;
+                transition: .4s;
+                border-radius: 32px;
+                outline: none;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 1.5rem;
+                width: 1.5rem;
+                border-radius: 50%;
+                outline: 2px solid #B0B0B0;
+                left: -1px;
+                bottom: -1px;
+                background-color: #fff;
+                -webkit-transition: -webkit-transform .25s ease-in-out 0s;
+                transition: -webkit-transform .25s ease-in-out 0s;
+                transition: transform .25s ease-in-out 0s;
+                transition: transform .25s ease-in-out 0s, -webkit-transform .25s ease-in-out 0s;
+            }
+
+            input:checked + .slider {
+                background-color: #222222;
+            }
+
+            input:checked + .slider .slider-icon {
+                opacity: 1;
+                right: 20%;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(1.5em);
+                -ms-transform: translateX(1.5em);
+                transform: translateX(1.5em);
+                outline-color: #181818;
+            }
+        </style>
     </head>
 
     <body>
@@ -264,7 +331,7 @@
                                                     <!--                                                    <th scope="col">Giá trẻ em</th>-->
                                                     <th scope="col">SL</th>
                                                     <th scope="col">Trạng thái</th>
-                                                    <th scope="col">Thay đổi TT</th>
+                                                    <th scope="col">Bật/Tắt</th>
                                                     <th scope="col">Chức năng</th>
                                                 </tr>
                                             </thead>
@@ -309,13 +376,25 @@
                                                             <td>
                                                                 <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
                                                                     <!-- Nơi xử lý đổi trạng thái của trip -->
-
                                                                     <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
                                                                     <c:if test="${tripItem.availability == true}">
-                                                                        <button type="submit" class="btn">Tắt</button> 
+                                                                        <button type="submit" class="btn" style="padding: 0;">
+                                                                            <label class="switch">
+                                                                                <input type="checkbox" checked>
+                                                                                <span class="slider">
+                                                                                </span>
+                                                                            </label>
+                                                                        </button> 
                                                                     </c:if>
                                                                     <c:if test="${tripItem.availability != true}">
-                                                                        <button type="submit" class="btn">Bật</button>
+                                                                        <button type="submit" class="btn" style="padding: 0;">
+                                                                            <label class="switch">
+                                                                                <input type="checkbox">
+                                                                                <span class="slider">
+                                                                                </span>
+                                                                            </label>
+                                                                        </button>
+
                                                                     </c:if>
                                                                     <!-- Nơi xử lý đổi trạng thái của trip -->
 
@@ -327,6 +406,7 @@
                                                                         <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
+                                                                </form>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
