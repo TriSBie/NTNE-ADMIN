@@ -45,7 +45,6 @@ public class TourController extends HttpServlet {
     String DASHBORAD_URL = "ui-dashborad.jsp";
     String UPDATE_TRIP = "ui-editTrip.jsp";
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -110,6 +109,9 @@ public class TourController extends HttpServlet {
             // Xử lí cập nhật thông tin TRIP
             case "hanleEditTrip":
                 hanleEditTrip(request, response);
+                break;
+            case "handleEditDestination":
+                handleEditDestination(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -354,40 +356,39 @@ public class TourController extends HttpServlet {
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
         try {
-            
-        //get Parameters from TOUR
-        String name = request.getParameter("name");
-        String location = request.getParameter("location");
-        double priceAdult = Double.parseDouble(request.getParameter("priceAdult"));
-        double priceChild = Double.parseDouble(request.getParameter("priceChild"));
-        String thumbnail = request.getParameter("thumbnail");
 
-        //get Parameters from TOURITEM
-        String[] duration = request.getParameterValues("duration");
-        String[] destination_id = request.getParameterValues("destination_id");
-        String[] script = request.getParameterValues("script");
+            //get Parameters from TOUR
+            String name = request.getParameter("name");
+            String location = request.getParameter("location");
+            double priceAdult = Double.parseDouble(request.getParameter("priceAdult"));
+            double priceChild = Double.parseDouble(request.getParameter("priceChild"));
+            String thumbnail = request.getParameter("thumbnail");
 
-        // Do destination_id phải là 1 mảng int nên sẽ chuyển sang int
-        int[] destination_id_translate = new int[destination_id.length];
-        try {
-            for (int i = 0; i < destination_id.length; i++) {
-                destination_id_translate[i] = Integer.parseInt(destination_id[i]);
+            //get Parameters from TOURITEM
+            String[] duration = request.getParameterValues("duration");
+            String[] destination_id = request.getParameterValues("destination_id");
+            String[] script = request.getParameterValues("script");
+
+            // Do destination_id phải là 1 mảng int nên sẽ chuyển sang int
+            int[] destination_id_translate = new int[destination_id.length];
+            try {
+                for (int i = 0; i < destination_id.length; i++) {
+                    destination_id_translate[i] = Integer.parseInt(destination_id[i]);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
             }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-               
-        TourDTO tour = new TourDTO(name, priceAdult, priceChild, thumbnail, location);
-        
-        ArrayList<TourItemDTO> listTourITem = new ArrayList<>();
+
+            TourDTO tour = new TourDTO(name, priceAdult, priceChild, thumbnail, location);
+
+            ArrayList<TourItemDTO> listTourITem = new ArrayList<>();
             for (int i = 0; i < destination_id_translate.length; i++) {
                 TourItemDTO tourItem = new TourItemDTO(destination_id_translate[i], script[i], duration[i]);
                 listTourITem.add(tourItem);
             }
-        // CALL DAO
-        TourDAO dao = new TourDAO();
-        boolean checkCreate = dao.createNewTour(tour, listTourITem);
+            // CALL DAO
+            TourDAO dao = new TourDAO();
+            boolean checkCreate = dao.createNewTour(tour, listTourITem);
             if (checkCreate) {
                 // Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
                 request.getRequestDispatcher("/tour/listTour.do").forward(request, response);
@@ -398,8 +399,7 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
-    
+
     /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU UPDATE
     ------------------------------------------------------------------------------*/
@@ -423,7 +423,7 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
+
     // Xử lí cập nhật thông tin TRIP
     protected void hanleEditTrip(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -434,8 +434,7 @@ public class TourController extends HttpServlet {
             double priceChild = Double.parseDouble(request.getParameter("priceChild"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             String depart_time = (request.getParameter("depart_time"));
-            
-            
+
             TripDAO dao = new TripDAO();
             boolean checkUpdateTrip = dao.updateTrip(priceAdult, priceChild, quantity, depart_time, tripID);
             if (checkUpdateTrip) {
@@ -444,6 +443,32 @@ public class TourController extends HttpServlet {
                 response.sendRedirect(url);
             }
         } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Xu ly update destination
+    protected void handleEditDestination(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            String destinationEditName = request.getParameter("destinationName");
+            String destinationEditLat = request.getParameter("destinationLat");
+            String destinationEditLong = request.getParameter("destinationLong");
+            String destinationDesc = request.getParameter("destinationDescription");
+
+            int destinationID = Integer.parseInt(request.getParameter("destinationID"));
+            System.out.println(destinationDesc + "-" + destinationEditLat + "-" + destinationEditName + "-" + destinationID);
+            if (destinationDesc != null && destinationEditName != null && destinationEditLat != null && destinationEditLong != null) {
+                DestinationDTO dto = new DestinationDTO(destinationEditName, destinationDesc, destinationEditLat, destinationEditLong);
+                boolean result = new DestinationDAO().editDestination(destinationID, dto);
+                if (result) {
+                    request.getRequestDispatcher("/tour/listDestination.do").forward(request, response);
+                } else {
+                    response.sendRedirect(url);
+                }
+            }
+        } catch (ClassNotFoundException | IOException | SQLException | ServletException e) {
             System.out.println(e.getMessage());
         }
     }

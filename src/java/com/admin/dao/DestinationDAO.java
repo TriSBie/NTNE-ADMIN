@@ -119,8 +119,42 @@ public class DestinationDAO implements Serializable {
         }
         return false;
     }
-    
-    
+
+    public boolean editDestination(int destinationID, DestinationDTO dto)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "UPDATE [dbo].[Destination]\n"
+                        + "   SET [name] = ?\n"
+                        + "      ,[description] = ?\n"
+                        + "      ,[lat] = ?\n"
+                        + "      ,[lon] = ?\n"
+                        + " WHERE [id] = ?";
+                ps = con.prepareStatement(SQL);
+                ps.setString(1, dto.getName());
+                ps.setNString(2, dto.getDescription());
+                ps.setString(3, dto.getLat());
+                ps.setString(4, dto.getLon());
+                ps.setInt(5, destinationID);
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return false;
+    }
 
 //    public static void main(String[] args) {
 //        try {

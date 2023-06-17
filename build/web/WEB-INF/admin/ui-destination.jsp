@@ -92,7 +92,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="<c:url value="/booking/viewBooking.do"/>"
+                                    href="./ui-manageBooking.html"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -180,6 +180,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
+
 
             <!--  Main wrapper -->
             <div class="body-wrapper">
@@ -302,7 +303,7 @@
                                                                 </div>
                                                                 <div class="mb-3 col-12">
                                                                     <label class="form-label">Mô tả ngắn</label>
-                                                                    <textarea rows="5" class="form-control" name="editor1" value="">
+                                                                    <textarea rows="5" class="form-control" name="editor1" id="editorCreate" value="">
                                                                     </textarea>
                                                                 </div>
                                                             </div>
@@ -315,7 +316,6 @@
                                                                    required />
                                                             <label class="form-check-label">Xác thực tạo Địa điểm</label>
                                                             <br>
-                                                            <p style="color : #06D85F">${requestScope.messageSc}<p> 
                                                         </div>
                                                         <button style="margin-bottom:10px; margin-left: 15px" type="submit" class="btn btn-primary" onclick="closePopup()">
                                                             Tạo địa điểm
@@ -338,19 +338,122 @@
                                         </thead>
                                         <tbody>
                                             <c:if test="${not empty requestScope.LIST_DESTINATION}">
-                                                <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}">
-                                                    <tr scope="row">
+                                                <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
+                                                    <tr scope="row" id="anchorLink${counter.count}">
                                                         <td>${destination.id}</td>
                                                         <td>${destination.name}</td>    
                                                         <td>${destination.lat}</td>
                                                         <td>${destination.lon}</td>
                                                         <td>${destination.description}</td>
                                                         <td>
-                                                            <a href="./ui-editTour.html">
+                                                            <a class="anchorLink"
+                                                               href="#popupEdit${counter.count}"
+                                                               onclick="openPopupEdit(${counter.count})"
+                                                               >
                                                                 <button class="btn btn-warning">
                                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                                 </button>
                                                             </a>
+                                                            <div class="card">
+                                                                <div
+                                                                    class="card-body overlay2"
+                                                                    id="popupEdit${counter.count}"
+                                                                    >
+                                                                    <form class="popup2" action="<c:url value="/tour/handleEditDestination.do"/>" method="POST">
+                                                                        <!-- Tên TOUR -->
+                                                                        <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
+                                                                        <div class="mb-3">
+                                                                            <input type="hidden" name="destinationID" value="${destination.id}"/>
+                                                                            <h3 class="text-body">ID: ${destination.id}</h3>
+                                                                            <h3 class="text-body">Địa điểm : ${destination.name}</h3>
+                                                                        </div>
+
+                                                                        <!-- CREATE TRIP -->
+                                                                        <div class="formTour">
+                                                                            <div class="formTour-package">
+                                                                                <div class="mb-3 row">
+                                                                                    <div class="col-12 mb-3">
+                                                                                        <label
+                                                                                            style="color: red"
+                                                                                            for="exampleInputEmail1"
+                                                                                            class="form-label"
+                                                                                            >Tên địa điểm mới</label
+                                                                                        >
+                                                                                        <input
+                                                                                            name="destinationName"
+                                                                                            value="${destination.name}"
+                                                                                            type="text"
+                                                                                            class="form-control"
+                                                                                            id="exampleInputEmail1"
+                                                                                            aria-describedby="emailHelp"
+                                                                                            />
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <label
+                                                                                            style="color: red"
+                                                                                            for="destinationLatitude"
+                                                                                            class="form-label"
+                                                                                            >Nhập vĩ độ</label
+                                                                                        >
+                                                                                        <input
+                                                                                            id="destinationLatitude"
+                                                                                            name="destinationLat"
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            value=${destination.lat}
+                                                                                            />
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <label
+                                                                                            style="color: red"
+                                                                                            for="destinationLongitude"
+                                                                                            class="form-label"
+                                                                                            >
+                                                                                            Nhập kinh độ
+                                                                                        </label>
+                                                                                        <input
+                                                                                            id="destinationLongitude"
+                                                                                            name="destinationLong"
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            value=${destination.lon}
+                                                                                            />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="mb-3 row">
+                                                                                    <div class="mb-3 col-12">
+                                                                                        <label class="form-label" style="color: red"
+                                                                                               >Mô tả</label
+                                                                                        >
+                                                                                        <textarea 
+                                                                                            rows="5" 
+                                                                                            class="form-control" 
+                                                                                            id="editor${counter.count}" 
+                                                                                            name="destinationDescription"
+                                                                                            value=${destination.description}>
+                                                                                        </textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- END CREATE TRIP -->
+                                                                        <!-- Check Box -->
+                                                                        <div class="mb-3 form-check">
+                                                                            <input type="checkbox" class="form-check-input" required />
+                                                                            <label class="form-check-label"
+                                                                                   >Xác thực thay đổi thông tin chỉnh sửa Địa điểm</label
+                                                                            >
+                                                                        </div>
+                                                                        <button
+                                                                            type="submit"
+                                                                            class="btn btn-primary"
+                                                                            onclick="closePopupEdit()"
+                                                                            >
+                                                                            Lưu
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -394,7 +497,7 @@
             position: relative;
             top: -5%;
             left: 10%;
-            transition: all 5s ease-in-out;
+            transition: all 1s ease-in-out;
         }
         .popup img{ width: 100%;}
         .popup h2 {
@@ -418,7 +521,58 @@
             max-height: 30%;
             overflow: auto;
         }
-
+        /*--------------------------------------------------------------*/
+        .overlay2 {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .overlay2:target {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup2 {
+            top: -8%;
+            left: 8%;
+            margin: 70px auto;
+            padding: 15px;
+            background: #fff;
+            border-radius: 5px;
+            width: 50%;
+            position: relative;
+            transition: all 1s ease-in-out;
+        }
+        .popup2 img {
+            width: 100%;
+        }
+        .popup2 h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+        .popup2 .close {
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 40px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+        .popup2 .close:hover {
+            color: #06d85f;
+        }
+        .popup2 .content {
+            max-height: 30%;
+            overflow: auto;
+        }
     </style>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -430,7 +584,7 @@
 
     <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
-                                                            CKEDITOR.replace("editor1");
+
     </script>
 
     <script>
@@ -451,6 +605,27 @@
 //            popup.style.visibility = "visibility: hidden";
 //            popup.style.opacity = "0"
 //        }
+    </script>
+
+    <script>
+        var index = 1;
+        var editor = "editor" + index;
+        CKEDITOR.replace(editor);
+        CKEDITOR.replace('editorCreate')
+        function openPopupEdit(value) {
+            index = value;
+            editor = "editor" + index;
+            CKEDITOR.replace(editor);
+            document.querySelector(
+                    '#main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header'
+                    ).style.zIndex = "0";
+        }
+
+        function closePopupEdit(e) {
+            document.querySelector(
+                    '#main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header'
+                    ).style.zIndex = "10";
+        }
     </script>
 </body>
 </html>
