@@ -17,7 +17,6 @@ import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +43,7 @@ public class TourController extends HttpServlet {
     String CREATE_TOUR_URL = "ui-createTour.jsp";
     String DASHBORAD_URL = "ui-dashborad.jsp";
     String UPDATE_TRIP = "ui-editTrip.jsp";
+    String EDIT_TOUR_URL = "ui-editTour.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -110,8 +110,15 @@ public class TourController extends HttpServlet {
             case "hanleEditTrip":
                 hanleEditTrip(request, response);
                 break;
+            //Xu li cap nhap thong tin dia diem
             case "handleEditDestination":
                 handleEditDestination(request, response);
+                break;
+            case "editTour":
+                editTour(request, response);
+                break;
+            case "editTourHandler":
+                editTourHandler(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -469,6 +476,53 @@ public class TourController extends HttpServlet {
                 }
             }
         } catch (ClassNotFoundException | IOException | SQLException | ServletException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Di chuyen den trang show Form Edit Tour
+    protected void editTour(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int tourID = Integer.parseInt(request.getParameter("tourID"));
+            TourDAO dao = new TourDAO();
+            TourDTO tourDTO = dao.getTourByID(tourID);
+            if (tourDTO != null) {
+                url = Config.LAYOUT + EDIT_TOUR_URL;
+                request.setAttribute("TOUR_DETAIL", tourDTO);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Xu li edit tour thong qua ID đã chọn
+    protected void editTourHandler(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int tourID = Integer.parseInt(request.getParameter("tourID"));
+            String tourName = request.getParameter("tourName");
+            String tourLocation = request.getParameter("tourLocation");
+            double tourAdultPrice = Double.parseDouble(request.getParameter("tourPriceAdult"));
+            double tourChildPrice = Double.parseDouble(request.getParameter("tourPriceChild"));
+            String tourThumbnail = request.getParameter("tourThumbnail");
+            System.out.println("");
+            TourDTO tourEditing = new TourDTO(tourName, tourAdultPrice, tourChildPrice, tourThumbnail, tourLocation);
+            TourDAO dao = new TourDAO();
+            boolean result = dao.editTourByID(tourID, tourEditing);
+            if (result) {
+                RequestDispatcher rd = request.getRequestDispatcher("/tour/listTour.do");
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
             System.out.println(e.getMessage());
         }
     }

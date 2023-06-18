@@ -180,7 +180,7 @@
 
             <!--  Main wrapper -->
             <div class="body-wrapper">
-                                <!--  Header Start -->
+                <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <ul class="navbar-nav">
@@ -297,14 +297,14 @@
                                                                 <fmt:formatNumber value ="${tour.priceChild}" type = "currency"/></span>
                                                             </td>
                                                             <td>
-                                                                <a href="./ui-editTour.html">
+                                                                <c:url var="editTour" value="/tour/editTour.do">
+                                                                    <c:param name="tourID" value="${tour.tourID}"/>
+                                                                </c:url>
+                                                                <a href="${editTour}">
                                                                     <button class="btn btn-warning">
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
                                                                 </a>
-<!--                                                                <button class="btn btn btn-danger">
-                                                                    <i class="fa-solid fa-trash"></i>
-                                                                </button>-->
                                                             </td>
                                                             <td class="border-bottom-0">
                                                                 <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
