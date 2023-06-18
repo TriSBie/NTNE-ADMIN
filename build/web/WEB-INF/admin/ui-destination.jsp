@@ -362,11 +362,7 @@
                                                                     <form class="popup2" action="<c:url value="/tour/handleEditDestination.do"/>" method="POST">
                                                                         <!-- Tên TOUR -->
                                                                         <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
-                                                                        <div class="mb-3">
-                                                                            <input type="hidden" name="destinationID" value="${destination.id}"/>
-                                                                            <h3 class="text-body">ID: ${destination.id}</h3>
-                                                                            <h3 class="text-body">Địa điểm : ${destination.name}</h3>
-                                                                        </div>
+                                                                        <input type="hidden" name="destinationID" value="${destination.id}"/>
 
                                                                         <!-- CREATE TRIP -->
                                                                         <div class="formTour">
@@ -538,7 +534,7 @@
             opacity: 1;
         }
         .popup2 {
-            top: -8%;
+            top: -10%;
             left: 8%;
             margin: 70px auto;
             padding: 15px;
