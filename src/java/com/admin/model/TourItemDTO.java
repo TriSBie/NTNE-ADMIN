@@ -40,7 +40,7 @@ public class TourItemDTO implements Serializable {
     }
 
     //main constructor
-    public TourItemDTO(int tourItemID, int tourID, int destinationID, String duration, String description) {
+    public TourItemDTO(int tourItemID, int tourID, int destinationID,  String description, String duration) {
         this.tourItemID = tourItemID;
         this.tourID = tourID;
         this.destinationID = destinationID;
@@ -55,6 +55,16 @@ public class TourItemDTO implements Serializable {
         this.destinationName = destinationName;
         this.duration = duration;
         this.description = description;
+    }
+    
+        public TourItemDTO(int tourItemID, String tourName, String tourThumbnail, int destinationID, String duration, String description, int tourID) {
+        this.tourItemID = tourItemID;
+        this.tourName = tourName;
+        this.tourThumbnail = tourThumbnail;
+        this.destinationID = destinationID;
+        this.duration = duration;
+        this.description = description;
+        this.tourID = tourID;
     }
 
     public int getTourItemID() {

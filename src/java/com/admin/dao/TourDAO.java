@@ -21,11 +21,11 @@ import java.util.List;
  * @author buidu
  */
 public class TourDAO implements Serializable {
-    
+
     private Connection con = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
-    
+
     public List<TourDTO> getAllTours()
             throws ClassNotFoundException, SQLException {
         List<TourDTO> list = null;
@@ -62,45 +62,10 @@ public class TourDAO implements Serializable {
         }
         return list;
     }
-    
-    public TourDTO getTourByID(int tourID)
-            throws ClassNotFoundException, SQLException {
-        TourDTO tour = null;
-        try {
-            con = DBContext.getConnectionDB();
-            if (con != null) {
-                String SQL = "SELECT [id]\n"
-                        + "      ,[name]\n"
-                        + "      ,[priceAdult]\n"
-                        + "      ,[priceChild]\n"
-                        + "      ,[thumbnail]\n"
-                        + "      ,[location]\n"
-                        + "  FROM [NTNECompany].[dbo].[Tour]\n"
-                        + "  WHERE id = ?";
-                ps = con.prepareStatement(SQL);
-                ps.setInt(1, tourID);
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    tour = new TourDTO(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getString(5), rs.getString(6));
-                }
-            }
-        } finally {
-            if (con != null) {
-                con.close();
-            }
-            if (rs != null) {
-                rs.close();
-            }
-            if (ps != null) {
-                ps.close();
-            }
-        }
-        return tour;
-    }
-    
+
     public boolean createNewTour(TourDTO tourDTO, List<TourItemDTO> tourItemDTO)
             throws ClassNotFoundException, SQLException {
-        
+
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
@@ -143,32 +108,56 @@ public class TourDAO implements Serializable {
         }
         return false;
     }
-    
-    public boolean editTourByID(int tourID, TourDTO tourDTO)
-            throws ClassNotFoundException, SQLException {
-        
+
+    // Lấy dữ liệu thông tin Tour theo tourID
+    public TourDTO getTour_by_tourID(int tourID) throws ClassNotFoundException, SQLException {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "UPDATE [dbo].[Tour]\n"
-                        + "   SET [name] = ?\n"
-                        + "      ,[priceAdult] = ?\n"
-                        + "      ,[priceChild] = ?\n"
-                        + "      ,[thumbnail] = ?\n"
-                        + "      ,[location] = ?\n"
-                        + " WHERE id = ?";
+                String SQL = "SELECT * FROM [dbo].[Tour] \n"
+                        + "WHERE [id] = ?";
                 ps = con.prepareStatement(SQL);
-                //Insert tour
-                ps.setString(1, tourDTO.getTourName());
-                ps.setDouble(2, tourDTO.getPriceAdult());
-                ps.setDouble(3, tourDTO.getPriceChild());
-                ps.setString(4, tourDTO.getThumbnail());
-                ps.setString(5, tourDTO.getLocation());
-                ps.setInt(6, tourID);
-                int result = ps.executeUpdate();
-                if (result > 0) {
-                    return true;
+                ps.setInt(1, tourID);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TourDTO tour = new TourDTO(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getString(5), rs.getString(6));
+                    return tour;
                 }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return null;
+    }
+
+    // Xử lí update dữ liệu cho thông tin TOUR theo TOUR ID; 
+    public boolean updateTour(String tourName, double priceAdult, double priceChild, String thumbnail, String location, int tourID)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "UPDATE [dbo].[Tour] \n"
+                        + "SET [name] = ?, [priceAdult] = ?, [priceChild] = ?, [thumbnail] = ?, [location] = ? \n"
+                        + "WHERE [id] = ?";
+                ps = con.prepareStatement(SQL);
+                ps.setString(1, tourName);
+                ps.setDouble(2, priceAdult);
+                ps.setDouble(3, priceChild);
+                ps.setString(4, thumbnail);
+                ps.setString(5, location);
+                ps.setInt(6, tourID);
+                ps.execute();
+                ps.close();
+                return true;
             }
         } finally {
             if (con != null) {
@@ -183,8 +172,7 @@ public class TourDAO implements Serializable {
         }
         return false;
     }
-    
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        TourDTO tourDTO = new TourDTO("Da nang 1 Minh Em", 1000000, 2000000, "abcdxez.com", "dia diem1, dia diem 2, dia diem 3");
 //        List<TourItemDTO> tourItemsDTO = new ArrayList<>();
 //        tourItemsDTO.add(new TourItemDTO(3, "8h-12h", "test4"));
@@ -201,16 +189,5 @@ public class TourDAO implements Serializable {
 //        } catch (ClassNotFoundException | SQLException e) {
 //            System.out.println(e.getMessage());
 //        }
-        try {
-            int id = 3;
-            TourDTO dto = new TourDAO().getTourByID(id);
-//            dto.setTourName("VINPEARL NHA TRANGG");
-//            boolean result = new TourDAO().editTourByID(id, dto);
-            if (dto != null) {
-                System.out.println(dto.getTourName());
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+//    }
 }

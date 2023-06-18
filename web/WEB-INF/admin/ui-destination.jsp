@@ -253,7 +253,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
-                                            <h3 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h3>
+                                            <h5 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h5>
                                             <a href="#popup1" class="openPopup" onclick="openPopup()">
                                                 <button class="btn btn-primary">Tạo địa điểm mới </button>
                                             </a>
@@ -287,8 +287,7 @@
                                                                 <div class="mb-3 row">
                                                                     <div class="col-6">
                                                                         <label style="color: red" class="form-label"
-                                                                               >Nhập vĩ độ </label
-                                                                        >
+                                                                               >Nhập vĩ độ </label>
                                                                         <input name="latitude" type="number" class="form-control" value=""/>
                                                                     </div>
                                                                     <div class="col-6">
@@ -303,8 +302,7 @@
                                                                 </div>
                                                                 <div class="mb-3 col-12">
                                                                     <label class="form-label">Mô tả ngắn</label>
-                                                                    <textarea rows="5" class="form-control" name="editor1" id="editorCreate" value="">
-                                                                    </textarea>
+                                                                    <textarea rows="3" class="form-control" name="editor1" id="editorCreate" value=""></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -312,8 +310,7 @@
 
                                                         <!-- Check Box -->
                                                         <div class="mb-3 form-check">
-                                                            <input type="checkbox" class="form-check-input" 
-                                                                   required />
+                                                            <input type="checkbox" class="form-check-input" required />
                                                             <label class="form-check-label">Xác thực tạo Địa điểm</label>
                                                             <br>
                                                         </div>
@@ -362,7 +359,10 @@
                                                                     <form class="popup2" action="<c:url value="/tour/handleEditDestination.do"/>" method="POST">
                                                                         <!-- Tên TOUR -->
                                                                         <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
-                                                                        <input type="hidden" name="destinationID" value="${destination.id}"/>
+                                                                        <div class="mb-3" style="display: flex">
+                                                                            <span class="text-body">[ ${destination.id} ] Tên địa điểm hiện tại: "${destination.name}"</span>
+                                                                            <input type="hidden" name="destinationID" value="${destination.id}"/>
+                                                                        </div>
 
                                                                         <!-- CREATE TRIP -->
                                                                         <div class="formTour">
@@ -534,9 +534,11 @@
             opacity: 1;
         }
         .popup2 {
-            top: -10%;
+            top: -6%;
             left: 8%;
-            margin: 70px auto;
+/*            margin: 70px auto;*/
+            margin-left: 26%;
+            margin-top: 25px;
             padding: 15px;
             background: #fff;
             border-radius: 5px;

@@ -81,6 +81,7 @@
                                                     value=""
                                                     id="flexCheckChecked"
                                                     checked
+                                                    required
                                                     />
                                                 <label
                                                     class="form-check-label text-dark"
@@ -89,13 +90,18 @@
                                                     Ghi nhớ
                                                 </label>
                                             </div>
-
                                         </div>
-                                        <button type="submit"
-                                            class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2"
-                                            >Đăng nhập</a
-                                            >
 
+                                        <!-- Thông báo nếu sai mật khẩu hoặc email -->
+                                        <c:if test="${msg != null}">
+                                            <div class="alert alert-danger">
+                                                <strong>Bạn đăng nhập sai mật khẩu hoặc Email.</strong> Trong trường hợp nếu bạn quên mật khẩu vui lòng liên hệ bộ phận trên để cấp lại.
+                                            </div>
+                                        </c:if>
+                                        <button type="submit"
+                                                class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2"
+                                                >Đăng nhập</a
+                                            >
                                     </form>
                                 </div>
                             </div>

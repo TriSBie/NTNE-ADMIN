@@ -179,7 +179,7 @@
 
             <!--  Main wrapper -->
             <div class="body-wrapper">
-                                <!--  Header Start -->
+                <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <ul class="navbar-nav">
@@ -242,8 +242,15 @@
                 </header>
                 <!--  Header End -->
                 <div class="container-fluid">
+                    <!-- Thông báo nếu thao tác thành công -->
+                    <c:if test="${msg_success != null}">
+                        <script>
+                            window.alert(`${msg_success}`)
+                        </script>
+                    </c:if>
                     <h3 class="mb-3">Chi tiết lịch trình của "${TOUR_ITEM_NAME}"</h3>
                     <div class="container-fluid">
+
                         <div class="card">
                             <div class="card-body">
                                 <!-- Tên TOUR -->
@@ -282,11 +289,9 @@
                                                                 ${tourItem.description}
                                                             </td>
                                                             <td>
-                                                                <c:url var="modifyTourItemLink" value="/tour/modifyTourItems">
-                                                                    <c:param name="tourItemID" value="${tourItem.tourItemID}"/>
-                                                                </c:url>
-                                                                <form action="<c:url value="${modifyTourItemLink}"/>">
-                                                                    <button class="btn btn-primary">
+                                                                <form action="<c:url value="/tour/editTourItem.do"/>" method="post">
+                                                                    <button class="btn btn-warning">
+                                                                        <input type="hidden" name="tourItemID" value="${tourItem.tourItemID}"/>
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
                                                                 </form>

@@ -80,20 +80,21 @@ public class AccountController extends HttpServlet {
                 // chuyen huong ve trang chu
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
-                response.sendRedirect(url);
+                request.setAttribute("msg", "yes");
+                request.getRequestDispatcher("/").forward(request, response);
             }
         } catch (ClassNotFoundException | IOException | SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    
+
     // HanleLogin 
     protected void hanleLogout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
         HttpSession session = request.getSession();
         String url = Config.LAYOUT + ERROR_URL;
         try {
-    
+
             if (session.getAttribute("admin") != null) {
                 session.removeAttribute("admin");
                 // chuyen huong ve login

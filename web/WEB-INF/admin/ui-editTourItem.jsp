@@ -13,9 +13,11 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Chỉnh sửa TRIP</title>
+        <title>Chỉnh sửa chi tiết địa điểm TOUR</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
+        <!-- CKEditor -->
+        <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 
     </head>
 
@@ -227,27 +229,29 @@
                 <!--  Header End -->
                 <div class="container-fluid">
                     <div class="container-fluid">
-                        <h2 class="card-title fw-semibold mb-4">Chỉnh sửa TRIP</h2>
+                        <h2 class="card-title fw-semibold mb-4">Chỉnh sửa chi tiết lịch trình TOUR</h2>
                         <div class="card">
                             <div class="card-body">
-                                <c:if test="${not empty requestScope.TRIP_DETAIL}">               
-                                    <form action="<c:url value="/tour/hanleEditTrip.do"/>" method="post">
+                                <c:if test="${not empty requestScope.TOUR_ITEM_DETAIL}">               
+                                    <form action="<c:url value="/tour/hanleEditTourItem.do"/>" method="get">
                                         
-                                        <!-- gán ID TRIP -->
-                                        <input type="hidden" name="tripID" value="${TRIP_DETAIL.tripID}"/>
+                                        <!-- gán ID ToutItemID -->
+                                        <input type="hidden" name="tourItemID" value="${TOUR_ITEM_DETAIL.tourItemID}"/>
+                                        
+                                        <input type="hidden" name="tourID" value="${tourID}"/>
 
                                         <!-- Tên TOUR -->
                                         <div class="mb-3">
-                                            <h3 class="text-body">${TRIP_DETAIL.tourName}</h3>
+                                            <h3 class="text-body">${TOUR_ITEM_DETAIL.tourName}</h3>
                                             <img
-                                                src="${TRIP_DETAIL.thumbnail}"
-                                                alt="${TRIP_DETAIL.tourName}"
+                                                src="${TOUR_ITEM_DETAIL.tourThumbnail}"
+                                                alt="${TOUR_ITEM_DETAIL.tourName}"
                                                 class="img-thumbnail"
                                                 style="width: 150px"
                                                 />
                                         </div>
 
-                                        <!-- CREATE TRIP -->
+                                        <!-- EDIT TOUR ITEM -->
                                         <div class="formTour">
                                             <div class="formTour-package">
                                                 <div class="mb-3 row">
@@ -256,55 +260,44 @@
                                                             style="color: red"
                                                             for="exampleInputEmail1"
                                                             class="form-label"
-                                                            >Giá người lớn (VND)</label
+                                                            >Mốc thời gian</label
                                                         >
                                                         <input
-                                                            name="priceAdult"
-                                                            value="${TRIP_DETAIL.priceAdult}"
-                                                            type="number"
+                                                            name="duration"
+                                                            value="${TOUR_ITEM_DETAIL.duration}"
+                                                            type="text"
                                                             class="form-control"
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
-                                                            placeholder="Giá hiện tại:<fmt:formatNumber value ="${TRIP_DETAIL.priceAdult}" type = "currency"/>"
+                                                            placeholder="${TOUR_ITEM_DETAIL.duration}"
                                                             />
                                                     </div>
                                                     <div class="col-6">
-                                                        <label
-                                                            style="color: red"
-                                                            for="exampleInputEmail1"
-                                                            class="form-label"
-                                                            >Giá trẻ em (VND)</label
-                                                        >
-                                                        <input
-                                                            name="priceChild"
-                                                            value="${TRIP_DETAIL.priceChild}"
-                                                            class="form-control"
-                                                            id="exampleInputEmail1"
-                                                            aria-describedby="emailHelp"
-                                                            placeholder="Giá hiện tại: <fmt:formatNumber value ="${TRIP_DETAIL.priceChild}" type = "currency"/>"
-                                                            />
+                                                        <label style="color: red" class="form-label" for="tour"
+                                                               >Mời bạn chọn địa điểm:
+                                                        </label>
+                                                        <select
+                                                            name="destination_id"
+                                                            class="form-select col-2"
+                                                            id="tour"
+                                                            aria-label="Default select example"
+                                                            >
+                                                            <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
+                                                                <c:if test="${TOUR_ITEM_DETAIL.destinationID == destination.id}" >
+                                                                    <option value="${destination.id}" selected>${counter.count} - ${destination.name}</option>
+                                                                </c:if>
+                                                                <option value="${destination.id}">${counter.count} - ${destination.name}</option>
+                                                            </c:forEach>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="mb-3 row">
-                                                    <div class="col-6">
-                                                        <label style="color: red" class="form-label"
-                                                               >Ngày khởi hành
-                                                            <p class="form-text">
-                                                                Ngày hiện tại: ${TRIP_DETAIL.depart_time}
-                                                            </p></label
-                                                        >
-                                                        <input name="depart_time" type="date" class="form-control" />
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label
-                                                            style="color: red"
-                                                            class="form-label"
-                                                            for="tour"
-                                                            >Số chỗ cho phép
-                                                            <p class="form-text">Số chỗ hiện tại: ${TRIP_DETAIL.quantity}</p>
-                                                        </label>
-                                                        <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" />
-                                                    </div>
+                                                <div class="mb-3 col-12">
+                                                    <label style="color: red" class="form-label">Chi tiết</label>
+                                                    <textarea id="textarea1" name="description" rows="5" class="form-control" value="${TOUR_ITEM_DETAIL.description}">
+                                                    </textarea>     
+                                                    <script>
+                                                        CKEDITOR.replace("description");
+                                                    </script>
                                                 </div>
                                             </div>
                                         </div>
@@ -315,9 +308,10 @@
                                         <div class="mb-3 form-check">
                                             <input type="checkbox" class="form-check-input" required/>
                                             <label class="form-check-label"
-                                                   >Xác thực thay đổi thông tin TRIP</label
+                                                   >Xác thực thay đổi thông tin địa điểm TOUR</label
                                             >
                                         </div>
+
                                         <button type="submit" class="btn btn-primary">Lưu</button>
                                     </form>
                                 </c:if>
@@ -333,47 +327,8 @@
         <!-- <script src="../assets/js/editor.js"></script> -->
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-        <script>
-                                        const buttonCreate = document.querySelector(".btnCreate");
-                                        const formCreate = document.querySelector(".formTour");
-                                        const formTour_package = document.querySelector(".formTour-package");
-                                        console.log(formTour_package);
-                                        function createTourForm(e) {
-                                            const div = document.createElement("div");
-                                            div.innerHTML = `<div class="mb-3 row">
-                                <div class="col-6">
-                                  <label class="form-label">Mốc thời gian</label>
-                                <input type="text" class="form-control" />
-                                </div>
-                                <div class="col-6">
-                                  <label class="form-label" for="tour">Mời bạn chọn địa điểm: </label>
-                                  <select class="form-select col-2" name="select_tour" id="tour" aria-label="Default select example">
-                                    <option value="1">khu quần thể Vinpearl</option>
-                                    <option value="2">VinWonders Nha Trang</option>
-                                    <option value="3">Vườn Quý Vương </option>
-                                    <option value="4">Khu trò chơi cảm giác mạnh ngoài trời</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="mb-3 col-12">
-                                <label class="form-label">Chi tiết</label>
-                                <textarea
-                                  rows="5"
-                                  class="form-control"
-                                  name="editor1"
-                                >
-                                </textarea>
-                              </div>`;
-                                            div.classList.add("formTour-package");
-                                            formCreate.appendChild(div);
-                                        }
-        </script>
-
         <!-- CKEditor -->
         <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
-        <script>
-                                        CKEDITOR.replace("editor1");
-        </script>
         <!-- CKEditor -->
     </body>
 </html>

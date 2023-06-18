@@ -248,6 +248,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
+                                        <!-- Thông báo nếu thao tác thành công -->
+                                        <c:if test="${msg_success != null}">
+                                            <script>
+                                                window.alert(`${msg_success} [ ${tourID} ]`)
+                                            </script>
+                                        </c:if>
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h3 class="mb-3">DANH SÁCH TOUR</h3>
                                             <a href="<c:url value="/tour/createTourForm.do"/>" alt="createTour">
@@ -297,18 +303,16 @@
                                                                 <fmt:formatNumber value ="${tour.priceChild}" type = "currency"/></span>
                                                             </td>
                                                             <td>
-                                                                <c:url var="editTour" value="/tour/editTour.do">
-                                                                    <c:param name="tourID" value="${tour.tourID}"/>
-                                                                </c:url>
-                                                                <a href="${editTour}">
+                                                                <form action="<c:url value="/tour/editTour.do"/>" method="post">
                                                                     <button class="btn btn-warning">
+                                                                        <input type="hidden" name="tourID" value="${tour.tourID}"/>
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
-                                                                </a>
+                                                                </form>
                                                             </td>
                                                             <td class="border-bottom-0">
                                                                 <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
-                                                                    <c:param name="id" value="${tour.tourID}"/>
+                                                                    <c:param name="tourID" value="${tour.tourID}"/>
                                                                 </c:url>
                                                                 <a href="${getDetaiTourlLink}">
                                                                     <i class="fa-solid fa-circle-info"></i>

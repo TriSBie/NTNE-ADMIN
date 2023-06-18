@@ -20,7 +20,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
-
+        <!-- BOOTSTRAP -->
         <!--Style CSS-->
         <style>
             /* The switch - the box around the slider */
@@ -314,6 +314,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
+                                        <!-- Thông báo nếu thao tác thành công -->
+                                        <c:if test="${msg_success != null}">
+                                            <script>
+                                                window.alert(`${msg_success} [ ${tripID} ]`)
+                                            </script>
+                                        </c:if>
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h3 class="mb-3">DANH SÁCH TRIP</h3>
                                             <a href="<c:url value="/tour/createTrip.do"/>" alt="createTour">
@@ -328,7 +334,6 @@
                                                     <th scope="col">Hình ảnh</th>
                                                     <th scope="col">Ngày khởi hành</th>
                                                     <th scope="col">Giá người lớn</th>
-                                                    <!--                                                    <th scope="col">Giá trẻ em</th>-->
                                                     <th scope="col">SL</th>
                                                     <th scope="col">Trạng thái</th>
                                                     <th scope="col">Bật/Tắt</th>
@@ -359,18 +364,13 @@
                                                             <td style="width: 130px;">
                                                                 <fmt:formatNumber value ="${tripItem.priceAdult}" type = "currency"/></span>
                                                             </td>
-                                                            <!--                                                            <td style="width: 130px;">
-                                                            <fmt:formatNumber value ="${tripItem.priceChild}" type = "currency"/></span>
-                                                        </td>-->
                                                             <td>${tripItem.quantity}</td>
                                                             <td>
                                                                 <c:if test="${tripItem.availability == true}">
                                                                     <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>
-                                                                    <!--<button type="submit" class="btn btn-primary">Active</button>-->
                                                                 </c:if>
                                                                 <c:if test="${tripItem.availability != true}">
                                                                     <span class="badge bg-danger rounded-3 fw-semibold">Tạm dừng</span>
-                                                                    <!--<button type="submit" class="btn btn-warning">Inactive</button>-->
                                                                 </c:if>
                                                             </td>
                                                             <td>
@@ -397,7 +397,6 @@
 
                                                                     </c:if>
                                                                     <!-- Nơi xử lý đổi trạng thái của trip -->
-
                                                                 </form>
                                                             </td>
                                                             <td style="width: 130px;">

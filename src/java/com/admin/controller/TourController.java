@@ -17,6 +17,7 @@ import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,8 @@ public class TourController extends HttpServlet {
     String CREATE_TOUR_URL = "ui-createTour.jsp";
     String DASHBORAD_URL = "ui-dashborad.jsp";
     String UPDATE_TRIP = "ui-editTrip.jsp";
-    String EDIT_TOUR_URL = "ui-editTour.jsp";
+    String UPDATE_TOUR = "ui-editTour.jsp";
+    String UPDATE_TOURITEM = "ui-editTourItem.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -110,15 +112,24 @@ public class TourController extends HttpServlet {
             case "hanleEditTrip":
                 hanleEditTrip(request, response);
                 break;
-            //Xu li cap nhap thong tin dia diem
             case "handleEditDestination":
                 handleEditDestination(request, response);
                 break;
+            // Xử lí chuyển trang đến editTrip
             case "editTour":
                 editTour(request, response);
                 break;
-            case "editTourHandler":
-                editTourHandler(request, response);
+            // Xử lí cập nhật thông tin TOUR
+            case "hanleEditTour":
+                hanleEditTour(request, response);
+                break;
+            // Xử lí chuyển trang đến editTourItem
+            case "editTourItem":
+                editTourItem(request, response);
+                break;
+            // Xử lí cập nhật thông tin TourItem
+            case "hanleEditTourItem":
+                hanleEditTourItem(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -213,7 +224,7 @@ public class TourController extends HttpServlet {
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
         try {
-            int tourID = Integer.parseInt(request.getParameter("id"));
+            int tourID = Integer.parseInt(request.getParameter("tourID"));
             System.out.println(tourID);
             TourItemDAO dao = new TourItemDAO();
             List<TourItemDTO> listTourItemByTourID = dao.getListTourItemByTourID(tourID);
@@ -304,6 +315,8 @@ public class TourController extends HttpServlet {
             boolean checkChangeState = dao.changeStateTrip(tripID);
             if (checkChangeState) {
                 //Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
+                request.setAttribute("msg_success", "Bạn đã thay đổi trạng thái của TRIP có ID");
+                request.setAttribute("tripID", tripID);
                 request.getRequestDispatcher("/tour/listTrip.do").forward(request, response);
             } else {
                 response.sendRedirect(url);
@@ -445,6 +458,8 @@ public class TourController extends HttpServlet {
             TripDAO dao = new TripDAO();
             boolean checkUpdateTrip = dao.updateTrip(priceAdult, priceChild, quantity, depart_time, tripID);
             if (checkUpdateTrip) {
+                request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công với TRIP có ID");
+                request.setAttribute("tripID", tripID);
                 request.getRequestDispatcher("/tour/listTrip.do").forward(request, response);
             } else {
                 response.sendRedirect(url);
@@ -480,17 +495,17 @@ public class TourController extends HttpServlet {
         }
     }
 
-    //Di chuyen den trang show Form Edit Tour
+    // Chuyển trang đến ui-editTour.jsp
     protected void editTour(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             int tourID = Integer.parseInt(request.getParameter("tourID"));
             TourDAO dao = new TourDAO();
-            TourDTO tourDTO = dao.getTourByID(tourID);
-            if (tourDTO != null) {
-                url = Config.LAYOUT + EDIT_TOUR_URL;
-                request.setAttribute("TOUR_DETAIL", tourDTO);
+            TourDTO tour = dao.getTour_by_tourID(tourID);
+            if (tour != null) {
+                url = Config.LAYOUT + UPDATE_TOUR;
+                request.setAttribute("TOUR_DETAIL", tour);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -501,24 +516,85 @@ public class TourController extends HttpServlet {
         }
     }
 
-    //Xu li edit tour thong qua ID đã chọn
-    protected void editTourHandler(HttpServletRequest request, HttpServletResponse response)
+    // Xử lí cập nhật thông tin Tour
+    protected void hanleEditTour(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             int tourID = Integer.parseInt(request.getParameter("tourID"));
             String tourName = request.getParameter("tourName");
-            String tourLocation = request.getParameter("tourLocation");
-            double tourAdultPrice = Double.parseDouble(request.getParameter("tourPriceAdult"));
-            double tourChildPrice = Double.parseDouble(request.getParameter("tourPriceChild"));
-            String tourThumbnail = request.getParameter("tourThumbnail");
-            System.out.println("");
-            TourDTO tourEditing = new TourDTO(tourName, tourAdultPrice, tourChildPrice, tourThumbnail, tourLocation);
+            double priceAdult = Double.parseDouble(request.getParameter("priceAdult"));
+            double priceChild = Double.parseDouble(request.getParameter("priceChild"));
+            String thumbnail = request.getParameter("thumbnail");
+            String location = request.getParameter("location");
+
             TourDAO dao = new TourDAO();
-            boolean result = dao.editTourByID(tourID, tourEditing);
-            if (result) {
-                RequestDispatcher rd = request.getRequestDispatcher("/tour/listTour.do");
+            boolean checkUpdateTour = dao.updateTour(tourName, priceAdult, priceChild, thumbnail, location, tourID);
+            if (checkUpdateTour) {
+                request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công với Tour có ID");
+                request.setAttribute("tourID", tourID);
+                request.getRequestDispatcher("/tour/listTour.do").forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Chuyển trang đến ui-editTourItem.jsp
+    protected void editTourItem(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+
+            // Get Parameter ToutItemID 
+            int tourItemID = Integer.parseInt(request.getParameter("tourItemID"));
+
+            // Get LIST DESTINATION
+            DestinationDAO dao = new DestinationDAO();
+            List<DestinationDTO> listDestination = dao.getAll_List_Destination();
+
+            // Get TourItem by TourItemID
+            TourItemDAO dao1 = new TourItemDAO();
+            TourItemDTO tourItem = dao1.getTourItem_By_TourItemID(tourItemID);
+            System.out.println(tourItem);
+            if (tourItem != null) {
+                url = Config.LAYOUT + UPDATE_TOURITEM;
+                request.setAttribute("TOUR_ITEM_DETAIL", tourItem);
+                request.setAttribute("LIST_DESTINATION", listDestination);
+                request.setAttribute("tourID", tourItem.getTourID());
+                RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Xử lí cập nhật thông tin TourItem
+    protected void hanleEditTourItem(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int tourID = Integer.parseInt(request.getParameter("tourID"));
+            int tourItemID = Integer.parseInt(request.getParameter("tourItemID"));
+            String description = request.getParameter("description");
+            String duration = request.getParameter("duration");
+            int destination_id = Integer.parseInt(request.getParameter("destination_id"));
+
+            
+            System.out.println(tourItemID);
+            TourItemDAO dao = new TourItemDAO();
+            boolean checkUpdateTourItem = dao.updateTourItem_by_TourItemID(destination_id, description, duration, tourItemID);
+            
+            System.out.println(checkUpdateTourItem);
+            if (checkUpdateTourItem) {
+                request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công!");
+                request.setAttribute("tourID", tourID);
+                request.getRequestDispatcher("/tour/tourDetailByID.do").forward(request, response);
             } else {
                 response.sendRedirect(url);
             }
