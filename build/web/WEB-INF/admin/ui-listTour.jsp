@@ -270,9 +270,6 @@
                                                     <th scope="col">Giá người lớn</th>
                                                     <th scope="col">Giá trẻ em</th>
                                                     <th scope="col">Chức năng</th>
-                                                    <th scope="col">
-                                                        Chi tiết
-                                                    </th>
                                                 </tr>
                                             </thead>
                                             <c:if test="${not empty requestScope.LIST_TOUR}">
@@ -280,8 +277,14 @@
                                                     <c:forEach var="tour" items="${LIST_TOUR}">
                                                         <tr>
                                                             <th scope="row">${tour.tourID}</th>
-                                                            <td 
-                                                                style="width: 300px">${tour.tourName}</td>
+                                                            <td style="width: 300px">
+                                                                <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
+                                                                    <c:param name="tourID" value="${tour.tourID}"/>
+                                                                </c:url>
+                                                                <a href="${getDetaiTourlLink}">
+                                                                    ${tour.tourName}
+                                                                </a>
+                                                            </td>
                                                             <td>
                                                                 <img
                                                                     style="
@@ -309,14 +312,6 @@
                                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                                     </button>
                                                                 </form>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
-                                                                    <c:param name="tourID" value="${tour.tourID}"/>
-                                                                </c:url>
-                                                                <a href="${getDetaiTourlLink}">
-                                                                    <i class="fa-solid fa-circle-info"></i>
-                                                                </a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

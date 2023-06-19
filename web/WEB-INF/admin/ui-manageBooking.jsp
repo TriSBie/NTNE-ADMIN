@@ -254,7 +254,7 @@
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
                                                 <tr>
-                                                    <th class="border-bottom-0">
+                                                    <th class="border-bottom-0">                                     
                                                         <h6 class="fw-semibold mb-0">Mã Booking</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
@@ -275,9 +275,6 @@
                                                     <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">Thanh Toán</h6>
                                                     </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Chi tiết</h6>
-                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -285,9 +282,14 @@
                                                     <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}">
                                                         <tr>
                                                             <td class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">
-                                                                    ${bookingITEM.id}
-                                                                </h6>
+                                                                <c:url var="getDetaiBookingLink" value="#">
+                                                                    <c:param name="=bookingID" value="${tour.tourID}"/>
+                                                                </c:url>
+                                                                <a href="${getDetaiBookingLink}">
+                                                                    <h6 class="fw-semibold mb-0">
+                                                                        ${bookingITEM.id}
+                                                                    </h6>
+                                                                </a>
                                                             </td>
                                                             <td class="border-bottom-0">
                                                                 <h6 class="fw-semibold mb-1">
@@ -329,11 +331,6 @@
                                                                         </c:when>
                                                                     </c:choose>
                                                                 </div>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <a class="showTab" href="#">
-                                                                    <i class="fa-solid fa-circle-info"></i>
-                                                                </a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

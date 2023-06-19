@@ -485,6 +485,7 @@ public class TourController extends HttpServlet {
                 DestinationDTO dto = new DestinationDTO(destinationEditName, destinationDesc, destinationEditLat, destinationEditLong);
                 boolean result = new DestinationDAO().editDestination(destinationID, dto);
                 if (result) {
+                    request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công!");
                     request.getRequestDispatcher("/tour/listDestination.do").forward(request, response);
                 } else {
                     response.sendRedirect(url);

@@ -92,7 +92,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./ui-manageBooking.html"
+                                    href="<c:url value="/booking/viewBooking.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -252,6 +252,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
+                                        <!-- Thông báo nếu thao tác thành công -->
+                                        <c:if test="${msg_success != null}">
+                                            <script>
+                                                window.alert(`${msg_success}`)
+                                            </script>
+                                        </c:if>
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h5 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h5>
                                             <a href="#popup1" class="openPopup" onclick="openPopup()">
@@ -536,7 +542,7 @@
         .popup2 {
             top: -6%;
             left: 8%;
-/*            margin: 70px auto;*/
+            /*            margin: 70px auto;*/
             margin-left: 26%;
             margin-top: 25px;
             padding: 15px;

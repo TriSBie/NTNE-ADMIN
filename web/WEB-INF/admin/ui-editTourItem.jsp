@@ -293,7 +293,7 @@
                                                 </div>
                                                 <div class="mb-3 col-12">
                                                     <label style="color: red" class="form-label">Chi tiết</label>
-                                                    <textarea id="textarea1" name="description" rows="5" class="form-control" value="${TOUR_ITEM_DETAIL.description}">
+                                                    <textarea name="description" rows="5" class="form-control" value=${TOUR_ITEM_DETAIL.description}>
                                                     </textarea>     
                                                     <script>
                                                         CKEDITOR.replace("description");
