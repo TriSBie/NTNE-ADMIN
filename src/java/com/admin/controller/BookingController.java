@@ -41,7 +41,11 @@ public class BookingController extends HttpServlet {
             ------------------------------------------------------------------------------*/
             case "viewBooking":
                 viewBooking(request, response);
+            case "viewDetailBooking":
+                viewDetailBooking(request, response);
                 break;
+            default:
+                response.sendRedirect(Config.LAYOUT + "error.jsp");
 
         }
     }
@@ -54,6 +58,26 @@ public class BookingController extends HttpServlet {
             if (listOfSummaryBooking != null) {
                 url = Config.LAYOUT + VIEW_BOOKING_URL;
                 request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void viewDetailBooking(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+
+            BookingDAO dao = new BookingDAO();
+            BookingDTO bookingDetail = dao.getDetailBookingByID(bookingID);
+            if (bookingDetail != null) {
+                url = Config.LAYOUT + VIEW_BOOKING_URL;
+                request.setAttribute("BOOKING_DETAILS", bookingDetail);
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);

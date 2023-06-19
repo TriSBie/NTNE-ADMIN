@@ -17,7 +17,6 @@ import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,6 +74,7 @@ public class TourController extends HttpServlet {
             case "dashborad":
                 get_Info_Dashborad(request, response);
                 break;
+
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
             ------------------------------------------------------------------------------*/
@@ -264,12 +264,12 @@ public class TourController extends HttpServlet {
         try {
 
             List<TourDTO> listTour = new TourDAO().getAllTours();
-            TourItemDAO dao = new TourItemDAO();  
-            
+            TourItemDAO dao = new TourItemDAO();
+
             TourDTO tour = new TourDTO();
             String tourID = request.getParameter("tourID");
             if (listTour != null) {
-                if(tourID == null) {
+                if (tourID == null) {
                     tour = listTour.get(0);
                 } else {
                     int tourID_parse = Integer.parseInt(tourID);

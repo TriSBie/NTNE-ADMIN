@@ -253,6 +253,35 @@
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
+                                                <c:if test="${empty requestScope.BOOKING_DETAILS}">
+                                                    <tr>
+                                                        <th class="border-bottom-0">                                     
+                                                            <h6 class="fw-semibold mb-0">Mã Booking</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Mã Trip</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Ngày booking</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Tên khách hàng</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Số lượng</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                                                        </th>
+                                                    </tr>
+                                                </c:if>
+                                                <c:if test="${not empty requestScope.BOOKING_DETAILS}">
+                                                <a href="<c:url value="/booking/viewBooking.do"/>">
+                                                    Go back
+                                                </a>
                                                 <tr>
                                                     <th class="border-bottom-0">                                     
                                                         <h6 class="fw-semibold mb-0">Mã Booking</h6>
@@ -261,32 +290,167 @@
                                                         <h6 class="fw-semibold mb-0">Mã Trip</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Tên Tour</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">Ngày booking</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Ngày hết hạn</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Ngày khởi hành</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">Tên khách hàng</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Số lượng</h6>
+                                                        <h6 class="fw-semibold mb-0">Email</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
+                                                        <h6 class="fw-semibold mb-0">Số điên thoại</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Địa chỉ</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Yêu cầu</h6>
+                                                    </th>
+
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Số lượng người lớn</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Số lượng trẻ em</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Giá người lớn</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Giá trẻ em</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Tổng giá</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Thanh Toán</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">Trạng thái</h6>
                                                     </th>
                                                 </tr>
+                                            </c:if>
                                             </thead>
                                             <tbody>
+                                                <!--GET BOOKING DETAIL BY ID-->
+
+                                                <c:if test="${not empty requestScope.BOOKING_DETAILS}">
+                                                    <c:set var="tripDTO" value="${requestScope.BOOKING_DETAILS.tripDTO}"/>
+                                                    <c:set var="paymentDTO" value="${requestScope.BOOKING_DETAILS.paymentDTO}"/>
+                                                    <c:set var="bookingDTO" value="${requestScope.BOOKING_DETAILS}"/>
+                                                    <tr>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.id}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${tripDTO.code}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${tripDTO.tourName}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                NGAY BOOKING 
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.expireDate}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${tripDTO.depart_time}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.cusBook}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.cusMail}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.cusPhone}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.cusAddress}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.requirement}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.quantityAdult}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.quantityChild}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${tripDTO.priceAdult}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${tripDTO.priceChild}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.totalPrice}
+                                                            </h6>
+                                                        </td><td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${paymentDTO.paymentName}
+                                                            </h6>
+                                                        </td><td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">
+                                                                ${bookingDTO.status}
+                                                            </h6>
+                                                        </td>
+                                                    </tr>
+                                                </c:if>
+
+                                                <!--END -->
+                                                <!--GET LIST BOOKING BY DEFAULT-->
                                                 <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
                                                     <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}">
                                                         <tr>
                                                             <td class="border-bottom-0">
-                                                                <c:url var="getDetaiBookingLink" value="#">
-                                                                    <c:param name="=bookingID" value="${tour.tourID}"/>
+                                                                <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
+                                                                    <c:param name="bookingID" value="${bookingITEM.id}"/>
                                                                 </c:url>
-                                                                <a href="${getDetaiBookingLink}">
-                                                                    <h6 class="fw-semibold mb-0">
+                                                                <a href=${getDetaiBookingLink} class="bookingIDLink">
+                                                                    <h6 class="fw-semibold mb-0" title="Xem chi tiết">
                                                                         ${bookingITEM.id}
                                                                     </h6>
                                                                 </a>
@@ -346,6 +510,15 @@
                 </div>
             </div>
         </div>
+        <style>
+            .bookingIDLink h6{
+                color: black;
+            }
+
+            .bookingIDLink:hover h6{
+                color :green;
+            }
+        </style>                                     
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
