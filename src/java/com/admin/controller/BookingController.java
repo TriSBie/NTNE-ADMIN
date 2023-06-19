@@ -41,8 +41,15 @@ public class BookingController extends HttpServlet {
             ------------------------------------------------------------------------------*/
             case "viewBooking":
                 viewBooking(request, response);
+                break;
             case "viewDetailBooking":
                 viewDetailBooking(request, response);
+                break;
+            /*------------------------------------------------------------------------------
+                                FUNCTION XU LY YEU CAU UPDATE
+            ------------------------------------------------------------------------------*/
+            case "hanleChangeState_Booking":
+                hanleChangeState_Booking(request, response);
                 break;
             default:
                 response.sendRedirect(Config.LAYOUT + "error.jsp");
@@ -87,6 +94,30 @@ public class BookingController extends HttpServlet {
         }
     }
 
+    /*------------------------------------------------------------------------------
+                                FUNCTION XU LY YEU CAU UPDATE
+    ------------------------------------------------------------------------------*/
+    protected void hanleChangeState_Booking(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            // Get Parameter
+            int bookingItemID = Integer.parseInt(request.getParameter("bookingItemID"));
+            // Call DAO
+            BookingDAO dao = new BookingDAO();
+            boolean checkChangeStateBooking = dao.changeStateBooking(bookingItemID);
+            if (checkChangeStateBooking) {
+                //Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
+                request.setAttribute("msg_success", "Bạn đã thay đổi trạng thái của Booking có mã Booking");
+                request.setAttribute("bookingItemID", bookingItemID);
+                request.getRequestDispatcher("/booking/viewBooking.do").forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

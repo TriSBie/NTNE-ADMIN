@@ -34,9 +34,9 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.code, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n"
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
                         + "WHERE tp.id = bk.trip_id AND tp.id = tr.id )Trip\n"
                         + "ON Trip.tripID = bk.trip_id\n"
@@ -48,13 +48,16 @@ public class BookingDAO implements Serializable {
                 while (rs.next()) {
                     int bookingID = rs.getInt(1);
                     String code = rs.getString(2);
-                    String custNameBooking = rs.getString(4);
-                    int totalQuantity = rs.getInt(5) + rs.getInt(6);
-                    double totalPrice = rs.getDouble(7);
-                    boolean status = rs.getBoolean(8);
+                    Date depart_time = rs.getDate(3);
+                    Date expireDate = rs.getDate(4);
+                    String custNameBooking = rs.getString(5);
+                    int totalQuantity = rs.getInt(6) + rs.getInt(7);
+                    double totalPrice = rs.getDouble(8);
+                    boolean status = rs.getBoolean(9);
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
-                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, rs.getDate(3), totalQuantity, status, dto);
+                    dto.setDepart_time(depart_time);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, (java.sql.Date) expireDate, totalQuantity, status, dto);
                     listOfSummaryBooking.add(booking);
                 }
             }
@@ -144,6 +147,49 @@ public class BookingDAO implements Serializable {
         return bookingDTO;
     }
 
+    // Xử lí đổi trạng thái TRIP
+    public boolean changeStateBooking(int bookingID)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "BEGIN\n"
+                        + "DECLARE @status bit;\n"
+                        + "SELECT\n"
+                        + "@status = [status]\n"
+                        + "FROM [dbo].[Booking]\n"
+                        + "WHERE id = ?;\n"
+                        + "IF @status = 0\n"
+                        + "BEGIN\n"
+                        + "UPDATE [dbo].[Booking] SET [status] = 1 	WHERE id = ?;\n"
+                        + "END\n"
+                        + "ELSE\n"
+                        + "BEGIN\n"
+                        + "UPDATE [dbo].[Booking] SET [status] = 0 WHERE id = ?;\n"
+                        + "END\n"
+                        + "END";
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, bookingID);
+                ps.setInt(2, bookingID);
+                ps.setInt(3, bookingID);
+                ps.execute();
+                ps.close();
+                return true;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         try {
             List<BookingDTO> list = new BookingDAO().getSummaryBookings();
@@ -156,7 +202,7 @@ public class BookingDAO implements Serializable {
 //            }
             if (list != null) {
                 for (BookingDTO bookingDTO : list) {
-                    System.out.println(bookingDTO.getId());
+                    System.out.println(bookingDTO.getCusBook());
                 }
             }
         } catch (ClassNotFoundException | SQLException e) {

@@ -24,6 +24,72 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+        <!--Style CSS-->
+        <style>
+            /* The switch - the box around the slider */
+            .switch {
+                font-size: 12px;
+                position: relative;
+                display: inline-block;
+                width: 3.5em;
+                height: 2em;
+            }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            /* The slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #B0B0B0;
+                border: 1px solid #B0B0B0;
+                -webkit-transition: .4s;
+                transition: .4s;
+                border-radius: 32px;
+                outline: none;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 1.5rem;
+                width: 1.5rem;
+                border-radius: 50%;
+                outline: 2px solid #B0B0B0;
+                left: -1px;
+                bottom: -1px;
+                background-color: #fff;
+                -webkit-transition: -webkit-transform .25s ease-in-out 0s;
+                transition: -webkit-transform .25s ease-in-out 0s;
+                transition: transform .25s ease-in-out 0s;
+                transition: transform .25s ease-in-out 0s, -webkit-transform .25s ease-in-out 0s;
+            }
+
+            input:checked + .slider {
+                background-color: #222222;
+            }
+
+            input:checked + .slider .slider-icon {
+                opacity: 1;
+                right: 20%;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(1.5em);
+                -ms-transform: translateX(1.5em);
+                transform: translateX(1.5em);
+                outline-color: #181818;
+            }
+        </style>
     </head>
 
     <body>
@@ -244,19 +310,25 @@
                 </header>
                 <!--  Header End -->
                 <div class="container-fluid">
-                    <!--  Row 1 -->
+                    <!-- Danh Sách BOOKING -->
                     <div class="row">
                         <div class="col-lg-12 d-flex align-items-stretch">
                             <div class="card w-100">
+                                <!-- Thông báo nếu thao tác thành công -->
+                                <c:if test="${msg_success != null}">
+                                    <div class="alert alert-success">
+                                        <strong>${msg_success} [ ${bookingItemID} ]!</strong>
+                                    </div>
+                                </c:if>
                                 <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">BOOKING MỚI NHẤT</h5>
+                                    <h5 class="card-title fw-semibold mb-4">Danh Sách BOOKING</h5>
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
                                                 <c:if test="${empty requestScope.BOOKING_DETAILS}">
                                                     <tr>
                                                         <th class="border-bottom-0">                                     
-                                                            <h6 class="fw-semibold mb-0">Mã Booking</h6>
+                                                            <h6 class="fw-semibold mb-0">Mã BK</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Mã Trip</h6>
@@ -267,239 +339,283 @@
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Tên khách hàng</h6>
                                                         </th>
-                                                        <th class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">Số lượng</h6>
-                                                        </th>
+                                                        <!--                                                        <th class="border-bottom-0">
+                                                                                                                    <h6 class="fw-semibold mb-0">Số lượng</h6>
+                                                                                                                </th>-->
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Trạng thái</h6>
                                                         </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Đổi trạng thái</h6>
+                                                        </th>
                                                     </tr>
                                                 </c:if>
                                                 <c:if test="${not empty requestScope.BOOKING_DETAILS}">
                                                 <a href="<c:url value="/booking/viewBooking.do"/>">
-                                                    Go back
+                                                    <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
                                                 </a>
-                                                <tr>
-                                                    <th class="border-bottom-0">                                     
-                                                        <h6 class="fw-semibold mb-0">Mã Booking</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Mã Trip</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tên Tour</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Ngày booking</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Ngày hết hạn</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Ngày khởi hành</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tên khách hàng</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Email</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Số điên thoại</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Địa chỉ</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Yêu cầu</h6>
-                                                    </th>
-
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Số lượng người lớn</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Số lượng trẻ em</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Giá người lớn</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Giá trẻ em</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tổng giá</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Thanh Toán</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Trạng thái</h6>
-                                                    </th>
-                                                </tr>
                                             </c:if>
                                             </thead>
                                             <tbody>
                                                 <!--GET BOOKING DETAIL BY ID-->
-
                                                 <c:if test="${not empty requestScope.BOOKING_DETAILS}">
                                                     <c:set var="tripDTO" value="${requestScope.BOOKING_DETAILS.tripDTO}"/>
                                                     <c:set var="paymentDTO" value="${requestScope.BOOKING_DETAILS.paymentDTO}"/>
                                                     <c:set var="bookingDTO" value="${requestScope.BOOKING_DETAILS}"/>
+
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="mb-3 row">
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Mã Trip
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${tripDTO.depart_time}"/>]
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Tên TOUR
+                                                                </label>
+                                                                <h6 class="mb-0 fw-normal">
+                                                                    ${tripDTO.tourName}
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Ngày Booking
+                                                                </label>
+                                                                <h6 class="mb-0 fw-normal">
+                                                                    <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${bookingDTO.expireDate}" />
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Ngày khởi hành
+                                                                </label>
+                                                                <h6 class="mb-0 fw-normal">
+                                                                    ${tripDTO.depart_time}
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                        <!-- -->
+                                                        <div class="mb-3 row">
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Tên khách hàng
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${BOOKING_DETAILS.cusBook}
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Email
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${bookingDTO.cusMail}
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Số điên thoại
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${bookingDTO.cusPhone}
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Địa chỉ
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${bookingDTO.cusAddress}
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                        <!-- -->               
+                                                        <div class="mb-3 row">
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >SL người lớn x Giá
+                                                                </label>
+                                                                <h6 class="mb-0 fw-normal">
+                                                                    ${bookingDTO.quantityAdult} * <fmt:formatNumber value ="${tripDTO.priceAdult}" type = "currency"/>
+
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >SL trẻ em x Giá
+                                                                </label>
+                                                                <h6 class="mb-0 fw-normal">
+                                                                    ${bookingDTO.quantityChild} *  <fmt:formatNumber value ="${tripDTO.priceChild}" type = "currency"/>
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Tổng Booking
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    <fmt:formatNumber value ="${bookingDTO.totalPrice}" type = "currency"/>
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Hình thức thanh toán
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${paymentDTO.paymentName}
+                                                                </h6>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="mb-3 row">
+                                                            <div class="col-12">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    >Yêu cầu(nếu có)
+                                                                </label>
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${bookingDTO.requirement}
+                                                                </h6>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="mb-3 row">
+                                                            <div class="col-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                    style="font-size: 20px"
+                                                                    >Trạng thái thanh toán
+                                                                </label>
+                                                                <c:if test="${bookingDTO.status == true}">
+                                                                    <span class="badge bg-success rounded-3 fw-semibold">Đã thanh toán</span>
+                                                                </c:if>
+                                                                <c:if test="${bookingDTO.status != true}">
+                                                                    <span class="badge bg-danger rounded-3 fw-semibold">Chưa thanh toán</span>
+                                                                </c:if>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+
+                                            <!--END -->
+                                            <!--GET LIST BOOKING BY DEFAULT-->
+                                            <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
+                                                <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}" >
                                                     <tr>
                                                         <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.id}
-                                                            </h6>
+                                                            <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
+                                                                <c:param name="bookingID" value="${bookingITEM.id}"/>
+                                                            </c:url>
+                                                            <a href=${getDetaiBookingLink} class="bookingIDLink">
+                                                                <h6 class="fw-semibold mb-0" title="Xem chi tiết">
+                                                                    ${bookingITEM.id}
+                                                                </h6>
+                                                            </a>
                                                         </td>
                                                         <td class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-1">
-                                                                ${tripDTO.code}
+                                                                ${bookingITEM.tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${bookingITEM.tripDTO.depart_time}"/>]
                                                             </h6>
                                                         </td>
                                                         <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${tripDTO.tourName}
-                                                            </h6>
+                                                            <p class="mb-0 fw-normal">
+                                                                <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${bookingITEM.expireDate}" />
+                                                            </p>
                                                         </td>
                                                         <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                NGAY BOOKING 
-                                                            </h6>
+                                                            <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
+                                                        </td>
+                                                        <!--                                                        <td class="border-bottom-0">
+                                                                                                                    <p class="mb-0 fw-normal">${bookingITEM.totalQuantity}</p>
+                                                                                                                </td>-->
+                                                        <td class="border-bottom-0">
+                                                            <p class="mb-0 fw-normal">
+                                                                <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
+                                                            </p>
                                                         </td>
                                                         <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.expireDate}
-                                                            </h6>
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <c:choose>
+                                                                    <c:when test="${bookingITEM.status}">
+                                                                        <span
+                                                                            class="badge bg-success rounded-3 fw-semibold"
+                                                                            >
+                                                                            Đã thanh toán
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:when test="${!bookingITEM.status}">
+                                                                        <span
+                                                                            class="badge bg-danger rounded-3 fw-semibold"
+                                                                            >
+                                                                            Chưa thanh toán
+                                                                        </span>
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            </div>
                                                         </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${tripDTO.depart_time}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.cusBook}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.cusMail}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.cusPhone}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.cusAddress}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.requirement}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.quantityAdult}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.quantityChild}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${tripDTO.priceAdult}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${tripDTO.priceChild}
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.totalPrice}
-                                                            </h6>
-                                                        </td><td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${paymentDTO.paymentName}
-                                                            </h6>
-                                                        </td><td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">
-                                                                ${bookingDTO.status}
-                                                            </h6>
+                                                        <td>
+                                                            <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                                <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                                <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                <c:if test="${bookingITEM.status == true}">
+                                                                    <button type="submit" class="btn" style="padding: 0" onclick="myFunction()">
+                                                                        <label class="switch">
+                                                                            <input type="checkbox" checked>
+                                                                            <span class="slider">
+                                                                            </span>
+                                                                        </label>
+                                                                    </button> 
+                                                                </c:if>
+                                                                <c:if test="${bookingITEM.status != true}" >
+                                                                    <button type="" class="btn" style="padding: 0;" onclick="myFunction()">
+                                                                        <label class="switch">
+                                                                            <input type="checkbox">
+                                                                            <span class="slider">
+                                                                            </span>
+                                                                        </label>
+                                                                    </button>
+                                                                </c:if>
+                                                                <!-- Nơi xử lý đổi trạng thái của Booking -->
+                                                            </form>
                                                         </td>
                                                     </tr>
-                                                </c:if>
-
-                                                <!--END -->
-                                                <!--GET LIST BOOKING BY DEFAULT-->
-                                                <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
-                                                    <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}">
-                                                        <tr>
-                                                            <td class="border-bottom-0">
-                                                                <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
-                                                                    <c:param name="bookingID" value="${bookingITEM.id}"/>
-                                                                </c:url>
-                                                                <a href=${getDetaiBookingLink} class="bookingIDLink">
-                                                                    <h6 class="fw-semibold mb-0" title="Xem chi tiết">
-                                                                        ${bookingITEM.id}
-                                                                    </h6>
-                                                                </a>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-1">
-                                                                    ${bookingITEM.tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${bookingITEM.expireDate}"/>]
-                                                                </h6>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal">
-                                                                    <fmt:formatDate pattern="dd-MM-yyyy" value="${bookingITEM.expireDate}"/>
-                                                                </p>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal">${bookingITEM.totalQuantity}</p>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal">
-                                                                    <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
-                                                                </p>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <c:choose>
-                                                                        <c:when test="${bookingITEM.status}">
-                                                                            <span
-                                                                                class="badge bg-success rounded-3 fw-semibold"
-                                                                                >
-                                                                                Đã thanh toán
-                                                                            </span>
-                                                                        </c:when>
-                                                                        <c:when test="${!bookingITEM.status}">
-                                                                            <span
-                                                                                class="badge bg-danger rounded-3 fw-semibold"
-                                                                                >
-                                                                                Chưa thanh toán
-                                                                            </span>
-                                                                        </c:when>
-                                                                    </c:choose>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </c:if>
-                                                <!-- Du lieu -->
+                                                </c:forEach>
+                                            </c:if>
+                                            <!-- Du lieu -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -526,6 +642,16 @@
         <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <script src="../assets/js/dashboard.js"></script>
+
+        <!-- Confirm Press btn -->
+        <script>
+                                                                        function myFunction() {
+                                                                            let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
+                                                                            if (confirm(text) === false) {
+                                                                                event.preventDefault();
+                                                                            }
+                                                                        }
+        </script>
     </body>
 </html>
 
