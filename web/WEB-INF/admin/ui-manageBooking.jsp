@@ -293,7 +293,7 @@
                                                             </td>
                                                             <td class="border-bottom-0">
                                                                 <h6 class="fw-semibold mb-1">
-                                                                    ${bookingITEM.tripDTO.tourName}
+                                                                    ${bookingITEM.tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${bookingITEM.expireDate}"/>]
                                                                 </h6>
                                                             </td>
                                                             <td class="border-bottom-0">

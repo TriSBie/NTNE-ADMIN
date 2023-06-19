@@ -33,11 +33,11 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.tourName, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n"
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "INNER JOIN (SELECT tr.name AS tourName, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
-                        + "WHERE tp.id = bk.trip_id AND tp.id = tr.id)Trip\n"
+                        + "WHERE tp.id = bk.trip_id AND tp.id = tr.id )Trip\n"
                         + "ON Trip.tripID = bk.trip_id\n"
                         + "JOIN Payment pm ON bk.payment_id = pm.id\n"
                         + "ORDER BY bk.expireDate DESC";
@@ -46,13 +46,13 @@ public class BookingDAO implements Serializable {
                 listOfSummaryBooking = new ArrayList<>();
                 while (rs.next()) {
                     int bookingID = rs.getInt(1);
-                    String tourName = rs.getString(2);
+                    String code = rs.getString(2);
                     String custNameBooking = rs.getString(4);
                     int totalQuantity = rs.getInt(5) + rs.getInt(6);
                     double totalPrice = rs.getDouble(7);
                     boolean status = rs.getBoolean(8);
                     TripDTO dto = new TripDTO();
-                    dto.setTourName(tourName);
+                    dto.setCode(code);
                     BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, rs.getDate(3), totalQuantity, status, dto);
                     listOfSummaryBooking.add(booking);
                 }

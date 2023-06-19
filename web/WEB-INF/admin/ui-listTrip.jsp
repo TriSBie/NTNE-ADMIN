@@ -347,7 +347,11 @@
                                                     <c:forEach var="tripItem" items="${requestScope.LIST_TRIP}">
                                                         <tr>
                                                             <th scope="row">${tripItem.tripID}</th>
-                                                            <td style="width: 230px;">${tripItem.code} - ${tripItem.depart_time}</td>
+                                                            <td style="width: 230px;">
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${tripItem.code} - [<fmt:formatDate pattern="dd/MM" value="${tripItem.depart_time}"/>]
+                                                                </h6>
+                                                            </td>
                                                             <td>
                                                                 <img
                                                                     style="
@@ -439,7 +443,7 @@
             function myFunction() {
                 let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
                 if (confirm(text) === false) {
-                   event.preventDefault();
+                    event.preventDefault();
                 }
             }
         </script>
