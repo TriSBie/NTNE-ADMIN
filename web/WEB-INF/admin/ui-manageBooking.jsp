@@ -258,7 +258,7 @@
                                                         <h6 class="fw-semibold mb-0">Mã Booking</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tên Tour</h6>
+                                                        <h6 class="fw-semibold mb-0">Mã Trip</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">Ngày booking</h6>
@@ -270,10 +270,10 @@
                                                         <h6 class="fw-semibold mb-0">Số lượng</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Giá (VND)</h6>
+                                                        <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Thanh Toán</h6>
+                                                        <h6 class="fw-semibold mb-0">Trạng thái</h6>
                                                     </th>
                                                 </tr>
                                             </thead>

@@ -7,7 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<
 <fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +20,45 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+        <style>
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 12px;
+                border: none;
+            }
+
+            .dropdown {
+                width: 100%;
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                width: 100%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+
+            }
+
+            .dropdown-content a {
+                font-size: 12px;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #ddd;}
+
+            .dropdown:hover .dropdown-content {display: block;}
+
+            .dropdown:hover .dropbtn {background-color: #3e8e41;}
+        </style>
     </head>
 
     <body>
@@ -247,29 +285,48 @@
                         <div class="card">
                             <div class="card-body">
                                 <form action="<c:url value="/tour/hanleCreateTrip.do"/>" method="post">
+                                    <!-- Gán TOUR ID để tạo trip -->
+                                    <input name="tour_id" type="hidden" class="form-control" value="${TOUR.tourID}"/>
+                                    
+                                    
                                     <!-- Select TOUR -->
-                                    <div class="mb-3">
-                                        <label id="tour-selection">
-                                            Mời bạn chọn Tour
-                                            <select
-                                                name="tour_id"
-                                                class="form-select"
-                                                aria-label="Default select example"
-                                                >
-                                                <c:forEach var="tour" items="${requestScope.LIST_TOUR}" varStatus="counter">
-                                                    <option value="${tour.tourID}">${counter.count} - ${tour.tourName}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
+                                    <div class="mb-3 row">
+                                        <div class="col-7">
+                                            <label id="tour-selection" class="form-label">Mời bạn chọn Tour</label>
+                                            <br>
+                                            <div class="dropdown">
+                                                <button type="button" class="form-select">${TOUR.tourName}</button>
+                                                <div class="dropdown-content">
+                                                    <c:forEach var="tour" items="${requestScope.LIST_TOUR}" varStatus="counter">
+                                                        <c:url var="getDetailTourLink" value="/tour/createTrip.do">
+                                                            <c:param name="tourID" value="${tour.tourID}"/>
+                                                        </c:url>
+                                                        <a href="${getDetailTourLink}">${counter.count} - ${tour.tourName}</a>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Chon ngay khoi hanh -->        
+                                        <div class="col-5">
+                                            <label class="form-label">Ngày khởi hành</label>
+                                            <input name="depart_time" type="date" class="form-control" value=""/>
+                                        </div>
                                     </div>
-                                    <br />
+
+                                    <div class="mb-3 row">
+
+                                    </div>   
                                     <!-- CREATE TRIP -->
                                     <div class="formTour">
+                                        <span>Giá mặc định của TOUR &nbsp;
+                                            [ <fmt:formatNumber value ="${TOUR.priceAdult}" type = "currency"/> ]
+                                        </span>
+
                                         <div class="formTour-package">
                                             <div class="mb-3 row">
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <label
-                                                        style="color: red"
                                                         for="exampleInputEmail1"
                                                         class="form-label"
                                                         >Giá người lớn (VND)</label
@@ -280,12 +337,11 @@
                                                         class="form-control"
                                                         id="exampleInputEmail1"
                                                         aria-describedby="emailHelp"
-                                                        value=""
+                                                        value="${TOUR.priceAdult}"
                                                         />
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <label
-                                                        style="color: red"
                                                         for="exampleInputEmail1"
                                                         class="form-label"
                                                         >Giá trẻ em (VND)</label
@@ -296,20 +352,11 @@
                                                         id="exampleInputEmail1"
                                                         name="priceChild"
                                                         aria-describedby="emailHelp"
-                                                        value=""
+                                                        value="${TOUR.priceChild}"
                                                         />
                                                 </div>
-                                            </div>
-                                            <div class="mb-3 row">
-                                                <div class="col-6">
-                                                    <label style="color: red" class="form-label"
-                                                           >Ngày khởi hành</label
-                                                    >
-                                                    <input name="depart_time" type="date" class="form-control" value=""/>
-                                                </div>
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <label
-                                                        style="color: red"
                                                         class="form-label"
                                                         for="tour"
                                                         >Số chỗ cho phép

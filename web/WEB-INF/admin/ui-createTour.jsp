@@ -177,7 +177,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
-            
+
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
@@ -250,9 +250,8 @@
                                 <form action="<c:url value="/tour/handleCreateTour.do"/>" method="post">
                                     <!-- Tên TOUR -->
                                     <div class="mb-3 row">
-                                        <div class="col-6">
+                                        <div class="col-5">
                                             <label
-                                                style="color: red"
                                                 for="exampleInputEmail1"
                                                 class="form-label"
                                                 >Nhập tên TOUR
@@ -265,12 +264,25 @@
                                                 name="name"
                                                 />
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-2">
                                             <label
-                                                style="color: red"
                                                 for="exampleInputEmail1"
                                                 class="form-label"
-                                                >Nhập địa điểm</label
+                                                >Mã TOUR
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="exampleInputEmail1"
+                                                aria-describedby="emailHelp"
+                                                name="code"
+                                                />
+                                        </div>
+                                        <div class="col-5">
+                                            <label
+                                                for="exampleInputEmail1"
+                                                class="form-label"
+                                                >Mô tả ngắn</label
                                             >
                                             <input
                                                 type="text"
@@ -284,7 +296,6 @@
                                     <div class="mb-3 row">
                                         <div class="col-6">
                                             <label
-                                                style="color: red"
                                                 for="exampleInputEmail1"
                                                 class="form-label"
                                                 >Giá người lớn (VND)</label
@@ -299,7 +310,6 @@
                                         </div>
                                         <div class="col-6">
                                             <label
-                                                style="color: red"
                                                 for="exampleInputEmail1"
                                                 class="form-label"
                                                 >Giá trẻ em (VND)</label
@@ -314,14 +324,21 @@
                                         </div>
                                     </div>
 
+                                    <!-- Hình Ảnh TOUR -->
+                                    <div class="mb-3">
+                                        <label class="form-label"
+                                               >Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com/)
+                                        </label>
+                                        <input type="text" class="form-control" name="thumbnail"/>
+                                    </div>
+
+
+
                                     <!-- CREATE DES -->
                                     <div class="formTour">
                                         <div class="formTour-package">
+                                            <h2 class="card-title fw-semibold mb-4">Địa điểm 1</h2>
                                             <div class="mb-3 row">
-                                                <div class="col-6">
-                                                    <label class="form-label">Mốc thời gian</label>
-                                                    <input type="text" class="form-control" name="duration"/>
-                                                </div>
                                                 <div class="col-6">
                                                     <label class="form-label" for="tour"
                                                            >Mời bạn chọn địa điểm:
@@ -336,6 +353,10 @@
                                                             <option value="${destination.id}">${counter.count} - ${destination.name}</option>
                                                         </c:forEach>
                                                     </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label">Mốc thời gian</label>
+                                                    <input type="text" class="form-control" name="duration"/>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-12">
@@ -354,14 +375,6 @@
                                         Thêm địa điểm
                                     </button>
                                     <!-- END CREATE DES -->
-
-                                    <!-- Hình Ảnh TOUR -->
-                                    <div class="mb-3">
-                                        <label class="form-label" style="color: red"
-                                               >Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com/)
-                                        </label>
-                                        <input type="text" class="form-control" name="thumbnail"/>
-                                    </div>
                                     <!-- Check Box -->
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" class="form-check-input" required/>
@@ -396,11 +409,9 @@
                                             function createTourForm(e) {
                                                 index += 1;
                                                 const div = document.createElement("div");
-                                                div.innerHTML = `<div class="mb-3 row">
-                                                <div class="col-6">
-                                                    <label class="form-label">Mốc thời gian</label>
-                                                    <input type="text" class="form-control" name="duration"/>
-                                                </div>
+                                                div.innerHTML = `
+                                                <h2 class="card-title fw-semibold mb-4">Địa điểm ` + index + `</h2>
+                                                <div class="mb-3 row">
                                                 <div class="col-6">
                                                     <label class="form-label" for="tour"
                                                            >Mời bạn chọn địa điểm:
@@ -412,9 +423,13 @@
                                                         aria-label="Default select example"
                                                         >
             <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
-                                                                                                    <option value="${destination.id}">${counter.count} - ${destination.name}</option>
+                                                            <option value="${destination.id}">${counter.count} - ${destination.name}</option>
             </c:forEach>
                                                     </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label">Mốc thời gian</label>
+                                                    <input type="text" class="form-control" name="duration"/>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-12">

@@ -275,7 +275,6 @@
                                                                 <div class="mb-3 row">
                                                                     <div class="col">
                                                                         <label
-                                                                            style="color: red"
                                                                             for="exampleInputEmail1"
                                                                             class="form-label"
                                                                             >Nhập tên Địa điểm mới</label
@@ -292,13 +291,12 @@
                                                                 </div>
                                                                 <div class="mb-3 row">
                                                                     <div class="col-6">
-                                                                        <label style="color: red" class="form-label"
+                                                                        <label class="form-label"
                                                                                >Nhập vĩ độ </label>
                                                                         <input name="latitude" type="number" class="form-control" value=""/>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <label
-                                                                            style="color: red"
                                                                             class="form-label"
                                                                             for="tour"
                                                                             >Nhập kinh độ
@@ -376,7 +374,6 @@
                                                                                 <div class="mb-3 row">
                                                                                     <div class="col-12 mb-3">
                                                                                         <label
-                                                                                            style="color: red"
                                                                                             for="exampleInputEmail1"
                                                                                             class="form-label"
                                                                                             >Tên địa điểm mới</label
@@ -392,7 +389,6 @@
                                                                                     </div>
                                                                                     <div class="col-6">
                                                                                         <label
-                                                                                            style="color: red"
                                                                                             for="destinationLatitude"
                                                                                             class="form-label"
                                                                                             >Nhập vĩ độ</label
@@ -407,7 +403,6 @@
                                                                                     </div>
                                                                                     <div class="col-6">
                                                                                         <label
-                                                                                            style="color: red"
                                                                                             for="destinationLongitude"
                                                                                             class="form-label"
                                                                                             >
@@ -424,9 +419,7 @@
                                                                                 </div>
                                                                                 <div class="mb-3 row">
                                                                                     <div class="mb-3 col-12">
-                                                                                        <label class="form-label" style="color: red"
-                                                                                               >Mô tả</label
-                                                                                        >
+                                                                                        <label class="form-label">Mô tả</label>
                                                                                         <textarea 
                                                                                             rows="5" 
                                                                                             class="form-control" 

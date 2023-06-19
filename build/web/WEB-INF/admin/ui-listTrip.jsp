@@ -316,9 +316,9 @@
                                     <div class="col-12">
                                         <!-- Thông báo nếu thao tác thành công -->
                                         <c:if test="${msg_success != null}">
-                                            <script>
-                                                window.alert(`${msg_success} [ ${tripID} ]`)
-                                            </script>
+                                            <div class="alert alert-success">
+                                                <strong>${msg_success} [ ${tripID} ]!</strong>
+                                            </div>
                                         </c:if>
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h3 class="mb-3">DANH SÁCH TRIP</h3>
@@ -330,10 +330,10 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID</th>
-                                                    <th scope="col">Tên Tour</th>
+                                                    <th scope="col">Mã Trip</th>
                                                     <th scope="col">Hình ảnh</th>
-                                                    <th scope="col">Ngày khởi hành</th>
                                                     <th scope="col">Giá người lớn</th>
+                                                    <th scope="col">Giá trẻ em</th>
                                                     <th scope="col">SL</th>
                                                     <th scope="col">Trạng thái</th>
                                                     <th scope="col">Bật/Tắt</th>
@@ -347,7 +347,7 @@
                                                     <c:forEach var="tripItem" items="${requestScope.LIST_TRIP}">
                                                         <tr>
                                                             <th scope="row">${tripItem.tripID}</th>
-                                                            <td style="width: 230px;">${tripItem.tourName}</td>
+                                                            <td style="width: 230px;">${tripItem.code} - ${tripItem.depart_time}</td>
                                                             <td>
                                                                 <img
                                                                     style="
@@ -359,10 +359,10 @@
                                                                     />
                                                             </td>
                                                             <td style="width: 150px">
-                                                                <p>${tripItem.depart_time}</p>
+                                                                <fmt:formatNumber value ="${tripItem.priceAdult}" type = "currency"/>
                                                             </td>
                                                             <td style="width: 130px;">
-                                                                <fmt:formatNumber value ="${tripItem.priceAdult}" type = "currency"/></span>
+                                                                <fmt:formatNumber value ="${tripItem.priceChild}" type = "currency"/>
                                                             </td>
                                                             <td>${tripItem.quantity}</td>
                                                             <td>
@@ -378,7 +378,7 @@
                                                                     <!-- Nơi xử lý đổi trạng thái của trip -->
                                                                     <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
                                                                     <c:if test="${tripItem.availability == true}">
-                                                                        <button type="submit" class="btn" style="padding: 0;">
+                                                                        <button type="submit" class="btn" style="padding: 0" onclick="myFunction()">
                                                                             <label class="switch">
                                                                                 <input type="checkbox" checked>
                                                                                 <span class="slider">
@@ -386,8 +386,8 @@
                                                                             </label>
                                                                         </button> 
                                                                     </c:if>
-                                                                    <c:if test="${tripItem.availability != true}">
-                                                                        <button type="submit" class="btn" style="padding: 0;">
+                                                                    <c:if test="${tripItem.availability != true}" >
+                                                                        <button type="" class="btn" style="padding: 0;" onclick="myFunction()">
                                                                             <label class="switch">
                                                                                 <input type="checkbox">
                                                                                 <span class="slider">
@@ -433,6 +433,16 @@
         <script src="../assets/js/sidebarmenu.js"></script>
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+
+        <!-- Confirm Press btn -->
+        <script>
+            function myFunction() {
+                let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
+                if (confirm(text) === false) {
+                   event.preventDefault();
+                }
+            }
+        </script>
     </body>
 </html>
 

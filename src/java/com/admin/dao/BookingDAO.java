@@ -35,11 +35,12 @@ public class BookingDAO implements Serializable {
             if (con != null) {
                 String SQL = "SELECT DISTINCT bk.id,Trip.tourName, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "  INNER JOIN (SELECT tr.name AS tourName, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild \n"
-                        + "  FROM Booking bk, Trip tp, Tour tr \n"
-                        + "  WHERE tp.id = bk.trip_id AND tp.id = tr.id)Trip\n"
-                        + "  ON Trip.tripID = bk.trip_id\n"
-                        + "  JOIN Payment pm ON bk.payment_id = pm.id";
+                        + "INNER JOIN (SELECT tr.name AS tourName, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr\n"
+                        + "WHERE tp.id = bk.trip_id AND tp.id = tr.id)Trip\n"
+                        + "ON Trip.tripID = bk.trip_id\n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "ORDER BY bk.expireDate DESC";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 listOfSummaryBooking = new ArrayList<>();

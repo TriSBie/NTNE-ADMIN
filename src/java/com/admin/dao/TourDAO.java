@@ -38,6 +38,7 @@ public class TourDAO implements Serializable {
                         + "      ,[priceChild]\n"
                         + "      ,[thumbnail]\n"
                         + "      ,[location]\n"
+                        + "      ,[code]\n"
                         + "  FROM [NTNECompany].[dbo].[Tour]";
                 list = new ArrayList<>();
                 ps = con.prepareStatement(SQL);
@@ -45,7 +46,7 @@ public class TourDAO implements Serializable {
                 while (rs.next()) {
                     TourDTO dto = new TourDTO(rs.getInt("id"), rs.getString("name"),
                             rs.getDouble("priceAdult"), rs.getDouble("priceChild"),
-                            rs.getString("thumbnail"), rs.getString("location"));
+                            rs.getString("thumbnail"), rs.getString("location"), rs.getString("code"));
                     list.add(dto);
                 }
             }
@@ -70,7 +71,7 @@ public class TourDAO implements Serializable {
             con = DBContext.getConnectionDB();
             if (con != null) {
                 String SQL = "INSERT INTO Tour \n"
-                        + "VALUES(?, ?, ?, ?, ?)";
+                        + "VALUES(?, ?, ?, ?, ?, ?)";
                 ps = con.prepareStatement(SQL);
                 //Insert tour
                 ps.setString(1, tourDTO.getTourName());
@@ -78,7 +79,9 @@ public class TourDAO implements Serializable {
                 ps.setDouble(3, tourDTO.getPriceChild());
                 ps.setString(4, tourDTO.getThumbnail());
                 ps.setString(5, tourDTO.getLocation());
+                ps.setString(6, tourDTO.getCode());
                 ps.executeUpdate();
+                
                 String SQL_1 = "DECLARE @TOURID INT;\n"
                         + "SELECT TOP 1 @TOURID = Tour.ID FROM [dbo].[Tour]\n"
                         + "ORDER BY Tour.id DESC\n"
@@ -121,7 +124,7 @@ public class TourDAO implements Serializable {
 
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    TourDTO tour = new TourDTO(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getString(5), rs.getString(6));
+                    TourDTO tour = new TourDTO(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getString(7));
                     return tour;
                 }
             }
@@ -140,13 +143,13 @@ public class TourDAO implements Serializable {
     }
 
     // Xử lí update dữ liệu cho thông tin TOUR theo TOUR ID; 
-    public boolean updateTour(String tourName, double priceAdult, double priceChild, String thumbnail, String location, int tourID)
+    public boolean updateTour(String tourName, double priceAdult, double priceChild, String thumbnail, String location, String code, int tourID)
             throws ClassNotFoundException, SQLException {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
                 String SQL = "UPDATE [dbo].[Tour] \n"
-                        + "SET [name] = ?, [priceAdult] = ?, [priceChild] = ?, [thumbnail] = ?, [location] = ? \n"
+                        + "SET [name] = ?, [priceAdult] = ?, [priceChild] = ?, [thumbnail] = ?, [location] = ?,[code] = ?\n"
                         + "WHERE [id] = ?";
                 ps = con.prepareStatement(SQL);
                 ps.setString(1, tourName);
@@ -154,7 +157,8 @@ public class TourDAO implements Serializable {
                 ps.setDouble(3, priceChild);
                 ps.setString(4, thumbnail);
                 ps.setString(5, location);
-                ps.setInt(6, tourID);
+                ps.setString(6, code);
+                ps.setInt(7, tourID);
                 ps.execute();
                 ps.close();
                 return true;

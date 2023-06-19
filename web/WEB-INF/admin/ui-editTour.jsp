@@ -247,23 +247,29 @@
                                                 />
                                         </div>
 
+
                                         <!-- CREATE TRIP -->
                                         <div class="formTour">
                                             <div class="formTour-package">
                                                 <div class="mb-3 row">
+                                                    <div class="col-2">
+                                                        <label class="form-label">Mã TOUR</label>
+                                                        <input name="code" type="text" class="form-control" value="${TOUR_DETAIL.code}" placeholder="Tên TOUR hiện tại [ ${TOUR_DETAIL.tourName} ]" required/>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
                                                     <div class="col-6">
-                                                        <label style="color: red" class="form-label">Mời bạn nhập tên TOUR</label>
+                                                        <label class="form-label">Mời bạn nhập tên TOUR</label>
                                                         <input name="tourName" type="text" class="form-control" value="${TOUR_DETAIL.tourName}" placeholder="Tên TOUR hiện tại [ ${TOUR_DETAIL.tourName} ]" required/>
                                                     </div>
                                                     <div class="col-6">
-                                                        <label style="color: red" class="form-label">Mời bạn nhập địa điểm</label>
+                                                        <label class="form-label">Mời bạn nhập địa điểm</label>
                                                         <input name="location" type="text" class="form-control" value="${TOUR_DETAIL.location}" placeholder="Địa điểm hiện tại [ ${TOUR_DETAIL.location} ]" required/>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
                                                         <label
-                                                            style="color: red"
                                                             for="exampleInputEmail1"
                                                             class="form-label"
                                                             >Giá người lớn (VND)</label
@@ -281,7 +287,6 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <label
-                                                            style="color: red"
                                                             for="exampleInputEmail1"
                                                             class="form-label"
                                                             >Giá trẻ em (VND)</label
@@ -300,7 +305,7 @@
                                                 </div>
                                                 <div class="mb-3 row">
                                                     <div class="col-12">
-                                                        <label style="color: red" class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
+                                                        <label class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
                                                         <textarea name="thumbnail" class="form-control"required>${TOUR_DETAIL.thumbnail}</textarea>
                                                     </div>
                                                 </div>

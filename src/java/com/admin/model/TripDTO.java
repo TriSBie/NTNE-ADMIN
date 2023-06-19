@@ -23,6 +23,7 @@ public class TripDTO implements Serializable {
     private int tourID;
     //Extra attribute
     private String tourName;
+    private String code;
     private String thumbnail;
 
     public TripDTO() {
@@ -67,9 +68,9 @@ public class TripDTO implements Serializable {
         this.tourID = tourID;
     }
 
-    public TripDTO(int tripID, String tourName, String thumbnail, boolean availability, double priceAdult, double priceChild, int quantity, Date depart_time) {
+    public TripDTO(int tripID, String code, String thumbnail, boolean availability, double priceAdult, double priceChild, int quantity, Date depart_time) {
         this.tripID = tripID;
-        this.tourName = tourName;
+        this.code = code;
         this.availability = availability;
         this.priceAdult = priceAdult;
         this.priceChild = priceChild;
@@ -77,6 +78,15 @@ public class TripDTO implements Serializable {
         this.depart_time = depart_time;
         this.thumbnail = thumbnail;
     }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+    
 
     public int getTripID() {
         return tripID;
@@ -134,13 +144,14 @@ public class TripDTO implements Serializable {
         this.tourID = tourID;
     }
 
-    public String getTourName() {
-        return tourName;
+    public String getCode() {
+        return code;
     }
 
-    public void setTourName(String tourName) {
-        this.tourName = tourName;
+    public void setCode(String code) {
+        this.code = code;
     }
+
 
     public String getThumbnail() {
         return thumbnail;

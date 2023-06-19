@@ -250,9 +250,9 @@
                                     <div class="col-12">
                                         <!-- Thông báo nếu thao tác thành công -->
                                         <c:if test="${msg_success != null}">
-                                            <script>
-                                                window.alert(`${msg_success} [ ${tourID} ]`)
-                                            </script>
+                                            <div class="alert alert-success">
+                                                <strong>${msg_success} [ ${tourID} ]!</strong>
+                                            </div>
                                         </c:if>
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h3 class="mb-3">DANH SÁCH TOUR</h3>
@@ -265,6 +265,7 @@
                                                 <tr>
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Tên Tour</th>
+                                                    <th scope="col">Mã Tour</th>
                                                     <th scope="col">Hình ảnh</th>
                                                     <th scope="col">Địa điểm đến</th>
                                                     <th scope="col">Giá người lớn</th>
@@ -275,8 +276,8 @@
                                             <c:if test="${not empty requestScope.LIST_TOUR}">
                                                 <tbody>
                                                     <c:forEach var="tour" items="${LIST_TOUR}">
-                                                        <tr>
-                                                            <th scope="row">${tour.tourID}</th>
+                                                        <tr scope="row">
+                                                            <td>${tour.tourID}</td>
                                                             <td style="width: 300px">
                                                                 <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
                                                                     <c:param name="tourID" value="${tour.tourID}"/>
@@ -285,6 +286,7 @@
                                                                     ${tour.tourName}
                                                                 </a>
                                                             </td>
+                                                            <td>${tour.code}</td>
                                                             <td>
                                                                 <img
                                                                     style="
@@ -300,10 +302,10 @@
                                                             </td>
 
                                                             <td>
-                                                                <fmt:formatNumber value ="${tour.priceAdult}" type = "currency"/></span>
+                                                                <fmt:formatNumber value ="${tour.priceAdult}" type = "currency"/>
                                                             </td>
                                                             <td>
-                                                                <fmt:formatNumber value ="${tour.priceChild}" type = "currency"/></span>
+                                                                <fmt:formatNumber value ="${tour.priceChild}" type = "currency"/>
                                                             </td>
                                                             <td>
                                                                 <form action="<c:url value="/tour/editTour.do"/>" method="post">

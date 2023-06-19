@@ -42,13 +42,14 @@ public class TripDAO implements Serializable {
 //                        + "      ,tr.[depart_time]\n"
 //                        + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.id";
                 String SQL = "SELECT TOP (1000) tr.[id]\n"
-                        + "	  ,t.name, t.thumbnail\n"
+                        + "	  ,t.code, t.thumbnail\n"
                         + "      ,tr.[availability]\n"
                         + "      ,tr.[priceAdult]\n"
                         + "      ,tr.[priceChild]\n"
                         + "      ,tr.[quantity]\n"
                         + "      ,tr.[depart_time]\n"
-                        + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id";
+                        + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
+                        + "ORDER BY tr.[depart_time] DESC";
                 list = new ArrayList<>();
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();

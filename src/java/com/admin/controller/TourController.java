@@ -85,6 +85,7 @@ public class TourController extends HttpServlet {
             case "hanleCreateTrip":
                 hanleCreateTrip(request, response);
                 break;
+
             // Xử lý khi ADMIN muốn thay đổi trạng thái của TRIP
             case "hanleChangeState":
                 hanleChangeState(request, response);
@@ -261,11 +262,22 @@ public class TourController extends HttpServlet {
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
         try {
+
             List<TourDTO> listTour = new TourDAO().getAllTours();
-            TourItemDAO dao = new TourItemDAO();
+            TourItemDAO dao = new TourItemDAO();  
+            
+            TourDTO tour = new TourDTO();
+            String tourID = request.getParameter("tourID");
             if (listTour != null) {
+                if(tourID == null) {
+                    tour = listTour.get(0);
+                } else {
+                    int tourID_parse = Integer.parseInt(tourID);
+                    tour = new TourDAO().getTour_by_tourID(tourID_parse);
+                }
                 url = Config.LAYOUT + CREATE_TRIP_URL;
                 request.setAttribute("LIST_TOUR", listTour);
+                request.setAttribute("TOUR", tour);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -383,6 +395,7 @@ public class TourController extends HttpServlet {
             double priceAdult = Double.parseDouble(request.getParameter("priceAdult"));
             double priceChild = Double.parseDouble(request.getParameter("priceChild"));
             String thumbnail = request.getParameter("thumbnail");
+            String code = request.getParameter("code");
 
             //get Parameters from TOURITEM
             String[] duration = request.getParameterValues("duration");
@@ -399,7 +412,7 @@ public class TourController extends HttpServlet {
                 System.out.println(e);
             }
 
-            TourDTO tour = new TourDTO(name, priceAdult, priceChild, thumbnail, location);
+            TourDTO tour = new TourDTO(name, priceAdult, priceChild, thumbnail, location, code);
 
             ArrayList<TourItemDTO> listTourITem = new ArrayList<>();
             for (int i = 0; i < destination_id_translate.length; i++) {
@@ -528,9 +541,10 @@ public class TourController extends HttpServlet {
             double priceChild = Double.parseDouble(request.getParameter("priceChild"));
             String thumbnail = request.getParameter("thumbnail");
             String location = request.getParameter("location");
+            String code = request.getParameter("code");
 
             TourDAO dao = new TourDAO();
-            boolean checkUpdateTour = dao.updateTour(tourName, priceAdult, priceChild, thumbnail, location, tourID);
+            boolean checkUpdateTour = dao.updateTour(tourName, priceAdult, priceChild, thumbnail, location, code, tourID);
             if (checkUpdateTour) {
                 request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công với Tour có ID");
                 request.setAttribute("tourID", tourID);
@@ -586,11 +600,10 @@ public class TourController extends HttpServlet {
             String duration = request.getParameter("duration");
             int destination_id = Integer.parseInt(request.getParameter("destination_id"));
 
-            
             System.out.println(tourItemID);
             TourItemDAO dao = new TourItemDAO();
             boolean checkUpdateTourItem = dao.updateTourItem_by_TourItemID(destination_id, description, duration, tourItemID);
-            
+
             System.out.println(checkUpdateTourItem);
             if (checkUpdateTourItem) {
                 request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công!");

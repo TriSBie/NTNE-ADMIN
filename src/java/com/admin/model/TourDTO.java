@@ -19,28 +19,37 @@ public class TourDTO implements Serializable {
     private double priceChild;
     private String thumbnail;
     private String location;
+    private String code;
 
     public TourDTO() {
     }
 
-    public TourDTO(String tourName, double priceAdult, double priceChild, String thumbnail, String location) {
+    public TourDTO(String tourName, double priceAdult, double priceChild, String thumbnail, String location, String code) {
         this.tourName = tourName;
         this.priceAdult = priceAdult;
         this.priceChild = priceChild;
         this.thumbnail = thumbnail;
         this.location = location;
+        this.code = code;
     }
 
-    public TourDTO(int tourID, String tourName, double priceAdult, double priceChild, String thumbnail, String location) {
+    public TourDTO(int tourID, String tourName, double priceAdult, double priceChild, String thumbnail, String location, String code) {
         this.tourID = tourID;
         this.tourName = tourName;
         this.priceAdult = priceAdult;
         this.priceChild = priceChild;
         this.thumbnail = thumbnail;
         this.location = location;
+        this.code = code;
     }
 
-    
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public int getTourID() {
         return tourID;
