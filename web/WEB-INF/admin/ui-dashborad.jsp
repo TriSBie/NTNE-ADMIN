@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -244,8 +245,9 @@
                 </header>
                 <!--  Header End -->
                 <div class="container-fluid">
+                    <!--  Row 1 -->
                     <div class="row">
-                        <div class="col-lg-12 d-flex align-items-stretch">
+                        <div class="col-lg-8 d-flex align-items-stretch">
                             <div class="card w-100">
                                 <div class="card-body p-4">
                                     <h5 class="card-title fw-semibold mb-4">
@@ -271,45 +273,27 @@
                                             </thead>
                                             <tbody>
                                                 <!-- Du lieu -->
-                                                <tr>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">1</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">TOUR 3 ĐẢO</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">
-                                                            <img
-                                                                style="width: 60px; height: 60px"
-                                                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
-                                                                />
-                                                        </h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal">50.000.000đ</p>
-                                                    </td>
-                                                </tr>
-                                                <!-- Du lieu -->
-                                                <tr>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">2</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">VINPEARL NHA TRANG</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">
-                                                            <img
-                                                                style="width: 60px; height: 60px"
-                                                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
-                                                                />
-                                                        </h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal">45.700.000đ</p>
-                                                    </td>
-                                                </tr>
+                                                <c:forEach var="item" items="${LIST_ALL_TOUR_REVENUE}" varStatus="counter">
+                                                    <tr>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">${counter.count}</h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-1">${item.tourName}</h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">
+                                                                <img
+                                                                    style="width: 60px; height: 60px"
+                                                                    src=${item.tourThumbnail}
+                                                                    />
+                                                            </h6>
+                                                        </td>
+                                                        <td class="border-bottom-0">
+                                                            <p class="mb-0 fw-normal"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
                                                 <!-- Du lieu -->
                                             </tbody>
                                         </table>
@@ -317,125 +301,204 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-lg-4">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Yearly Breakup -->
+                                    <div class="card overflow-hidden">
+                                        <div class="card-body p-4">
+                                            <h5 class="card-title mb-9 fw-semibold">Doanh thu tháng 6</h5>
+                                            <div class="row align-items-center">
+                                                <div class="col-8">
+                                                    <h4 class="fw-semibold mb-3"><fmt:formatNumber value ="${REVENUE_BY_MONTH}" type = "currency"/></p></h4>
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <span
+                                                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                                            <i class="ti ti-arrow-up-left text-success"></i>
+                                                        </span>
+                                                        <p class="text-dark me-1 fs-3 mb-0">0%</p>
+                                                        <p class="fs-3 mb-0">Tháng vừa qua</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <!-- Monthly Earnings -->
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row alig n-items-start">
+                                                    <div class="col-10">
+                                                        <h5 class="card-title mb-9 fw-semibold">Doanh thu hôm nay</h5>
+                                                        <h4 class="fw-semibold mb-3">
+                                                            <fmt:formatNumber value ="${REVENUE_BY_CURENT_DAY}" type = "currency"/>
+                                                        </h4>
+                                                        <div class="d-flex align-items-center pb-1">
+                                                            <c:if test="${REVENUE_GROWTH_RATE > 100}">
+                                                                <span
+                                                                    class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                                                    <i class="ti ti-arrow-up-left text-success"></i>
+                                                                </span>
+                                                                <p class="text-dark me-1 fs-3 mb-0">
+                                                                    ${REVENUE_GROWTH_RATE}%
+                                                                </p>
+                                                                <br>
+                                                            </c:if>
+                                                            <c:if test="${REVENUE_GROWTH_RATE < 100 && REVENUE_GROWTH_RATE > 0}">
+                                                                <span
+                                                                    class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                                                    <i class="ti ti-arrow-down-right text-danger"></i>
+                                                                </span>
+                                                                <p class="text-dark me-1 fs-3 mb-0">
+                                                                    ${REVENUE_GROWTH_RATE_DOWN}%
+                                                                </p>
+                                                            </c:if>
 
-                    <!-- <div class="row">
-                      <div class="col-sm-6 col-xl-3">
-                        <div class="card overflow-hidden rounded-2">
-                          <div class="position-relative">
-                            <a href="javascript:void(0)"
-                              ><img
-                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
-                                class="card-img-top rounded-0"
-                                alt="..."
-                            /></a>
-                          </div>
-                          <div class="card-body pt-3 p-4">
-                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
-                            <div
-                              class="d-flex align-items-center justify-content-between"
-                            >
-                              <h6 class="fw-semibold fs-4 mb-0">
-                                750.000đ
-                                <span class="ms-2 fw-normal text-muted fs-3"
-                                  ><del>600.000đ</del></span
-                                >
-                              </h6>
+                                                            <p class="fs-3 mb-0">
+                                                                Hôm qua
+                                                                <fmt:formatNumber value ="${REVENUE_BY_PRIVIOUS_DAY}" type = "currency"/>
+                                                            </p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center pb-1">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex justify-content-end">
+                                                            <div
+                                                                class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                                <i class="ti ti-currency-dollar fs-6"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
-          
-                      <div class="col-sm-6 col-xl-3">
-                        <div class="card overflow-hidden rounded-2">
-                          <div class="position-relative">
-                            <a href="javascript:void(0)"
-                              ><img
-                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
-                                class="card-img-top rounded-0"
-                                alt="..."
-                            /></a>
-                          </div>
-                          <div class="card-body pt-3 p-4">
-                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
-                            <div
-                              class="d-flex align-items-center justify-content-between"
-                            >
-                              <h6 class="fw-semibold fs-4 mb-0">
-                                750.000đ
-                                <span class="ms-2 fw-normal text-muted fs-3"
-                                  ><del>600.000đ</del></span
-                                >
-                              </h6>
+                        <!--  Row 1 -->
+
+
+
+                        <!--  Row 3 -->
+                        <div class="row">
+                            <div class="col-lg-12 d-flex align-items-stretch">
+                                <div class="card w-100">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold mb-4">BOOKING MỚI NHẤT</h5>
+                                        <div class="table-responsive">
+                                            <table class="table text-nowrap mb-0 align-middle">
+                                                <thead class="text-dark fs-4">
+                                                    <c:if test="${empty requestScope.BOOKING_DETAILS}">
+                                                        <tr>
+                                                            <th class="border-bottom-0">                                     
+                                                                <h6 class="fw-semibold mb-0">Mã BK</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">Mã Trip</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">Ngày booking</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">Tên khách hàng</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                                                            </th>
+                                                        </tr>
+                                                    </c:if>
+                                                    <c:if test="${not empty requestScope.BOOKING_DETAILS}">
+                                                    <a href="<c:url value="/booking/viewBooking.do"/>">
+                                                        <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                                                    </a>
+                                                </c:if>
+                                                </thead>
+                                                <tbody>
+                                                    <!--GET LIST BOOKING BY DEFAULT-->
+                                                    <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
+                                                        <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}" begin="1" end="5">
+                                                            <tr>
+                                                                <td class="border-bottom-0">
+                                                                    <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
+                                                                        <c:param name="bookingID" value="${bookingITEM.id}"/>
+                                                                    </c:url>
+                                                                    <a href=${getDetaiBookingLink} class="bookingIDLink">
+                                                                        <h6 class="fw-semibold mb-0" title="Xem chi tiết">
+                                                                            ${bookingITEM.id}
+                                                                        </h6>
+                                                                    </a>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <h6 class="fw-semibold mb-1">
+                                                                        ${bookingITEM.tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${bookingITEM.tripDTO.depart_time}"/>]
+                                                                    </h6>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="mb-0 fw-normal">
+                                                                        <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${bookingITEM.expireDate}" />
+                                                                    </p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="mb-0 fw-normal">
+                                                                        <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <div class="d-flex align-items-center gap-2">
+                                                                        <c:choose>
+                                                                            <c:when test="${bookingITEM.status}">
+                                                                                <span
+                                                                                    class="badge bg-success rounded-3 fw-semibold"
+                                                                                    >
+                                                                                    Đã thanh toán
+                                                                                </span>
+                                                                            </c:when>
+                                                                            <c:when test="${!bookingITEM.status}">
+                                                                                <span
+                                                                                    class="badge bg-danger rounded-3 fw-semibold"
+                                                                                    >
+                                                                                    Chưa thanh toán
+                                                                                </span>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                    <!-- Du lieu -->
+                                                </tbody>
+                                            </table>
+                                            <a href="<c:url value="/booking/viewBooking.do"/>">
+                                                <!--<i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại-->
+                                                Xem tất cả danh sách Booking
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
-          
-          
-                      <div class="col-sm-6 col-xl-3">
-                        <div class="card overflow-hidden rounded-2">
-                          <div class="position-relative">
-                            <a href="javascript:void(0)"
-                              ><img
-                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
-                                class="card-img-top rounded-0"
-                                alt="..."
-                            /></a>
-                          </div>
-                          <div class="card-body pt-3 p-4">
-                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
-                            <div
-                              class="d-flex align-items-center justify-content-between"
-                            >
-                              <h6 class="fw-semibold fs-4 mb-0">
-                                750.000đ
-                                <span class="ms-2 fw-normal text-muted fs-3"
-                                  ><del>600.000đ</del></span
-                                >
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-          
-          
-                      <div class="col-sm-6 col-xl-3">
-                        <div class="card overflow-hidden rounded-2">
-                          <div class="position-relative">
-                            <a href="javascript:void(0)"
-                              ><img
-                                src="https://cdn.nhatrangbooking.com.vn/images/uploads/Tour-3-dao-nha-trang-2023-top.jpg"
-                                class="card-img-top rounded-0"
-                                alt="..."
-                            /></a>
-                          </div>
-                          <div class="card-body pt-3 p-4">
-                            <h6 class="fw-semibold fs-4">Tour 3 đảo</h6>
-                            <div
-                              class="d-flex align-items-center justify-content-between"
-                            >
-                              <h6 class="fw-semibold fs-4 mb-0">
-                                750.000đ
-                                <span class="ms-2 fw-normal text-muted fs-3"
-                                  ><del>600.000đ</del></span
-                                >
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  </div> -->
+
+                    </div>
                 </div>
             </div>
-        </div>
-        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/sidebarmenu.js"></script>
-        <script src="../assets/js/app.min.js"></script>
-        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-        <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-        <script src="../assets/js/dashboard.js"></script>
+            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/js/sidebarmenu.js"></script>
+            <script src="../assets/js/app.min.js"></script>
+            <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+            <script src="../assets/js/dashboard.js"></script>
     </body>
 </html>
 

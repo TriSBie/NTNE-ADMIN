@@ -6,10 +6,12 @@
 package com.admin.controller;
 
 import com.admin.config.Config;
+import com.admin.dao.BookingDAO;
 import com.admin.dao.DestinationDAO;
 import com.admin.dao.TourDAO;
 import com.admin.dao.TourItemDAO;
 import com.admin.dao.TripDAO;
+import com.admin.model.BookingDTO;
 import com.admin.model.DestinationDTO;
 import com.admin.model.TourDTO;
 import com.admin.model.TourItemDTO;
@@ -74,6 +76,14 @@ public class TourController extends HttpServlet {
             case "dashborad":
                 get_Info_Dashborad(request, response);
                 break;
+            case "filter_state_false": {
+                filter_state_false(request, response);
+                break;
+            }
+            case "filter_state_true": {
+                filter_state_true(request, response);
+                break;
+            }
 
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
@@ -139,7 +149,7 @@ public class TourController extends HttpServlet {
     }
 
     /*------------------------------------------------------------------------------
-                                FUNCTION XU LY YEU CAU
+                                FUNCTION XU LY YEU CAU GET
     ------------------------------------------------------------------------------*/
     //Get list Tour from database 
     protected void listTour(HttpServletRequest request, HttpServletResponse response)
@@ -250,9 +260,92 @@ public class TourController extends HttpServlet {
     protected void get_Info_Dashborad(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
-        url = Config.LAYOUT + DASHBORAD_URL;
-        RequestDispatcher rd = request.getRequestDispatcher(url);
-        rd.forward(request, response);
+        try {
+            BookingDAO dao = new BookingDAO();
+            ArrayList<BookingDTO> list = dao.getListTotalPrice();
+
+            
+            // Lấy danh sách booking
+            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
+            
+            // Lấy doanh thu tháng 6            
+            double revenue = dao.getRevenueByMonth(6);
+
+            // Lấy doanh thu theo ngày hiện tại
+            double revenue_by_curentDay = dao.getRevenueByDay();
+
+            // Lấy doanh thu theo ngày hôm qua
+            double revenue_by_priviousDay = dao.getRevenueByPreviousDay();
+
+            // Tính toán theo % tăng giảm
+            double stamp;
+            if (revenue_by_priviousDay == 0) {
+                stamp = 0;
+            } else {
+                stamp = revenue_by_curentDay / revenue_by_priviousDay * 100;
+            }
+            // Nếu ngày hôm nay - hôm qua < 100% tức là doanh thu giảm 
+            // => 100 - số stamp sẽ là số giảm so với ngày hôm nay
+            double stamp_down = 100 - (revenue_by_curentDay / revenue_by_priviousDay * 100);
+            if (list != null) {
+                url = Config.LAYOUT + DASHBORAD_URL;
+                request.setAttribute("LIST_ALL_TOUR_REVENUE", list);
+                request.setAttribute("REVENUE_BY_MONTH", revenue);
+                request.setAttribute("REVENUE_BY_CURENT_DAY", revenue_by_curentDay);
+                request.setAttribute("REVENUE_BY_PRIVIOUS_DAY", revenue_by_priviousDay);
+                request.setAttribute("REVENUE_GROWTH_RATE", (double) Math.floor(stamp * 10) / 10);
+                request.setAttribute("REVENUE_GROWTH_RATE_DOWN", (double) Math.floor(stamp_down * 10) / 10);
+                request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
+
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
+    //Get list trip from database "filter_state_false"
+    protected void filter_state_false(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            TripDAO dao = new TripDAO();
+            List<TripDTO> listTrip = dao.getAllTrip_by_state_false();
+            if (listTrip != null) {
+                url = Config.LAYOUT + LIST_TRIP_URL;
+                request.setAttribute("LIST_TRIP", listTrip);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    //Get list trip from database "filter_state_true"
+    protected void filter_state_true(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            TripDAO dao = new TripDAO();
+            List<TripDTO> listTrip = dao.getAllTrip_by_state_true();
+            if (listTrip != null) {
+                url = Config.LAYOUT + LIST_TRIP_URL;
+                request.setAttribute("LIST_TRIP", listTrip);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /*------------------------------------------------------------------------------

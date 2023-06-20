@@ -33,14 +33,6 @@ public class TripDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-//                String SQL = "SELECT TOP (1000) tr.[id]\n"
-//                        + "	  ,t.name, t.thumbnail\n"
-//                        + "      ,tr.[availability]\n"
-//                        + "      ,tr.[priceAdult]\n"
-//                        + "      ,tr.[priceChild]\n"
-//                        + "      ,tr.[quantity]\n"
-//                        + "      ,tr.[depart_time]\n"
-//                        + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.id";
                 String SQL = "SELECT TOP (1000) tr.[id]\n"
                         + "	  ,t.code, t.thumbnail\n"
                         + "      ,tr.[availability]\n"
@@ -72,6 +64,75 @@ public class TripDAO implements Serializable {
         }
         return list;
     }
+
+    //Get List Trip by state is false
+    public List<TripDTO> getAllTrip_by_state_false()
+            throws ClassNotFoundException, SQLException {
+        List<TripDTO> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT TOP (1000) tr.[id],t.code, t.thumbnail ,tr.[availability] ,tr.[priceAdult],tr.[priceChild],tr.[quantity],tr.[depart_time]\n"
+                        + "FROM [NTNECompany].[dbo].[Trip] tr\n"
+                        + "JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
+                        + "WHERE [availability] = 0\n"
+                        + "ORDER BY tr.[depart_time] DESC";
+                list = new ArrayList<>();
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
+    
+    //Get List Trip by state is true
+    public List<TripDTO> getAllTrip_by_state_true()
+            throws ClassNotFoundException, SQLException {
+        List<TripDTO> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT TOP (1000) tr.[id],t.code, t.thumbnail ,tr.[availability] ,tr.[priceAdult],tr.[priceChild],tr.[quantity],tr.[depart_time]\n"
+                        + "FROM [NTNECompany].[dbo].[Trip] tr\n"
+                        + "JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
+                        + "WHERE [availability] = 1\n"
+                        + "ORDER BY tr.[depart_time] DESC";
+                list = new ArrayList<>();
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
+
 
     // Hanler Create Trip 
     public boolean createTrip(float priceAdult, float priceChild, int quantity, String depart_time, int tour_id)
@@ -214,6 +275,7 @@ public class TripDAO implements Serializable {
         }
         return false;
     }
+
     public static void main(String[] args) {
 
         TripDAO dao = new TripDAO();

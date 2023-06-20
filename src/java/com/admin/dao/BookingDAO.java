@@ -81,7 +81,7 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "       SELECT DISTINCT bk.id, bk.requirement, bk.cusBook,bk.cusMail,bk.cusPhone,bk.cusAddress,bk.expireDate,\n"
+                String SQL = " SELECT DISTINCT bk.id, bk.requirement, bk.cusBook,bk.cusMail,bk.cusPhone,bk.cusAddress,bk.expireDate,\n"
                         + "	bk.quantityAdult, bk.quantityChild,Trip.tripID,Trip.code as tripCode, Trip.tourName, Trip.depart_time,\n"
                         + "	bk.totalPrice, Trip.priceAdult, Trip.priceChild,pm.id as paymentID, pm.name AS thanhToan, bk.status, acc.id as accountID\n"
                         + "	FROM [NTNECompany].[dbo].[Booking] bk\n"
@@ -130,7 +130,7 @@ public class BookingDAO implements Serializable {
                     PaymentDTO paymentDTO = new PaymentDTO(paymentID, paymentName);
 
                     //BOOKING DTO 
-                    bookingDTO = new BookingDTO(bookingID, totalPrice, requirement, cusPhone, cusMail, cusPhone, cusAddress, rs.getDate(7), status, accountID, quantityAdult, quantityChild, tripDTO, paymentDTO);
+                    bookingDTO = new BookingDTO(bookingID, totalPrice, requirement, cusNameBooking, cusMail, cusPhone, cusAddress, rs.getDate(7), status, accountID, quantityAdult, quantityChild, tripDTO, paymentDTO);
                 }
             }
         } finally {
@@ -188,6 +188,126 @@ public class BookingDAO implements Serializable {
             }
         }
         return false;
+    }
+
+    // Lấy ra tổng tất cả giá của TOUR
+    public ArrayList<BookingDTO> getListTotalPrice() throws ClassNotFoundException, SQLException {
+
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT T.name, T.thumbnail, SUM(BK.totalPrice) as revenue, T.id FROM [dbo].[Booking] AS BK, [dbo].[Trip] AS TP,[dbo].[Tour] AS T  WHERE TP.id = BK.trip_id AND TP.tour_id = T.id AND BK.status = 1\n"
+                        + "GROUP BY T.name, T.thumbnail,T.id\n"
+                        + "ORDER BY revenue DESC";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                ArrayList<BookingDTO> listTotalPrice = new ArrayList<>();
+                while (rs.next()) {
+                    BookingDTO booking = new BookingDTO(rs.getString(1), rs.getString(2), rs.getDouble(3));
+                    listTotalPrice.add(booking);
+                }
+                return listTotalPrice;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return null;
+    }
+
+    // lẤY TỔNG DOANH THU THEO THÁNG CỦA TẤT CẢ TOUR VỚI ĐIỀU KIỆN ĐÃ THANH TOÁN
+    public double getRevenueByMonth(int month) throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT SUM([totalPrice]) FROM[dbo].[Booking]\n"
+                        + "WHERE MONTH([expireDate]) = ? AND [status] = 1";
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, month);
+                rs = ps.executeQuery();
+                double revenue = 0;
+                while (rs.next()) {
+                    revenue = rs.getDouble(1);
+                }
+                return revenue;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
+    // lẤY TỔNG DOANH THU THEO NGÀY HIỆN TẠI CỦA TẤT CẢ TOUR VỚI ĐIỀU KIỆN ĐÃ THANH TOÁN
+    public double getRevenueByDay() throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT SUM([totalPrice])  FROM [dbo].[Booking]\n"
+                        + "where DAY([expireDate]) =  DAY(GETDATE()) AND [status] = 1";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                double revenue = 0;
+                while (rs.next()) {
+                    revenue = rs.getDouble(1);
+                }
+                return revenue;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
+    // lẤY TỔNG DOANH THU THEO NGÀY HÔM QUA CỦA TẤT CẢ TOUR VỚI ĐIỀU KIỆN ĐÃ THANH TOÁN
+    public double getRevenueByPreviousDay() throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT SUM([totalPrice])  FROM [dbo].[Booking]\n"
+                        + "where DAY([expireDate]) =  DAY(GETDATE()) - 1 AND [status] = 1;";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                double revenue = 0;
+                while (rs.next()) {
+                    revenue = rs.getDouble(1);
+                }
+                return revenue;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
     }
 
     public static void main(String[] args) {

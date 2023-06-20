@@ -287,8 +287,6 @@
                                 <form action="<c:url value="/tour/hanleCreateTrip.do"/>" method="post">
                                     <!-- Gán TOUR ID để tạo trip -->
                                     <input name="tour_id" type="hidden" class="form-control" value="${TOUR.tourID}"/>
-                                    
-                                    
                                     <!-- Select TOUR -->
                                     <div class="mb-3 row">
                                         <div class="col-7">

@@ -339,9 +339,6 @@
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Tên khách hàng</h6>
                                                         </th>
-                                                        <!--                                                        <th class="border-bottom-0">
-                                                                                                                    <h6 class="fw-semibold mb-0">Số lượng</h6>
-                                                                                                                </th>-->
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
                                                         </th>
@@ -372,7 +369,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Mã Trip
                                                                 </label>
                                                                 <h6 class="fw-semibold mb-1">
@@ -382,7 +379,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Tên TOUR
                                                                 </label>
                                                                 <h6 class="mb-0 fw-normal">
@@ -392,7 +389,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Ngày Booking
                                                                 </label>
                                                                 <h6 class="mb-0 fw-normal">
@@ -402,7 +399,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Ngày khởi hành
                                                                 </label>
                                                                 <h6 class="mb-0 fw-normal">
@@ -415,7 +412,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Tên khách hàng
                                                                 </label>
                                                                 <h6 class="fw-semibold mb-1">
@@ -425,7 +422,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Email
                                                                 </label>
                                                                 <h6 class="fw-semibold mb-1">
@@ -435,7 +432,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Số điên thoại
                                                                 </label>
                                                                 <h6 class="fw-semibold mb-1">
@@ -445,7 +442,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Địa chỉ
                                                                 </label>
                                                                 <h6 class="fw-semibold mb-1">
@@ -458,7 +455,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >SL người lớn x Giá
                                                                 </label>
                                                                 <h6 class="mb-0 fw-normal">
@@ -469,7 +466,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >SL trẻ em x Giá
                                                                 </label>
                                                                 <h6 class="mb-0 fw-normal">
@@ -479,7 +476,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Tổng Booking
                                                                 </label>
                                                                 <h6 class="fw-semibold mb-1">
@@ -489,7 +486,7 @@
                                                             <div class="col-3">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Hình thức thanh toán
                                                                 </label>
                                                                 <h6 class="fw-semibold mb-1">
@@ -501,13 +498,13 @@
                                                             <div class="col-12">
                                                                 <label
                                                                     for="exampleInputEmail1"
-                                                                    class="form-label"
+                                                                    class="form-check-inline"
                                                                     >Yêu cầu(nếu có)
                                                                 </label>
-                                                                <h6 class="fw-semibold mb-1">
+                                                                <h6 class="mb-1" style="border: 1px solid; height: 200px; padding: 10px; border-radius: 5px">
                                                                     ${bookingDTO.requirement}
                                                                 </h6>
-                                                                
+
                                                             </div>
                                                         </div>
                                                         <br>
@@ -516,7 +513,7 @@
                                                                 <label
                                                                     for="exampleInputEmail1"
                                                                     class="form-label"
-                                                                    style="font-size: 20px"
+                                                                    style="font-size: 22px"
                                                                     >Trạng thái thanh toán
                                                                 </label>
                                                                 <c:if test="${bookingDTO.status == true}">

@@ -33,7 +33,12 @@ public class BookingDTO implements Serializable {
     private TripDTO tripDTO;
     private PaymentDTO paymentDTO;
     private int totalQuantity;
-
+    
+    
+    // Extra attributes <Get List TotalPrice>
+   private String tourName;
+   private String tourThumbnail;
+   private double revenue;
     public BookingDTO() {
     }
 
@@ -80,6 +85,41 @@ public class BookingDTO implements Serializable {
         this.tripDTO = tripDTO;
         this.paymentDTO = paymentDTO;
     }
+    
+    
+    // Get list Totalprice
+    public BookingDTO(String tourName, String tourThumbnail, double revenue) {
+        this.tourName = tourName;
+        this.tourThumbnail = tourThumbnail;
+        this.revenue = revenue;
+    }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+
+    public String getTourThumbnail() {
+        return tourThumbnail;
+    }
+
+    public void setTourThumbnail(String tourThumbnail) {
+        this.tourThumbnail = tourThumbnail;
+    }
+
+    public double getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(double revenue) {
+        this.revenue = revenue;
+    }
+    
+    
+    
 
     public int getId() {
         return id;

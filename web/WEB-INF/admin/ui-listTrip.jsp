@@ -86,6 +86,45 @@
                 transform: translateX(1.5em);
                 outline-color: #181818;
             }
+
+
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 12px;
+                border: none;
+            }
+
+            .dropdown {
+                width: 100%;
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                width: 100%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+
+            }
+
+            .dropdown-content a {
+                font-size: 12px;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #ddd;}
+
+            .dropdown:hover .dropdown-content {display: block;}
+
+            .dropdown:hover .dropbtn {background-color: #3e8e41;}
         </style>
     </head>
 
@@ -320,12 +359,29 @@
                                                 <strong>${msg_success} [ ${tripID} ]!</strong>
                                             </div>
                                         </c:if>
-                                        <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
+                                        <div style="display: flex; justify-content: space-between; margin: 0px  0px;">
                                             <h3 class="mb-3">DANH SÁCH TRIP</h3>
                                             <a href="<c:url value="/tour/createTrip.do"/>" alt="createTour">
                                                 <button class="btn btn-primary">Tạo TRIP</button>
                                             </a>
                                         </div>
+                                        <!-- Filter theo trạng thái -->
+                                        <div class="mb-3">
+                                            <div class="col-6">
+                                                <a href="<c:url value="/tour/filter_state_true.do"/>" alt="createTour">
+                                                    <button class="btn btn-outline-success">
+                                                        <p style="margin:0px; color:#333">TRIP đang hoạt động</p>
+                                                    </button>
+                                                </a>
+                                                <a href="<c:url value="/tour/filter_state_false.do"/>" alt="createTour">
+                                                    <button class="btn btn-outline-danger">
+                                                        <p style="margin:0px; color:#333">TRIP đã tạm dừng</p>
+                                                    </button>
+                                                </a>
+                                                
+                                            </div>
+                                        </div>
+                                        <!-- Filter theo trạng thái -->
                                         <table class="table">
                                             <thead>
                                                 <tr>
