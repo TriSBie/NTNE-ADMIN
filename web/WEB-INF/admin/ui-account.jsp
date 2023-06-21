@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ui-listTrip
-    Created on : Jun 14, 2023, 4:33:11 PM
+    Document   : ui-manageBooking
+    Created on : Jun 17, 2023, 2:21:33 PM
     Author     : buidu
 --%>
 
@@ -13,14 +13,17 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Danh sách Trip</title>
-        <link rel="shortcut icon" type="image/png" href="" />
+        <title>Quản lí Người dùng</title>
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href=""
+            />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
-        <!-- BOOTSTRAP -->
         <!--Style CSS-->
         <style>
             /* The switch - the box around the slider */
@@ -86,45 +89,6 @@
                 transform: translateX(1.5em);
                 outline-color: #181818;
             }
-
-
-            .dropbtn {
-                background-color: #04AA6D;
-                color: white;
-                padding: 16px;
-                font-size: 12px;
-                border: none;
-            }
-
-            .dropdown {
-                width: 100%;
-                position: relative;
-                display: inline-block;
-            }
-
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #f1f1f1;
-                width: 100%;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-
-            }
-
-            .dropdown-content a {
-                font-size: 12px;
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
-
-            .dropdown-content a:hover {background-color: #ddd;}
-
-            .dropdown:hover .dropdown-content {display: block;}
-
-            .dropdown:hover .dropbtn {background-color: #3e8e41;}
         </style>
     </head>
 
@@ -272,7 +236,7 @@
                                     </span>
                                     <span class="hide-menu">Người dùng</span>
                                 </a>
-                            </li>                         
+                            </li>                               
                             <!-- Manage Account -->
                         </ul>
                     </nav>
@@ -281,8 +245,6 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
-
-
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
@@ -348,130 +310,133 @@
                 </header>
                 <!--  Header End -->
                 <div class="container-fluid">
-                    <div class="container-fluid">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <!-- Thông báo nếu thao tác thành công -->
-                                        <c:if test="${msg_success != null}">
-                                            <div class="alert alert-success">
-                                                <strong>${msg_success} [ ${tripID} ]!</strong>
-                                            </div>
-                                        </c:if>
-                                        <div style="display: flex; justify-content: space-between; margin: 0px  0px;">
-                                            <h3 class="mb-3">DANH SÁCH TRIP</h3>
-                                            <a href="<c:url value="/tour/createTrip.do"/>" alt="createTour">
-                                                <button class="btn btn-primary">Tạo TRIP</button>
-                                            </a>
-                                        </div>
-                                        <!-- Filter theo trạng thái -->
-                                        <div class="mb-3">
-                                            <div class="col-6">
-                                                <a href="<c:url value="/tour/filter_state_true.do"/>" alt="createTour">
-                                                    <button class="btn btn-outline-success">
-                                                        <p style="margin:0px; color:#333">TRIP đang hoạt động</p>
-                                                    </button>
-                                                </a>
-                                                <a href="<c:url value="/tour/filter_state_false.do"/>" alt="createTour">
-                                                    <button class="btn btn-outline-danger">
-                                                        <p style="margin:0px; color:#333">TRIP đã tạm dừng</p>
-                                                    </button>
-                                                </a>
-                                                
-                                            </div>
-                                        </div>
-                                        <!-- Filter theo trạng thái -->
-                                        <table class="table">
-                                            <thead>
+                    <!-- Danh Sách BOOKING -->
+                    <div class="row">
+                        <div class="col-lg-12 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <!-- Thông báo nếu thao tác thành công -->
+                                <c:if test="${msg_success != null}">
+                                    <div class="alert alert-success">
+                                        <strong>${msg_success} [ ${accountID} ]!</strong>
+                                    </div>
+                                </c:if>
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-semibold mb-4">Danh Sách Tài khoản</h5>
+                                    <div class="table-responsive">
+                                        <table class="table text-nowrap mb-0 align-middle">
+                                            <thead class="text-dark fs-4">
                                                 <tr>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Mã Trip</th>
-                                                    <th scope="col">Hình ảnh</th>
-                                                    <th scope="col">Giá người lớn</th>
-                                                    <th scope="col">Giá trẻ em</th>
-                                                    <th scope="col">SL</th>
-                                                    <th scope="col">Trạng thái</th>
-                                                    <th scope="col">Bật/Tắt</th>
-                                                    <th scope="col">Chức năng</th>
+                                                    <th class="border-bottom-0">                                     
+                                                        <h6 class="fw-semibold mb-0">ID</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Tên người dùng</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Email</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Số điện thoại</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Địa chỉ</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Số điểm tích lũy</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Đổi trạng thái</h6>
+                                                    </th>
                                                 </tr>
                                             </thead>
-
-                                            <!--Begin DATA -->
                                             <tbody>
-                                                <c:if test="${not empty requestScope.LIST_TRIP}">
-                                                    <c:forEach var="tripItem" items="${requestScope.LIST_TRIP}">
+                                                <!--GET LIST USER BY DEFAULT-->
+
+                                                <c:if test="${not empty requestScope.LIST_ACCOUNT}">
+                                                    <c:forEach var="account" items="${LIST_ACCOUNT}">
                                                         <tr>
-                                                            <th scope="row">${tripItem.tripID}</th>
-                                                            <td style="width: 230px;">
-                                                                <h6 class="fw-semibold mb-1">
-                                                                    ${tripItem.code} - [<fmt:formatDate pattern="dd/MM" value="${tripItem.depart_time}"/>]
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0" title="Xem chi tiết">
+                                                                    ${account.id}
                                                                 </h6>
                                                             </td>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${account.name}
+                                                                </h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-normal">
+                                                                    ${account.email}
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="fw-semibold mb-1">
+                                                                    ${account.phone}
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-normal">
+                                                                    ${account.address}                                                                
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-normal">
+                                                                    ${account.accumulatedScore}                                                                
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <div class="d-flex align-items-center gap-2">
+                                                                    <c:choose>
+                                                                        <c:when test="${account.isActive}">
+                                                                            <span
+                                                                                class="badge bg-success rounded-3 fw-semibold"
+                                                                                >
+                                                                                Đang hoạt động
+                                                                            </span>
+                                                                        </c:when>
+                                                                        <c:when test="${!account.isActive}">
+                                                                            <span
+                                                                                class="badge bg-danger rounded-3 fw-semibold"
+                                                                                >
+                                                                                Vô hiệu hóa
+                                                                            </span>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </div>
+                                                            </td>
                                                             <td>
-                                                                <img
-                                                                    style="
-                                                                    width: 60px;
-                                                                    height: 60px;
-                                                                    border-radius: 5px;
-                                                                    "
-                                                                    src="${tripItem.thumbnail}"
-                                                                    />
-                                                            </td>
-                                                            <td style="width: 150px">
-                                                                <fmt:formatNumber value ="${tripItem.priceAdult}" type = "currency"/>
-                                                            </td>
-                                                            <td style="width: 130px;">
-                                                                <fmt:formatNumber value ="${tripItem.priceChild}" type = "currency"/>
-                                                            </td>
-                                                            <td>${tripItem.quantity}</td>
-                                                            <td>
-                                                                <c:if test="${tripItem.availability == true}">
-                                                                    <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>
-                                                                </c:if>
-                                                                <c:if test="${tripItem.availability != true}">
-                                                                    <span class="badge bg-danger rounded-3 fw-semibold">Tạm dừng</span>
-                                                                </c:if>
-                                                            </td>
-                                                            <td>
-                                                                <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
-                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
-                                                                    <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
-                                                                    <c:if test="${tripItem.availability == true}">
+                                                                <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                                <form action="<c:url value="/account/handleChangeActiveAccount.do"/>" method="post">
+                                                                    <input type="hidden" name="accountID" value="${account.id}"/>
+                                                                    <c:if test="${account.isActive == true}">
                                                                         <button type="submit" class="btn" style="padding: 0" onclick="myFunction()">
                                                                             <label class="switch">
-                                                                                <input type="checkbox" checked>
+                                                                                <input type="checkbox" checked/>
                                                                                 <span class="slider">
                                                                                 </span>
                                                                             </label>
                                                                         </button> 
                                                                     </c:if>
-                                                                    <c:if test="${tripItem.availability != true}" >
+                                                                    <c:if test="${account.isActive != true}" >
                                                                         <button type="" class="btn" style="padding: 0;" onclick="myFunction()">
                                                                             <label class="switch">
-                                                                                <input type="checkbox">
+                                                                                <input type="checkbox"/>
                                                                                 <span class="slider">
                                                                                 </span>
                                                                             </label>
                                                                         </button>
-
                                                                     </c:if>
-                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
-                                                                </form>
-                                                            </td>
-                                                            <td style="width: 130px;">
-                                                                <form action="<c:url value="/tour/editTrip.do"/>" method="post">
-                                                                    <button class="btn btn-warning">
-                                                                        <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
-                                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                                    </button>
                                                                 </form>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
                                                 </c:if>
+                                                <!-- Du lieu -->
                                             </tbody>
-                                            <!--End DATA -->
                                         </table>
                                     </div>
                                 </div>
@@ -481,27 +446,31 @@
                 </div>
             </div>
         </div>
-        <script>
-            const btnActive = document.querySelector(".btnActive");
-
-            function changeStatus() {
-                btnActive.innerText = "Tạm dừng";
+        <style>
+            .bookingIDLink h6{
+                color: black;
             }
-        </script>
+
+            .bookingIDLink:hover h6{
+                color :green;
+            }
+        </style>                                     
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
         <script src="../assets/js/app.min.js"></script>
+        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="../assets/js/dashboard.js"></script>
 
         <!-- Confirm Press btn -->
         <script>
-            function myFunction() {
-                let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
-                if (confirm(text) === false) {
-                    event.preventDefault();
-                }
-            }
+                                                                            function myFunction() {
+                                                                                let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
+                                                                                if (confirm(text) === false) {
+                                                                                    event.preventDefault();
+                                                                                }
+                                                                            }
         </script>
     </body>
 </html>

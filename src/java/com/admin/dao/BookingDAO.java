@@ -38,7 +38,8 @@ public class BookingDAO implements Serializable {
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
                         + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
-                        + "WHERE tp.id = bk.trip_id AND tp.id = tr.id )Trip\n"
+                        + "WHERE bk.trip_id = tp.id\n"
+                        + "AND tp.tour_id = tr.id)Trip\n"
                         + "ON Trip.tripID = bk.trip_id\n"
                         + "JOIN Payment pm ON bk.payment_id = pm.id\n"
                         + "ORDER BY bk.expireDate DESC";
@@ -161,7 +162,7 @@ public class BookingDAO implements Serializable {
                         + "WHERE id = ?;\n"
                         + "IF @status = 0\n"
                         + "BEGIN\n"
-                        + "UPDATE [dbo].[Booking] SET [status] = 1 	WHERE id = ?;\n"
+                        + "UPDATE [dbo].[Booking] SET [status] = 1 WHERE id = ?;\n"
                         + "END\n"
                         + "ELSE\n"
                         + "BEGIN\n"

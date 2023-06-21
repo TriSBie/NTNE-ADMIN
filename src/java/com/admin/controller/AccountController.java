@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -32,6 +34,7 @@ import javax.servlet.http.HttpSession;
 public class AccountController extends HttpServlet {
 
     String DASHBOARD_URL = "ui-dashborad.jsp";
+    String ACCOUNT_URL = "ui-account.jsp";
     String ERROR_URL = "error.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -47,8 +50,12 @@ public class AccountController extends HttpServlet {
                 break;
             case "hanleLogout":
                 hanleLogout(request, response);
+            case "accountList":
+                getAccount(request, response);
                 break;
-
+            case "handleChangeActiveAccount":
+                handleChangeActiveAccount(request, response);
+                break;
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
             ------------------------------------------------------------------------------*/
@@ -75,10 +82,9 @@ public class AccountController extends HttpServlet {
             AccountDTO account = dao.getAccountByUsername_Password(email, hash.hash(password));
 
             if (account != null) {
-                url = Config.LAYOUT + DASHBOARD_URL;
                 session.setAttribute("admin", account);
                 // chuyen huong ve trang chu
-                request.getRequestDispatcher(url).forward(request, response);
+                request.getRequestDispatcher("/tour/dashborad.do").forward(request, response);
             } else {
                 request.setAttribute("msg", "yes");
                 request.getRequestDispatcher("/").forward(request, response);
@@ -103,6 +109,50 @@ public class AccountController extends HttpServlet {
                 response.sendRedirect(url);
             }
         } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void getAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            //LAY LIST TU DAO
+            List<AccountDTO> listAccount = new AccountDAO().getListOfAccounts();
+            if (listAccount != null) {
+                //SET ATTRIBUTE
+                url = Config.LAYOUT + ACCOUNT_URL;
+                System.out.println(listAccount.size());
+                request.setAttribute("LIST_ACCOUNT", listAccount);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (IOException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void handleChangeActiveAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            //LAY ID TU ACCOUNT
+            int accountID = Integer.parseInt(request.getParameter("accountID"));
+
+            AccountDTO accountDTO = new AccountDAO().getAccountByID(accountID);
+            if (accountDTO != null) {
+                //CHANGE STATUS 
+                boolean status = !accountDTO.isIsActive();
+                boolean result = new AccountDAO().updateStatus(accountID, status);
+                //SET MESSAGE ATTRIBUTE
+                request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công với Tài khoản có ID");
+                request.setAttribute("accountID", accountID);
+                request.getRequestDispatcher("/account/accountList.do").forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (IOException | ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
     }

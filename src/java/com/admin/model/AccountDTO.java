@@ -18,8 +18,8 @@ public class AccountDTO implements Serializable {
     private String email;
     private String password;
     private String phone;
-    private String address;
     private String role;
+    private String address;
     private int accumulatedScore;
     private boolean isActive;
     private String linkImg;

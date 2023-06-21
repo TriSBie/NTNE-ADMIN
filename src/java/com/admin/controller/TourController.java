@@ -431,6 +431,7 @@ public class TourController extends HttpServlet {
         }
     }
 
+    //Xử lí tạo destination
     protected void handleCreateDestination(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;

@@ -163,7 +163,7 @@
                             <li class="sidebar-item">
                                 <a
                                     class="sidebar-link"
-                                    href="./authentication-login.html"
+                                    href="<c:url value="/account/accountList.do"/>"
                                     aria-expanded="false"
                                     >
                                     <span>
@@ -171,7 +171,7 @@
                                     </span>
                                     <span class="hide-menu">Người dùng</span>
                                 </a>
-                            </li>                           
+                            </li>                        
                             <!-- Manage Account -->
                         </ul>
                     </nav>
