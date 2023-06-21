@@ -326,16 +326,24 @@
                                     <!-- Filter theo trạng thái -->
                                     <div class="mb-3">
                                         <div class="col-6">
-                                            <a href="<c:url value="/tour/filter_booking_state_true.do"/>" alt="createTour">
-                                                <button class="btn btn-outline-success">
+                                            <form action="<c:url value="/booking/filterStatusBooking.do"/>">
+                                                <button class="btn btn-outline-success" name="payStatus" value="yes">
                                                     <p style="margin:0px; color:#333">Danh sách KH đã thanh toán</p>
                                                 </button>
-                                            </a>
-                                            <a href="<c:url value="/tour/filter_booking_state_false.do"/>" alt="createTour">
-                                                <button class="btn btn-outline-danger">
+                                                <button class="btn btn-outline-danger" name="payStatus" value="no">
                                                     <p style="margin:0px; color:#333">Danh sách KH chưa thanh toán</p>
                                                 </button>
-                                            </a>
+    <!--                                                <a href="<c:url value="/tour/filter_booking_state_true.do"/>" alt="createTour">
+                                                        <button class="btn btn-outline-success">
+                                                            <p style="margin:0px; color:#333">Danh sách KH đã thanh toán</p>
+                                                        </button>
+                                                    </a>
+                                                    <a href="<c:url value="/tour/filter_booking_state_false.do"/>" alt="createTour">
+                                                        <button class="btn btn-outline-danger">
+                                                            <p style="margin:0px; color:#333">Danh sách KH chưa thanh toán</p>
+                                                        </button>
+                                                    </a>-->
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
@@ -628,6 +636,91 @@
                                                     </tr>
                                                 </c:forEach>
                                             </c:if>
+                                            <!--END-->
+
+                                            <!--GET LIST OF BOOKING WITH STATUS IN CONDITION-->
+                                            <c:if test="${not empty requestScope.BOOKING_STATUS_WITH_CONDITION}"/>
+                                            <c:forEach var="bookingITEM" items="${requestScope.BOOKING_STATUS_WITH_CONDITION}" >
+                                                <tr>
+                                                    <td class="border-bottom-0">
+                                                        <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
+                                                            <c:param name="bookingID" value="${bookingITEM.id}"/>
+                                                        </c:url>
+                                                        <a href=${getDetaiBookingLink} class="bookingIDLink">
+                                                            <h6 class="fw-semibold mb-0" title="Xem chi tiết">
+                                                                ${bookingITEM.id}
+                                                            </h6>
+                                                        </a>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">
+                                                            ${bookingITEM.tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${bookingITEM.tripDTO.depart_time}"/>]
+                                                        </h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">
+                                                            <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${bookingITEM.expireDate}" />
+                                                        </p>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
+                                                    </td>
+                                                    <!--                                                        <td class="border-bottom-0">
+                                                                                                                <p class="mb-0 fw-normal">${bookingITEM.totalQuantity}</p>
+                                                                                                            </td>-->
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">
+                                                            <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
+                                                        </p>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <c:choose>
+                                                                <c:when test="${bookingITEM.status}">
+                                                                    <span
+                                                                        class="badge bg-success rounded-3 fw-semibold"
+                                                                        >
+                                                                        Đã thanh toán
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:when test="${!bookingITEM.status}">
+                                                                    <span
+                                                                        class="badge bg-danger rounded-3 fw-semibold"
+                                                                        >
+                                                                        Chưa thanh toán
+                                                                    </span>
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                            <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                            <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                            <c:if test="${bookingITEM.status == true}">
+                                                                <button type="submit" class="btn" style="padding: 0" onclick="myFunction()">
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" checked>
+                                                                        <span class="slider">
+                                                                        </span>
+                                                                    </label>
+                                                                </button> 
+                                                            </c:if>
+                                                            <c:if test="${bookingITEM.status != true}" >
+                                                                <button type="" class="btn" style="padding: 0;" onclick="myFunction()">
+                                                                    <label class="switch">
+                                                                        <input type="checkbox">
+                                                                        <span class="slider">
+                                                                        </span>
+                                                                    </label>
+                                                                </button>
+                                                            </c:if>
+                                                            <!-- Nơi xử lý đổi trạng thái của Booking -->
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            <!--END-->
                                             <!-- Du lieu -->
                                             </tbody>
                                         </table>
@@ -658,12 +751,12 @@
 
         <!-- Confirm Press btn -->
         <script>
-                                                                        function myFunction() {
-                                                                            let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
-                                                                            if (confirm(text) === false) {
-                                                                                event.preventDefault();
-                                                                            }
+                                                                    function myFunction() {
+                                                                        let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
+                                                                        if (confirm(text) === false) {
+                                                                            event.preventDefault();
                                                                         }
+                                                                    }
         </script>
     </body>
 </html>

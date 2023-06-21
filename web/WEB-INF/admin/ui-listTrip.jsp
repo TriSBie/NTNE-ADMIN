@@ -381,7 +381,7 @@
                                             </div>
                                         </div>
                                         <!-- Filter theo trạng thái -->
-                                        
+
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -404,11 +404,11 @@
                                                         <tr>
                                                             <th scope="row">${tripItem.tripID}</th>
                                                             <td style="width: 230px;">
-                                                                <h6 class="fw-semibold mb-1">
+                                                                <h6 class="fw-semibold mb-1 titleLink">
                                                                     <c:url var="getListBookinglLink" value="/booking/listBookingbyTripID.do">
                                                                         <c:param name="tripID" value="${tripItem.tripID}"/>
                                                                     </c:url>
-                                                                    <a style="margin:0px; color:#333" href="${getListBookinglLink}">
+                                                                    <a  style="margin:0px;" href="${getListBookinglLink}">
                                                                         ${tripItem.code} - [<fmt:formatDate pattern="dd/MM" value="${tripItem.depart_time}"/>]
                                                                     </a>
                                                                 </h6>
@@ -486,6 +486,14 @@
                 </div>
             </div>
         </div>
+        <style>
+            .titleLink a{
+                color:#333
+            }
+            .titleLink:hover a{
+                color: green;
+            }
+        </style>
         <script>
             const btnActive = document.querySelector(".btnActive");
 

@@ -50,10 +50,14 @@ public class BookingController extends HttpServlet {
             case "viewDetailBooking":
                 viewDetailBooking(request, response);
                 break;
-            case "listBookingbyTripID": {
+            case "listBookingbyTripID":
                 listBookingbyTripID(request, response);
                 break;
-            }
+
+            case "filterStatusBooking":
+                filterStatusBooking(request, response);
+                break;
+
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU UPDATE
             ------------------------------------------------------------------------------*/
@@ -90,7 +94,6 @@ public class BookingController extends HttpServlet {
             int bookingID = Integer.parseInt(request.getParameter("bookingID"));
             //Nếu mà có path thì sẽ quay về trang list booking bởi trip
             String path = request.getParameter("path");
-
             BookingDAO dao = new BookingDAO();
             BookingDTO bookingDetail = dao.getDetailBookingByID(bookingID);
             if (bookingDetail != null && path == null) {
@@ -151,6 +154,37 @@ public class BookingController extends HttpServlet {
                 request.setAttribute("msg_success", "Bạn đã thay đổi trạng thái của Booking có mã Booking");
                 request.setAttribute("bookingItemID", bookingItemID);
                 request.getRequestDispatcher("/booking/viewBooking.do").forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Filter status based on user click
+    protected void filterStatusBooking(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            // Get Parameter from button
+            String action = request.getParameter("payStatus");
+            // Call DAO
+            BookingDAO dao = new BookingDAO();
+            ArrayList<BookingDTO> listOfBooking = null;
+            switch (action) {
+                case "yes":
+                    listOfBooking = dao.getListOfBookingByStatus(true);
+                    break;
+                case "no":
+                    listOfBooking = dao.getListOfBookingByStatus(false);
+                    break;
+            }
+            if (listOfBooking != null) {
+                //Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
+                request.setAttribute("BOOKING_STATUS_WITH_CONDITION", listOfBooking);
+                url = Config.LAYOUT + VIEW_BOOKING_URL;
+                request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);
             }

@@ -82,18 +82,18 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = " SELECT DISTINCT bk.id, bk.requirement, bk.cusBook,bk.cusMail,bk.cusPhone,bk.cusAddress,bk.expireDate,\n"
-                        + "	bk.quantityAdult, bk.quantityChild,Trip.tripID,Trip.code as tripCode, Trip.tourName, Trip.depart_time,\n"
-                        + "	bk.totalPrice, Trip.priceAdult, Trip.priceChild,pm.id as paymentID, pm.name AS thanhToan, bk.status, acc.id as accountID\n"
-                        + "	FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "	INNER JOIN (SELECT tr.code,tr.name AS tourName, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild \n"
-                        + "	FROM Booking bk, Trip tp, Tour tr \n"
-                        + "	WHERE tp.id = bk.trip_id AND tp.id = tr.id)Trip\n"
-                        + "	ON Trip.tripID = bk.trip_id\n"
-                        + "	JOIN Payment pm ON bk.payment_id = pm.id\n"
-                        + "	LEFT JOIN Account acc ON bk.account_id = acc.id\n"
-                        + "     WHERE bk.id = ?\n"
-                        + "	ORDER BY expireDate DESC";
+                String SQL = "SELECT DISTINCT bk.id, bk.requirement, bk.cusBook,bk.cusMail,bk.cusPhone,bk.cusAddress,bk.expireDate,\n"
+                        + "bk.quantityAdult, bk.quantityChild,Trip.tripID,Trip.code as tripCode, Trip.tourName, Trip.depart_time,\n"
+                        + "bk.totalPrice, Trip.priceAdult, Trip.priceChild,pm.id as paymentID, pm.name AS thanhToan, bk.status, acc.id as accountID\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "INNER JOIN (SELECT tr.code,tr.name AS tourName, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr \n"
+                        + "WHERE tp.id = bk.trip_id AND tp.tour_id = tr.id)Trip\n"
+                        + "ON Trip.tripID = bk.trip_id\n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "LEFT JOIN Account acc ON bk.account_id = acc.id\n"
+                        + "WHERE bk.id = ?\n"
+                        + "ORDER BY expireDate DESC";
 
                 ps = con.prepareStatement(SQL);
                 ps.setInt(1, bookingID);
@@ -311,22 +311,21 @@ public class BookingDAO implements Serializable {
         return 0;
     }
 
-    
     // Lấy ra danh sách Booking theo tripID
     public ArrayList<BookingDTO> getListBooking_By_TripID(int tripID) throws ClassNotFoundException, SQLException {
         ArrayList<BookingDTO> listOfSummaryBooking = null;
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n" +
-"                        FROM [NTNECompany].[dbo].[Booking] bk\n" +
-"                        INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n" +
-"                        FROM Booking bk, Trip tp, Tour tr\n" +
-"                        WHERE bk.trip_id = tp.id\n" +
-"                        AND tp.tour_id = tr.id AND tp.id = ?)Trip \n" +
-"                        ON Trip.tripID = bk.trip_id \n" +
-"                        JOIN Payment pm ON bk.payment_id = pm.id\n" +
-"                        ORDER BY bk.expireDate DESC";
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr\n"
+                        + "WHERE bk.trip_id = tp.id\n"
+                        + "AND tp.tour_id = tr.id AND tp.id = ?)Trip \n"
+                        + "ON Trip.tripID = bk.trip_id \n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "ORDER BY bk.expireDate DESC";
                 ps = con.prepareStatement(SQL);
                 ps.setInt(1, tripID);
                 rs = ps.executeQuery();
@@ -360,23 +359,72 @@ public class BookingDAO implements Serializable {
         }
         return listOfSummaryBooking;
     }
-    
-    public static void main(String[] args) {
+
+    public ArrayList<BookingDTO> getListOfBookingByStatus(boolean bookingStatus) throws ClassNotFoundException, SQLException {
+        ArrayList<BookingDTO> listOfSummaryBooking = null;
         try {
-            List<BookingDTO> list = new BookingDAO().getListBooking_By_TripID(1);
-//            if (dto != null) {
-//                System.out.println(dto);
-//                System.out.println(dto.getPaymentDTO().getPaymentName());
-//                System.out.println(dto.getTripDTO().getTourName());
-//                System.out.println(dto.getTripDTO().getCode());
-//            }
-            if (list != null) {
-                for (BookingDTO bookingDTO : list) {
-                    System.out.println(bookingDTO.getCusBook());
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr\n"
+                        + "WHERE bk.trip_id = tp.id\n"
+                        + "AND tp.tour_id = tr.id)Trip\n"
+                        + "ON Trip.tripID = bk.trip_id\n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "WHERE bk.status = ?\n"
+                        + "ORDER BY bk.expireDate DESC";
+                ps = con.prepareStatement(SQL);
+                ps.setBoolean(1, bookingStatus);
+                rs = ps.executeQuery();
+                listOfSummaryBooking = new ArrayList<>();
+                while (rs.next()) {
+                    int bookingID = rs.getInt(1);
+                    String code = rs.getString(2);
+                    Date depart_time = rs.getDate(3);
+                    Date expireDate = rs.getDate(4);
+                    String custNameBooking = rs.getString(5);
+                    int totalQuantity = rs.getInt(6) + rs.getInt(7);
+                    double totalPrice = rs.getDouble(8);
+                    boolean status = rs.getBoolean(9);
+                    TripDTO dto = new TripDTO();
+                    dto.setCode(code);
+                    dto.setDepart_time(depart_time);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, (java.sql.Date) expireDate, totalQuantity, status, dto);
+                    listOfSummaryBooking.add(booking);
                 }
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
         }
+        return listOfSummaryBooking;
     }
+
+//    public static void main(String[] args) {
+//        try {
+//            ArrayList<BookingDTO> list = new BookingDAO().getListOfBookingByStatus(true);
+////            if (dto != null) {
+////                System.out.println(dto);
+////                System.out.println(dto.getPaymentDTO().getPaymentName());
+////                System.out.println(dto.getTripDTO().getTourName());
+////                System.out.println(dto.getTripDTO().getCode());
+////            }
+//            if (list != null) {
+//                for (BookingDTO bookingDTO : list) {
+//                    System.out.println(bookingDTO.getCusBook());
+//                }
+//            }
+//        } catch (ClassNotFoundException | SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }

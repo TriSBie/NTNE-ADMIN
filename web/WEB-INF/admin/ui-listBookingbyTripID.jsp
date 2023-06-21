@@ -315,7 +315,7 @@
                         <div class="col-lg-12 d-flex align-items-stretch">
                             <div class="card w-100">
                                 <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">Danh Sách BOOKING của mã TRIP có ID ${TRIP_ID}</h5>
+                                    <h5 class="card-title fw-semibold mb-4">Danh Sách BOOKING theo mã TRIP </h5>
                                     <c:if test="${ empty requestScope.BOOKING_DETAILS}">
                                         <a href="<c:url value="/tour/listTrip.do"/>">
                                             <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
@@ -358,7 +358,6 @@
                                                     <c:set var="tripDTO" value="${requestScope.BOOKING_DETAILS.tripDTO}"/>
                                                     <c:set var="paymentDTO" value="${requestScope.BOOKING_DETAILS.paymentDTO}"/>
                                                     <c:set var="bookingDTO" value="${requestScope.BOOKING_DETAILS}"/>
-
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <div class="mb-3 row">
@@ -586,7 +585,7 @@
                                                     </tr>
                                                 </c:forEach>
                                             </c:if>
-                                            <c:if test="${empty requestScope.LIST_BOOKING_BY_TRIPID}">
+                                                <c:if test="${empty requestScope.LIST_BOOKING_BY_TRIPID && empty requestScope.BOOKING_DETAILS}">
                                                 <h5 class="card-body fw-semibold mb-4">Hiện tại chưa có BOOKING nào được đặt tại TRIP này</h5>
                                             </c:if>
                                             <!-- Du lieu -->
