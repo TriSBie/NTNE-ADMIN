@@ -84,7 +84,7 @@ public class TourController extends HttpServlet {
                 filter_state_true(request, response);
                 break;
             }
-
+           
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
             ------------------------------------------------------------------------------*/
@@ -307,7 +307,6 @@ public class TourController extends HttpServlet {
         }
     }
     
-    
     //Get list trip from database "filter_state_false"
     protected void filter_state_false(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -347,6 +346,7 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
+    
 
     /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE

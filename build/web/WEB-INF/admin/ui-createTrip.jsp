@@ -308,7 +308,7 @@
                                         <!-- Chon ngay khoi hanh -->        
                                         <div class="col-5">
                                             <label class="form-label">Ngày khởi hành</label>
-                                            <input name="depart_time" type="date" class="form-control" value=""/>
+                                            <input name="depart_time" type="date" class="form-control" value="" required=""/>
                                         </div>
                                     </div>
 
@@ -359,7 +359,7 @@
                                                         for="tour"
                                                         >Số chỗ cho phép
                                                     </label>
-                                                    <input name="quantity" type="number" class="form-control" value=""/>
+                                                    <input name="quantity" type="number" class="form-control" value="" required/>
                                                 </div>
                                             </div>
                                         </div>

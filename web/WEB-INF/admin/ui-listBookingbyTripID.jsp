@@ -315,33 +315,16 @@
                         <div class="col-lg-12 d-flex align-items-stretch">
                             <div class="card w-100">
                                 <div class="card-body p-4">
-                                    <!-- Thông báo nếu thao tác thành công -->
-                                    <c:if test="${msg_success != null}">
-                                        <div class="alert alert-success">
-                                            <strong>${msg_success} [ ${bookingItemID} ]!</strong>
-                                        </div>
+                                    <h5 class="card-title fw-semibold mb-4">Danh Sách BOOKING của mã TRIP có ID ${TRIP_ID}</h5>
+                                    <c:if test="${ empty requestScope.BOOKING_DETAILS}">
+                                        <a href="<c:url value="/tour/listTrip.do"/>">
+                                            <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                                        </a>
                                     </c:if>
-                                    <!-- Thông báo nếu thao tác thành công -->
-                                    <h5 class="card-title fw-semibold mb-4">Danh Sách BOOKING</h5>
-                                    <!-- Filter theo trạng thái -->
-                                    <div class="mb-3">
-                                        <div class="col-6">
-                                            <a href="<c:url value="/tour/filter_booking_state_true.do"/>" alt="createTour">
-                                                <button class="btn btn-outline-success">
-                                                    <p style="margin:0px; color:#333">Danh sách KH đã thanh toán</p>
-                                                </button>
-                                            </a>
-                                            <a href="<c:url value="/tour/filter_booking_state_false.do"/>" alt="createTour">
-                                                <button class="btn btn-outline-danger">
-                                                    <p style="margin:0px; color:#333">Danh sách KH chưa thanh toán</p>
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </div>
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
-                                                <c:if test="${empty requestScope.BOOKING_DETAILS}">
+                                                <c:if test="${not empty requestScope.LIST_BOOKING_BY_TRIPID}">
                                                     <tr>
                                                         <th class="border-bottom-0">                                     
                                                             <h6 class="fw-semibold mb-0">Mã BK</h6>
@@ -361,13 +344,10 @@
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Trạng thái</h6>
                                                         </th>
-                                                        <th class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">Đổi trạng thái</h6>
-                                                        </th>
                                                     </tr>
                                                 </c:if>
                                                 <c:if test="${not empty requestScope.BOOKING_DETAILS}">
-                                                <a href="<c:url value="/booking/viewBooking.do"/>">
+                                                <a href="<c:url value="/booking/listBookingbyTripID.do?tripID=${BOOKING_DETAILS.tripDTO.tripID}"/>">
                                                     <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
                                                 </a>
                                             </c:if>
@@ -546,12 +526,14 @@
 
                                             <!--END -->
                                             <!--GET LIST BOOKING BY DEFAULT-->
-                                            <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
-                                                <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}" >
+                                            <c:if test="${not empty requestScope.LIST_BOOKING_BY_TRIPID}">
+                                                <c:forEach var="bookingITEM" items="${requestScope.LIST_BOOKING_BY_TRIPID}" >
                                                     <tr>
                                                         <td class="border-bottom-0">
                                                             <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
                                                                 <c:param name="bookingID" value="${bookingITEM.id}"/>
+                                                                <!-- Nếu mà có path thì sẽ quay về trang list booking bởi trip -->
+                                                                <c:param name="path" value="yes"/>
                                                             </c:url>
                                                             <a href=${getDetaiBookingLink} class="bookingIDLink">
                                                                 <h6 class="fw-semibold mb-0" title="Xem chi tiết">
@@ -600,33 +582,12 @@
                                                                 </c:choose>
                                                             </div>
                                                         </td>
-                                                        <td>
-                                                            <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
-                                                                <!-- Nơi xử lý đổi trạng thái của trip -->
-                                                                <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
-                                                                <c:if test="${bookingITEM.status == true}">
-                                                                    <button type="submit" class="btn" style="padding: 0" onclick="myFunction()">
-                                                                        <label class="switch">
-                                                                            <input type="checkbox" checked>
-                                                                            <span class="slider">
-                                                                            </span>
-                                                                        </label>
-                                                                    </button> 
-                                                                </c:if>
-                                                                <c:if test="${bookingITEM.status != true}" >
-                                                                    <button type="" class="btn" style="padding: 0;" onclick="myFunction()">
-                                                                        <label class="switch">
-                                                                            <input type="checkbox">
-                                                                            <span class="slider">
-                                                                            </span>
-                                                                        </label>
-                                                                    </button>
-                                                                </c:if>
-                                                                <!-- Nơi xử lý đổi trạng thái của Booking -->
-                                                            </form>
-                                                        </td>
+
                                                     </tr>
                                                 </c:forEach>
+                                            </c:if>
+                                            <c:if test="${empty requestScope.LIST_BOOKING_BY_TRIPID}">
+                                                <h5 class="card-body fw-semibold mb-4">Hiện tại chưa có BOOKING nào được đặt tại TRIP này</h5>
                                             </c:if>
                                             <!-- Du lieu -->
                                             </tbody>
@@ -658,12 +619,12 @@
 
         <!-- Confirm Press btn -->
         <script>
-                                                                        function myFunction() {
-                                                                            let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
-                                                                            if (confirm(text) === false) {
-                                                                                event.preventDefault();
-                                                                            }
-                                                                        }
+            function myFunction() {
+                let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
+                if (confirm(text) === false) {
+                    event.preventDefault();
+                }
+            }
         </script>
     </body>
 </html>

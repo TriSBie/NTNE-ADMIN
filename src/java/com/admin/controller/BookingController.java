@@ -7,11 +7,15 @@ package com.admin.controller;
 
 import com.admin.config.Config;
 import com.admin.dao.BookingDAO;
+import com.admin.dao.TripDAO;
 import com.admin.model.BookingDTO;
+import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +31,7 @@ public class BookingController extends HttpServlet {
 
     String ERROR_URL = "error.jsp";
     String VIEW_BOOKING_URL = "ui-manageBooking.jsp";
+    String VIEW_BOOKING_BY_TRIPID_URL = "ui-listBookingbyTripID.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,6 +50,10 @@ public class BookingController extends HttpServlet {
             case "viewDetailBooking":
                 viewDetailBooking(request, response);
                 break;
+            case "listBookingbyTripID": {
+                listBookingbyTripID(request, response);
+                break;
+            }
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU UPDATE
             ------------------------------------------------------------------------------*/
@@ -79,13 +88,44 @@ public class BookingController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+            //Nếu mà có path thì sẽ quay về trang list booking bởi trip
+            String path = request.getParameter("path");
 
             BookingDAO dao = new BookingDAO();
             BookingDTO bookingDetail = dao.getDetailBookingByID(bookingID);
-            if (bookingDetail != null) {
+            if (bookingDetail != null && path == null) {
                 url = Config.LAYOUT + VIEW_BOOKING_URL;
                 request.setAttribute("BOOKING_DETAILS", bookingDetail);
                 request.getRequestDispatcher(url).forward(request, response);
+            } else if (bookingDetail != null && path != null) {
+                url = Config.LAYOUT + VIEW_BOOKING_BY_TRIPID_URL;
+                request.setAttribute("BOOKING_DETAILS", bookingDetail);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Lấy DS KH BOOKING TỪ TRIPID
+    protected void listBookingbyTripID(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            int tripID = Integer.parseInt(request.getParameter("tripID"));
+            BookingDAO dao = new BookingDAO();
+            ArrayList<BookingDTO> list = dao.getListBooking_By_TripID(tripID);
+            System.out.println(tripID);
+            if (list != null) {
+                url = Config.LAYOUT + VIEW_BOOKING_BY_TRIPID_URL;
+                System.out.println(list.size());
+                request.setAttribute("LIST_BOOKING_BY_TRIPID", list);
+                request.setAttribute("TRIP_ID", tripID);
+
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
             } else {
                 response.sendRedirect(url);
             }
@@ -118,6 +158,7 @@ public class BookingController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

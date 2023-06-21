@@ -22,6 +22,8 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+        <!-- CK EDITOR -->
+        <script src="//cdn.ckeditor.com/4.21.0/basic/ckeditor.js"></script>
     </head>
 
     <body>

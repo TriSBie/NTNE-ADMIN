@@ -25,6 +25,9 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+
+        <!-- CK EDITOR -->
+        <script src="//cdn.ckeditor.com/4.21.0/basic/ckeditor.js"></script>
     </head>
 
     <body>
@@ -254,9 +257,9 @@
                                     <div class="col-12">
                                         <!-- Thông báo nếu thao tác thành công -->
                                         <c:if test="${msg_success != null}">
-                                            <script>
-                                                window.alert(`${msg_success}`)
-                                            </script>
+                                            <div class="alert alert-success alert-dismissible">
+                                                <strong>${msg_success}</strong>
+                                            </div>
                                         </c:if>
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h5 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h5>

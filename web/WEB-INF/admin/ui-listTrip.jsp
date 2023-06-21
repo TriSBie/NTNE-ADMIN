@@ -370,18 +370,18 @@
                                             <div class="col-6">
                                                 <a href="<c:url value="/tour/filter_state_true.do"/>" alt="createTour">
                                                     <button class="btn btn-outline-success">
-                                                        <p style="margin:0px; color:#333">TRIP đang hoạt động</p>
+                                                        <p style="margin:0px; color:#333">Danh sách TRIP hoạt động</p>
                                                     </button>
                                                 </a>
                                                 <a href="<c:url value="/tour/filter_state_false.do"/>" alt="createTour">
                                                     <button class="btn btn-outline-danger">
-                                                        <p style="margin:0px; color:#333">TRIP đã tạm dừng</p>
+                                                        <p style="margin:0px; color:#333">Danh sách TRIP tạm dừng</p>
                                                     </button>
                                                 </a>
-                                                
                                             </div>
                                         </div>
                                         <!-- Filter theo trạng thái -->
+                                        
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -405,7 +405,12 @@
                                                             <th scope="row">${tripItem.tripID}</th>
                                                             <td style="width: 230px;">
                                                                 <h6 class="fw-semibold mb-1">
-                                                                    ${tripItem.code} - [<fmt:formatDate pattern="dd/MM" value="${tripItem.depart_time}"/>]
+                                                                    <c:url var="getListBookinglLink" value="/booking/listBookingbyTripID.do">
+                                                                        <c:param name="tripID" value="${tripItem.tripID}"/>
+                                                                    </c:url>
+                                                                    <a style="margin:0px; color:#333" href="${getListBookinglLink}">
+                                                                        ${tripItem.code} - [<fmt:formatDate pattern="dd/MM" value="${tripItem.depart_time}"/>]
+                                                                    </a>
                                                                 </h6>
                                                             </td>
                                                             <td>

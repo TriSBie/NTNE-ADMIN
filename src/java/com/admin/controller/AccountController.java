@@ -146,7 +146,7 @@ public class AccountController extends HttpServlet {
                 boolean status = !accountDTO.isIsActive();
                 boolean result = new AccountDAO().updateStatus(accountID, status);
                 //SET MESSAGE ATTRIBUTE
-                request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công với Tài khoản có ID");
+                request.setAttribute("msg_success", "Bạn đã cập nhật trạng thái thành công với Tài khoản có ID");
                 request.setAttribute("accountID", accountID);
                 request.getRequestDispatcher("/account/accountList.do").forward(request, response);
             } else {

@@ -24,6 +24,8 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <!--Style CSS-->
         <style>
             /* The switch - the box around the slider */
@@ -314,13 +316,14 @@
                     <div class="row">
                         <div class="col-lg-12 d-flex align-items-stretch">
                             <div class="card w-100">
-                                <!-- Thông báo nếu thao tác thành công -->
-                                <c:if test="${msg_success != null}">
-                                    <div class="alert alert-success">
-                                        <strong>${msg_success} [ ${accountID} ]!</strong>
-                                    </div>
-                                </c:if>
                                 <div class="card-body p-4">
+                                    <!-- Thông báo nếu thao tác thành công -->
+                                    <c:if test="${msg_success != null}">
+                                        <div class="alert alert-success alert-dismissible">
+                                            <strong>${msg_success} [ ${accountID} ]!</strong>
+                                        </div>
+                                    </c:if>
+                                    <!-- Thông báo nếu thao tác thành công -->
                                     <h5 class="card-title fw-semibold mb-4">Danh Sách Tài khoản</h5>
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">

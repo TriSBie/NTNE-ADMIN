@@ -311,10 +311,59 @@ public class BookingDAO implements Serializable {
         return 0;
     }
 
+    
+    // Lấy ra danh sách Booking theo tripID
+    public ArrayList<BookingDTO> getListBooking_By_TripID(int tripID) throws ClassNotFoundException, SQLException {
+        ArrayList<BookingDTO> listOfSummaryBooking = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status\n" +
+"                        FROM [NTNECompany].[dbo].[Booking] bk\n" +
+"                        INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n" +
+"                        FROM Booking bk, Trip tp, Tour tr\n" +
+"                        WHERE bk.trip_id = tp.id\n" +
+"                        AND tp.tour_id = tr.id AND tp.id = ?)Trip \n" +
+"                        ON Trip.tripID = bk.trip_id \n" +
+"                        JOIN Payment pm ON bk.payment_id = pm.id\n" +
+"                        ORDER BY bk.expireDate DESC";
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, tripID);
+                rs = ps.executeQuery();
+                listOfSummaryBooking = new ArrayList<>();
+                while (rs.next()) {
+                    int bookingID = rs.getInt(1);
+                    String code = rs.getString(2);
+                    Date depart_time = rs.getDate(3);
+                    Date expireDate = rs.getDate(4);
+                    String custNameBooking = rs.getString(5);
+                    int totalQuantity = rs.getInt(6) + rs.getInt(7);
+                    double totalPrice = rs.getDouble(8);
+                    boolean status = rs.getBoolean(9);
+                    TripDTO dto = new TripDTO();
+                    dto.setCode(code);
+                    dto.setDepart_time(depart_time);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, (java.sql.Date) expireDate, totalQuantity, status, dto);
+                    listOfSummaryBooking.add(booking);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return listOfSummaryBooking;
+    }
+    
     public static void main(String[] args) {
         try {
-            List<BookingDTO> list = new BookingDAO().getSummaryBookings();
-            BookingDTO dto = new BookingDAO().getDetailBookingByID(5);
+            List<BookingDTO> list = new BookingDAO().getListBooking_By_TripID(1);
 //            if (dto != null) {
 //                System.out.println(dto);
 //                System.out.println(dto.getPaymentDTO().getPaymentName());
