@@ -267,7 +267,7 @@
                                                     <th scope="col">Tên Tour</th>
                                                     <th scope="col">Mã Tour</th>
                                                     <th scope="col">Hình ảnh</th>
-                                                    <th scope="col">Địa điểm đến</th>
+                                                    <th scope="col">Các điểm đến</th>
                                                     <th scope="col">Giá người lớn</th>
                                                     <th scope="col">Giá trẻ em</th>
                                                     <th scope="col">Chức năng</th>
@@ -326,6 +326,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--  Phân trang -->
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Trang trước</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Trang sau</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!--  Phân trang -->
                         </div>
                     </div>
                 </div>

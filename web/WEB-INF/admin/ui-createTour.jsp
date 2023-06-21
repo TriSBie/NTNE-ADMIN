@@ -247,6 +247,9 @@
                 <div class="container-fluid">
                     <div class="container-fluid">
                         <h2 class="card-title fw-semibold mb-4">TẠO TOUR</h2>
+                        <a href="<c:url value="/tour/listTour.do"/>">
+                            <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                        </a>
                         <div class="card">
                             <div class="card-body">
                                 <form action="<c:url value="/tour/handleCreateTour.do"/>" method="post">

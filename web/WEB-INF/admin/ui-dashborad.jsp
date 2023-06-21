@@ -258,16 +258,16 @@
                                             <thead class="text-dark fs-4">
                                                 <tr>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">ID</h6>
+                                                        <h6 class="mb-0 fw-normal">ID</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tên TOUR</h6>
+                                                        <h6 class="mb-0 fw-normal">Tên TOUR</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Hình ảnh</h6>
+                                                        <h6 class="mb-0 fw-normal">Hình ảnh</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tổng Doanh Thu</h6>
+                                                        <h6 class="mb-0 fw-normal">Tổng Doanh Thu</h6>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -290,7 +290,7 @@
                                                             </h6>
                                                         </td>
                                                         <td class="border-bottom-0">
-                                                            <p class="mb-0 fw-normal"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
+                                                            <p class="fw-semibold mb-1"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -395,22 +395,22 @@
                                                     <c:if test="${empty requestScope.BOOKING_DETAILS}">
                                                         <tr>
                                                             <th class="border-bottom-0">                                     
-                                                                <h6 class="fw-semibold mb-0">Mã BK</h6>
+                                                                <h6 class="mb-0 fw-normal">Mã BK</h6>
                                                             </th>
                                                             <th class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">Mã Trip</h6>
+                                                                <h6 class="mb-0 fw-normal">Mã Trip</h6>
                                                             </th>
                                                             <th class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">Ngày booking</h6>
+                                                                <h6 class="mb-0 fw-normal">Ngày booking</h6>
                                                             </th>
                                                             <th class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">Tên khách hàng</h6>
+                                                                <h6 class="mb-0 fw-normal">Tên khách hàng</h6>
                                                             </th>
                                                             <th class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
+                                                                <h6 class="mb-0 fw-normal">Tổng giá (VND)</h6>
                                                             </th>
                                                             <th class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                                                                <h6 class="mb-0 fw-normal">Trạng thái</h6>
                                                             </th>
                                                         </tr>
                                                     </c:if>
@@ -423,7 +423,7 @@
                                                 <tbody>
                                                     <!--GET LIST BOOKING BY DEFAULT-->
                                                     <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
-                                                        <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}" begin="1" end="5">
+                                                        <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}" begin="0" end="4">
                                                             <tr>
                                                                 <td class="border-bottom-0">
                                                                     <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
@@ -449,7 +449,7 @@
                                                                     <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
                                                                 </td>
                                                                 <td class="border-bottom-0">
-                                                                    <p class="mb-0 fw-normal">
+                                                                    <p class="fw-semibold mb-1">
                                                                         <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
                                                                     </p>
                                                                 </td>

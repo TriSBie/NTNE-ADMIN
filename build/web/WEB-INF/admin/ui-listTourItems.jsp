@@ -242,17 +242,19 @@
                 </header>
                 <!--  Header End -->
                 <div class="container-fluid">
-                    <!-- Thông báo nếu thao tác thành công -->
-                    <c:if test="${msg_success != null}">
-                        <script>
-                            window.alert(`${msg_success}`)
-                        </script>
-                    </c:if>
-                    <h3 class="mb-3">Chi tiết lịch trình của "${TOUR_ITEM_NAME}"</h3>
                     <div class="container-fluid">
-
                         <div class="card">
                             <div class="card-body">
+                                <!-- Thông báo nếu thao tác thành công -->
+                                <c:if test="${msg_success != null}">
+                                    <div class="alert alert-success">
+                                        <strong>${msg_success}</strong>
+                                    </div>
+                                </c:if>
+                                <h3 class="mb-3">Chi tiết lịch trình của "${TOUR_ITEM_NAME}"</h3>
+                                <a href="<c:url value="/tour/listTour.do"/>">
+                                    <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                                </a>
                                 <!-- Tên TOUR -->
                                 <div class="mb-3">
                                     <img
