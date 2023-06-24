@@ -417,7 +417,7 @@
                                                                     >Ngày Booking
                                                                 </label>
                                                                 <h6 class="mb-0 fw-normal">
-                                                                    <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${bookingDTO.expireDate}" />
+                                                                    <fmt:formatDate value="${bookingDTO.expireDate}" pattern="dd-MM-yyyy HH:mm" />
                                                                 </h6>
                                                             </div>
                                                             <div class="col-3">
@@ -574,7 +574,7 @@
                                                         </td>
                                                         <td class="border-bottom-0">
                                                             <p class="mb-0 fw-normal">
-                                                                <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${bookingITEM.expireDate}" />
+                                                                <fmt:formatDate value="${bookingITEM.expireDate}" pattern="dd-MM-yyyy HH:mm" />
                                                             </p>
                                                         </td>
                                                         <td class="border-bottom-0">
@@ -665,9 +665,6 @@
                                                     <td class="border-bottom-0">
                                                         <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
                                                     </td>
-                                                    <!--                                                        <td class="border-bottom-0">
-                                                                                                                <p class="mb-0 fw-normal">${bookingITEM.totalQuantity}</p>
-                                                                                                            </td>-->
                                                     <td class="border-bottom-0">
                                                         <p class="mb-0 fw-normal">
                                                             <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
@@ -726,21 +723,23 @@
                                         </table>
                                     </div>
                                 </div>
-                                <!--  Phân trang -->
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">Trang trước</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Trang sau</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <!--  Phân trang -->
+                                <c:if test="${empty requestScope.BOOKING_DETAILS}">
+                                    <!--  Phân trang -->
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1">Trang trước</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Trang sau</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <!--  Phân trang -->
+                                </c:if>
                             </div>
                         </div>
                     </div>
