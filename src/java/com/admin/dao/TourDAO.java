@@ -81,7 +81,7 @@ public class TourDAO implements Serializable {
                 ps.setString(5, tourDTO.getLocation());
                 ps.setString(6, tourDTO.getCode());
                 ps.executeUpdate();
-                
+
                 String SQL_1 = "DECLARE @TOURID INT;\n"
                         + "SELECT TOP 1 @TOURID = Tour.ID FROM [dbo].[Tour]\n"
                         + "ORDER BY Tour.id DESC\n"
@@ -175,6 +175,69 @@ public class TourDAO implements Serializable {
             }
         }
         return false;
+    }
+
+    // Lấy TOUR theo BOOKING ID
+    public TourDTO getTour_by_BookingID(int bookingID)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT DISTINCT [dbo].[Tour].name,[dbo].[Tour].priceAdult, [dbo].[Tour].priceChild, [dbo].[Tour].thumbnail\n"
+                        + "  FROM [dbo].[Booking], [dbo].[Trip], [dbo].[Tour]\n"
+                        + "  WHERE [dbo].[Booking].trip_id = [dbo].[Trip].id AND [dbo].[Trip].tour_id = [dbo].[Tour].id AND [dbo].[Booking].id = ?";
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, bookingID);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TourDTO tour = new TourDTO(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getString(4));
+                    return tour;
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return null;
+    }
+
+    // Lấy TOUR theo TRIP ID
+    public TourDTO getTour_by_TripID(int tripID)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "  SELECT [dbo].[Tour].name,[dbo].[Trip].priceAdult, [dbo].[Trip].priceChild, [dbo].[Tour].thumbnail\n"
+                        + "  FROM [dbo].[Trip], [dbo].[Tour]\n"
+                        + "  WHERE [dbo].[Trip].tour_id = [dbo].[Tour].id AND [dbo].[Trip].id = ?";
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, tripID);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TourDTO tour = new TourDTO(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getString(4));
+                    return tour;
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return null;
     }
 //    public static void main(String[] args) {
 //        TourDTO tourDTO = new TourDTO("Da nang 1 Minh Em", 1000000, 2000000, "abcdxez.com", "dia diem1, dia diem 2, dia diem 3");

@@ -43,6 +43,14 @@ public class TourDTO implements Serializable {
         this.code = code;
     }
 
+    // Contructor get TOUR BY TRIP ID AND BOOKING ID
+    public TourDTO(String tourName, double priceAdult, double priceChild, String thumbnail) {
+        this.tourName = tourName;
+        this.priceAdult = priceAdult;
+        this.priceChild = priceChild;
+        this.thumbnail = thumbnail;
+    }
+
     public String getCode() {
         return code;
     }

@@ -350,6 +350,35 @@ public class TripDAO implements Serializable {
         return false;
     }
 
+    // lẤY TỔNG SỐ LƯỢNG TRIP HIỆN TẠI ĐANG HOẠT ĐỘNG
+    public int getTotal_TRIP_ACTIVE() throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT COUNT(id) FROM [dbo].[Trip] \n"
+                        + " WHERE [availability] = 1";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                int total = 0;
+                while (rs.next()) {
+                    total = rs.getInt(1);
+                }
+                return total;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         try {
             List<TripDTO> trip = new TripDAO().getTripPriceByDescending();

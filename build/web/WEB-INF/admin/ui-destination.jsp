@@ -81,7 +81,7 @@
                                     <span>
                                         <i class="ti ti-layout-dashboard"></i>
                                     </span>
-                                    <span class="hide-menu">Dashboard</span>
+                                    <span class="hide-menu">Báo cáo</span>
                                 </a>
                             </li>
 
@@ -117,7 +117,7 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">TRIP</span>
+                                    <span class="hide-menu">Chuyến đi trong ngày</span>
                                 </a>
                             </li>
                             <!--LIST TRIP-->
@@ -138,7 +138,7 @@
                                     <span>
                                         <i class="fa-solid fa-suitcase"></i>
                                     </span>
-                                    <span class="hide-menu">TOUR</span>
+                                    <span class="hide-menu">Tour du lịch</span>
                                 </a>
                             </li>
                             <!-- End tour manage -->
@@ -174,7 +174,7 @@
                                     </span>
                                     <span class="hide-menu">Người dùng</span>
                                 </a>
-                            </li>                        
+                            </li>                           
                             <!-- Manage Account -->
                         </ul>
                     </nav>
@@ -183,7 +183,6 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
-
 
             <!--  Main wrapper -->
             <div class="body-wrapper">

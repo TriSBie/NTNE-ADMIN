@@ -179,7 +179,7 @@
                                     <span>
                                         <i class="ti ti-layout-dashboard"></i>
                                     </span>
-                                    <span class="hide-menu">Dashboard</span>
+                                    <span class="hide-menu">Báo cáo</span>
                                 </a>
                             </li>
 
@@ -215,7 +215,7 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">TRIP</span>
+                                    <span class="hide-menu">Chuyến đi trong ngày</span>
                                 </a>
                             </li>
                             <!--LIST TRIP-->
@@ -236,7 +236,7 @@
                                     <span>
                                         <i class="fa-solid fa-suitcase"></i>
                                     </span>
-                                    <span class="hide-menu">TOUR</span>
+                                    <span class="hide-menu">Tour du lịch</span>
                                 </a>
                             </li>
                             <!-- End tour manage -->
@@ -272,7 +272,7 @@
                                     </span>
                                     <span class="hide-menu">Người dùng</span>
                                 </a>
-                            </li>                         
+                            </li>                           
                             <!-- Manage Account -->
                         </ul>
                     </nav>
@@ -281,7 +281,6 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
-
 
             <!--  Main wrapper -->
             <div class="body-wrapper">
@@ -368,17 +367,6 @@
                                         <!-- Filter theo trạng thái -->
                                         <div class="mb-3">
                                             <div class="col-12 ">
-<!--                                                <a href="<c:url value="/tour/filter_state_true.do"/>" alt="createTour">
-                                                    <button class="btn btn-outline-success">
-                                                        <p style="margin:0px; color:#333">Danh sách TRIP hoạt động</p>
-                                                    </button>
-                                                </a>
-                                                <a href="<c:url value="/tour/filter_state_false.do"/>" alt="createTour">
-                                                    <button class="btn btn-outline-danger">
-                                                        <p style="margin:0px; color:#333">Danh sách TRIP tạm dừng</p>
-                                                    </button>
-                                                </a>-->
-
                                                 <div class="mb-3 row">
                                                     <div class="col-3">
                                                         <div class="dropdown">
@@ -404,7 +392,6 @@
                                                 </div>
                                             </div>
                                             <!-- Filter theo trạng thái -->
-
                                             <table class="table">
                                                 <thead>
                                                     <tr>
@@ -419,7 +406,6 @@
                                                         <th scope="col">Chức năng</th>
                                                     </tr>
                                                 </thead>
-
                                                 <!--Begin DATA -->
                                                 <tbody>
                                                     <c:if test="${not empty requestScope.LIST_TRIP}">

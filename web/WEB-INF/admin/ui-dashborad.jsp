@@ -77,7 +77,7 @@
                                     <span>
                                         <i class="ti ti-layout-dashboard"></i>
                                     </span>
-                                    <span class="hide-menu">Dashboard</span>
+                                    <span class="hide-menu">Báo cáo</span>
                                 </a>
                             </li>
 
@@ -113,7 +113,7 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">TRIP</span>
+                                    <span class="hide-menu">Chuyến đi trong ngày</span>
                                 </a>
                             </li>
                             <!--LIST TRIP-->
@@ -134,7 +134,7 @@
                                     <span>
                                         <i class="fa-solid fa-suitcase"></i>
                                     </span>
-                                    <span class="hide-menu">TOUR</span>
+                                    <span class="hide-menu">Tour du lịch</span>
                                 </a>
                             </li>
                             <!-- End tour manage -->
@@ -245,147 +245,337 @@
                 </header>
                 <!--  Header End -->
                 <div class="container-fluid">
-                    <!--  Row 1 -->
+
                     <div class="row">
-                        <div class="col-lg-8 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">
-                                        TOP DOANH THU THEO TOUR
-                                    </h5>
-                                    <div class="table-responsive">
-                                        <table class="table text-nowrap mb-0 align-middle">
-                                            <thead class="text-dark fs-4">
-                                                <tr>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="mb-0 fw-normal">ID</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="mb-0 fw-normal">Tên TOUR</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="mb-0 fw-normal">Hình ảnh</h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
-                                                        <h6 class="mb-0 fw-normal">Tổng Doanh Thu</h6>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Du lieu -->
-                                                <c:forEach var="item" items="${LIST_ALL_TOUR_REVENUE}" varStatus="counter">
-                                                    <tr>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">${counter.count}</h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-1">${item.tourName}</h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">
-                                                                <img
-                                                                    style="width: 60px; height: 60px"
-                                                                    src=${item.tourThumbnail}
-                                                                    />
-                                                            </h6>
-                                                        </td>
-                                                        <td class="border-bottom-0">
-                                                            <p class="fw-semibold mb-1"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                                <!-- Du lieu -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <!-- Yearly Breakup -->
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body p-4">
-                                            <h5 class="card-title mb-9 fw-semibold">Doanh thu tháng 6</h5>
-                                            <div class="row align-items-center">
-                                                <div class="col-8">
-                                                    <h4 class="fw-semibold mb-3"><fmt:formatNumber value ="${REVENUE_BY_MONTH}" type = "currency"/></p></h4>
-                                                    <div class="d-flex align-items-center mb-3">
+                        <!-- Báo cáo hôm nay -->
+                        <div class="row">
+                            <h5 class="card-title mb-9 fw-semibold">Chi tiết báo cáo ngày hôm nay</h5>
+                            <!-- Doanh thu hôm nay -->
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row alig n-items-start">
+                                            <div class="col-10">
+                                                <h5 class="card-title mb-9 fw-normal">Doanh thu hôm nay</h5>
+                                                <h4 class="fw-semibold mb-3">
+                                                    <fmt:formatNumber value ="${REVENUE_BY_CURENT_DAY}" type = "currency"/>
+                                                </h4>
+                                                <div class="d-flex align-items-center pb-1">
+                                                    <c:if test="${REVENUE_GROWTH_RATE > 100}">
                                                         <span
                                                             class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
                                                             <i class="ti ti-arrow-up-left text-success"></i>
                                                         </span>
-                                                        <p class="text-dark me-1 fs-3 mb-0">0%</p>
-                                                        <p class="fs-3 mb-0">Tháng vừa qua</p>
+                                                        <p class="text-dark me-1 fs-3 mb-0">
+                                                            ${REVENUE_GROWTH_RATE}%
+                                                        </p>
+                                                        <br>
+                                                    </c:if>
+                                                    <c:if test="${REVENUE_GROWTH_RATE < 100 && REVENUE_GROWTH_RATE > 0}">
+                                                        <span
+                                                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                                            <i class="ti ti-arrow-down-right text-danger"></i>
+                                                        </span>
+                                                        <p class="text-dark me-1 fs-3 mb-0">
+                                                            ${REVENUE_GROWTH_RATE_DOWN}%
+                                                        </p>
+                                                    </c:if>
+
+                                                    <p class="fs-3 mb-0">
+                                                        Hôm qua
+                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVIOUS_DAY}" type = "currency"/>
+                                                    </p>
+                                                </div>
+                                                <div class="d-flex align-items-center pb-1">
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="d-flex justify-content-end">
+                                                    <div
+                                                        class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                        <i class="ti ti-currency-dollar fs-6"></i>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <!-- Monthly Earnings -->
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row alig n-items-start">
-                                                    <div class="col-10">
-                                                        <h5 class="card-title mb-9 fw-semibold">Doanh thu hôm nay</h5>
-                                                        <h4 class="fw-semibold mb-3">
-                                                            <fmt:formatNumber value ="${REVENUE_BY_CURENT_DAY}" type = "currency"/>
-                                                        </h4>
-                                                        <div class="d-flex align-items-center pb-1">
-                                                            <c:if test="${REVENUE_GROWTH_RATE > 100}">
-                                                                <span
-                                                                    class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                                                                    <i class="ti ti-arrow-up-left text-success"></i>
-                                                                </span>
-                                                                <p class="text-dark me-1 fs-3 mb-0">
-                                                                    ${REVENUE_GROWTH_RATE}%
-                                                                </p>
-                                                                <br>
-                                                            </c:if>
-                                                            <c:if test="${REVENUE_GROWTH_RATE < 100 && REVENUE_GROWTH_RATE > 0}">
-                                                                <span
-                                                                    class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                                                                    <i class="ti ti-arrow-down-right text-danger"></i>
-                                                                </span>
-                                                                <p class="text-dark me-1 fs-3 mb-0">
-                                                                    ${REVENUE_GROWTH_RATE_DOWN}%
-                                                                </p>
-                                                            </c:if>
+                                </div>
+                            </div>
 
-                                                            <p class="fs-3 mb-0">
-                                                                Hôm qua
-                                                                <fmt:formatNumber value ="${REVENUE_BY_PRIVIOUS_DAY}" type = "currency"/>
-                                                            </p>
-                                                        </div>
-                                                        <div class="d-flex align-items-center pb-1">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <div class="d-flex justify-content-end">
-                                                            <div
-                                                                class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                                                                <i class="ti ti-currency-dollar fs-6"></i>
-                                                            </div>
-                                                        </div>
+                            <!-- Số lượng hành khách mua tour -->
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row alig n-items-start">
+                                            <div class="col-10">
+                                                <h5 class="card-title mb-9 fw-normal">Số lượng vé đã đặt</h5>
+                                                <h4 class="fw-semibold mb-3">
+                                                    ${TOTAL_TICKET} Vé
+                                                </h4>
+                                                <div class="d-flex align-items-center pb-1">
+                                                    <p class="fs-3 mb-0">
+                                                        Hôm qua
+                                                        ${TOTAL_TICKET_PRIVIOUS_DAY} Vé
+                                                    </p>
+                                                </div>
+                                                <div class="d-flex align-items-center pb-1">
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="d-flex justify-content-end">
+                                                    <div
+                                                        class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                        <i class="ti ti-ticket fs-6"></i>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <!-- Số lượng TRIP được hoạt động hôm nay -->
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row alig n-items-start">
+                                            <div class="col-10">
+                                                <h5 class="card-title mb-9 fw-normal">Chuyến đi đang hoạt động</h5>
+                                                <h4 class="fw-semibold mb-3">
+                                                    ${TOTAL_TRIP_ACTIVE} chuyến
+                                                </h4>
+                                                <div class="d-flex align-items-center pb-1">
+                                                    <p class="fs-3 mb-0">
+                                                        <a href="<c:url value="/tour/filter_state_true.do"/>">Xem các chuyến hiện tại</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="d-flex justify-content-end">
+                                                    <div
+                                                        class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                        <i class="ti ti-beach fs-6"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Báo cáo hôm nay -->
+
+                        <h5 class="card-title mb-9 fw-semibold">Chi tiết báo cáo tháng này</h5>
+                        <!-- Báo cáo tháng này -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <!-- Yearly Breakup -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row alig n-items-start">
+                                            <div class="col-11">
+                                                <h5 class="card-title mb-9 fw-normal">Doanh thu tháng 6</h5>
+                                                <h4 class="fw-semibold mb-3">
+                                                    <fmt:formatNumber value ="${REVENUE_BY_MONTH}" type = "currency"/>
+                                                </h4>
+                                                <div class="d-flex align-items-center pb-1">
+                                                    <c:if test="${REVENUE_GROWTH_RATE_MONTH > 100}">
+                                                        <span
+                                                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                                            <i class="ti ti-arrow-up-left text-success"></i>
+                                                        </span>
+                                                        <p class="text-dark me-1 fs-3 mb-0">
+                                                            ${REVENUE_GROWTH_RATE_MONTH}%
+                                                        </p>
+                                                        <br>
+                                                    </c:if>
+                                                    <c:if test="${REVENUE_GROWTH_RATE_MONTH < 100 && REVENUE_GROWTH_RATE_MONTH > 0}">
+                                                        <span
+                                                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                                            <i class="ti ti-arrow-down-right text-danger"></i>
+                                                        </span>
+                                                        <p class="text-dark me-1 fs-3 mb-0">
+                                                            ${REVENUE_GROWTH_RATE_DOWN_MONTH}%
+                                                        </p>
+                                                    </c:if>
+
+                                                    <p class="fs-3 mb-0">
+                                                        Tháng trước
+                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVOUS_MONTH}" type = "currency"/>
+                                                    </p>
+                                                </div>
+                                                <div class="d-flex align-items-center pb-1">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-1">
+                                                <div class="d-flex justify-content-end">
+                                                    <div
+                                                        class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                        <i class="ti ti-currency-dollar fs-6"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <!-- Monthly Earnings -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row alig n-items-start">
+                                            <div class="col-10">
+                                                <h5 class="card-title mb-9 fw-normal">Số lượng vé đã đặt</h5>
+                                                <h4 class="fw-semibold mb-3">
+                                                    ${TOTAL_TICKET_MONTH} Vé
+                                                </h4>
+                                                <div class="d-flex align-items-center pb-1">
+                                                    <p class="fs-3 mb-0">
+                                                        Tháng trước
+                                                        ${TOTAL_TICKET_PRIVIOUS_MONTH} Vé
+                                                    </p>
+                                                </div>
+                                                <div class="d-flex align-items-center pb-1">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="d-flex justify-content-end">
+                                                    <div
+                                                        class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                        <i class="ti ti-ticket fs-6"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <!-- Monthly Earnings -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row alig n-items-start">
+                                            <div class="col-10">
+                                                <h5 class="card-title mb-9 fw-normal">Doanh thu hôm nay</h5>
+                                                <h4 class="fw-semibold mb-3">
+                                                    <fmt:formatNumber value ="${REVENUE_BY_CURENT_DAY}" type = "currency"/>
+                                                </h4>
+                                                <div class="d-flex align-items-center pb-1">
+                                                    <c:if test="${REVENUE_GROWTH_RATE > 100}">
+                                                        <span
+                                                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                                            <i class="ti ti-arrow-up-left text-success"></i>
+                                                        </span>
+                                                        <p class="text-dark me-1 fs-3 mb-0">
+                                                            ${REVENUE_GROWTH_RATE}%
+                                                        </p>
+                                                        <br>
+                                                    </c:if>
+                                                    <c:if test="${REVENUE_GROWTH_RATE < 100 && REVENUE_GROWTH_RATE > 0}">
+                                                        <span
+                                                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                                            <i class="ti ti-arrow-down-right text-danger"></i>
+                                                        </span>
+                                                        <p class="text-dark me-1 fs-3 mb-0">
+                                                            ${REVENUE_GROWTH_RATE_DOWN}%
+                                                        </p>
+                                                    </c:if>
+
+                                                    <p class="fs-3 mb-0">
+                                                        Hôm qua
+                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVIOUS_DAY}" type = "currency"/>
+                                                    </p>
+                                                </div>
+                                                <div class="d-flex align-items-center pb-1">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="d-flex justify-content-end">
+                                                    <div
+                                                        class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                        <i class="ti ti-currency-dollar fs-6"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Báo cáo tháng này -->
+
+                        <!-- Top doanh thu theo TOUR  -->
+                        <div class="row">
+                            <div class="col-lg-12 d-flex align-items-stretch">
+                                <div class="card w-100">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold mb-4">
+                                            TOP DOANH THU THEO TOUR
+                                        </h5>
+                                        <div class="table-responsive">
+                                            <table class="table text-nowrap mb-0 align-middle">
+                                                <thead class="text-dark fs-4">
+                                                    <tr>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">ID</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Tên TOUR</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Hình ảnh</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Tổng doanh thu</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Doanh thu hôm nay</h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Du lieu -->
+                                                    <c:forEach var="item" items="${LIST_ALL_TOUR_REVENUE}" varStatus="counter">
+                                                        <tr>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">${counter.count}</h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-1">${item.tourName}</h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">
+                                                                    <img
+                                                                        class="img-thumbnail"
+                                                                        style="width: 80px; height: 80px"
+                                                                        src=${item.tourThumbnail}
+                                                                        />
+                                                                </h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="fw-semibold mb-1"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                    <!-- Du lieu -->
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--  Row 1 -->
+                        <!-- Top doanh thu theo TOUR  -->
 
-
-
-                        <!--  Row 3 -->
+                        <!-- Danh sách booking gần nhất  -->
                         <div class="row">
-                            <div class="col-lg-12 d-flex align-items-stretch">
+                            <div class="col-lg-12">
                                 <div class="card w-100">
                                     <div class="card-body p-4">
                                         <h5 class="card-title fw-semibold mb-4">BOOKING MỚI NHẤT</h5>
@@ -441,8 +631,8 @@
                                                                     </h6>
                                                                 </td>
                                                                 <td class="border-bottom-0">
-                                                                    <p class="mb-0 fw-normal">
-                                                                        <fmt:formatDate value="${bookingITEM.expireDate}" pattern="dd-MM-yyyy HH:mm" />
+                                                                    <p class="mb-0 fw-semibold">
+                                                                       ${bookingITEM.expireDate}
                                                                     </p>
                                                                 </td>
                                                                 <td class="border-bottom-0">
@@ -488,17 +678,18 @@
                                 </div>
                             </div>
                         </div>
-
+                        <!-- Danh sách booking gần nhất  -->
                     </div>
                 </div>
             </div>
-            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/js/sidebarmenu.js"></script>
-            <script src="../assets/js/app.min.js"></script>
-            <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-            <script src="../assets/js/dashboard.js"></script>
+        </div>
+        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/js/sidebarmenu.js"></script>
+        <script src="../assets/js/app.min.js"></script>
+        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+        <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="../assets/js/dashboard.js"></script>
     </body>
 </html>
 

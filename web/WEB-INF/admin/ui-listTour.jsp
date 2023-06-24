@@ -74,7 +74,7 @@
                                     <span>
                                         <i class="ti ti-layout-dashboard"></i>
                                     </span>
-                                    <span class="hide-menu">Dashboard</span>
+                                    <span class="hide-menu">Báo cáo</span>
                                 </a>
                             </li>
 
@@ -110,7 +110,7 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">TRIP</span>
+                                    <span class="hide-menu">Chuyến đi trong ngày</span>
                                 </a>
                             </li>
                             <!--LIST TRIP-->
@@ -131,7 +131,7 @@
                                     <span>
                                         <i class="fa-solid fa-suitcase"></i>
                                     </span>
-                                    <span class="hide-menu">TOUR</span>
+                                    <span class="hide-menu">Tour du lịch</span>
                                 </a>
                             </li>
                             <!-- End tour manage -->
@@ -167,7 +167,7 @@
                                     </span>
                                     <span class="hide-menu">Người dùng</span>
                                 </a>
-                            </li>                                 
+                            </li>                           
                             <!-- Manage Account -->
                         </ul>
                     </nav>
@@ -264,8 +264,8 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID</th>
-                                                    <th scope="col">Tên Tour</th>
                                                     <th scope="col">Mã Tour</th>
+                                                    <th scope="col">Tên Tour</th>
                                                     <th scope="col">Hình ảnh</th>
                                                     <th scope="col">Các điểm đến</th>
                                                     <th scope="col">Giá người lớn</th>
@@ -278,6 +278,7 @@
                                                     <c:forEach var="tour" items="${LIST_TOUR}">
                                                         <tr scope="row">
                                                             <td>${tour.tourID}</td>
+                                                            <td>${tour.code}</td>
                                                             <td style="width: 300px">
                                                                 <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
                                                                     <c:param name="tourID" value="${tour.tourID}"/>
@@ -286,7 +287,6 @@
                                                                     ${tour.tourName}
                                                                 </a>
                                                             </td>
-                                                            <td>${tour.code}</td>
                                                             <td>
                                                                 <img
                                                                     style="

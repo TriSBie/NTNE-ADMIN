@@ -7,7 +7,9 @@ package com.admin.controller;
 
 import com.admin.config.Config;
 import com.admin.dao.BookingDAO;
+import com.admin.dao.TourDAO;
 import com.admin.model.BookingDTO;
+import com.admin.model.TourDTO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class BookingController extends HttpServlet {
     String ERROR_URL = "error.jsp";
     String VIEW_BOOKING_URL = "ui-manageBooking.jsp";
     String VIEW_BOOKING_BY_TRIPID_URL = "ui-listBookingbyTripID.jsp";
+    String VIEW_DETAIL_BOOKING = "ui-detailBooking.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -89,17 +92,17 @@ public class BookingController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-            //Nếu mà có path thì sẽ quay về trang list booking bởi trip
-            String path = request.getParameter("path");
+
             BookingDAO dao = new BookingDAO();
             BookingDTO bookingDetail = dao.getDetailBookingByID(bookingID);
-            if (bookingDetail != null && path == null) {
-                url = Config.LAYOUT + VIEW_BOOKING_URL;
+
+            // Get TOUR BY BOOKING ID
+            TourDAO dao_tour = new TourDAO();
+            TourDTO tour = dao_tour.getTour_by_BookingID(bookingID);
+            if (bookingDetail != null) {
+                url = Config.LAYOUT + VIEW_DETAIL_BOOKING;
                 request.setAttribute("BOOKING_DETAILS", bookingDetail);
-                request.getRequestDispatcher(url).forward(request, response);
-            } else if (bookingDetail != null && path != null) {
-                url = Config.LAYOUT + VIEW_BOOKING_BY_TRIPID_URL;
-                request.setAttribute("BOOKING_DETAILS", bookingDetail);
+                request.setAttribute("TOUR", tour);
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);
@@ -115,6 +118,10 @@ public class BookingController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             int tripID = Integer.parseInt(request.getParameter("tripID"));
+            // Get TOUR BY TRIP ID
+            TourDAO dao_tour = new TourDAO();
+            TourDTO tour = dao_tour.getTour_by_TripID(tripID);
+            
             BookingDAO dao = new BookingDAO();
             ArrayList<BookingDTO> list = dao.getListBooking_By_TripID(tripID);
             System.out.println(tripID);
@@ -122,6 +129,7 @@ public class BookingController extends HttpServlet {
                 url = Config.LAYOUT + VIEW_BOOKING_BY_TRIPID_URL;
                 System.out.println(list.size());
                 request.setAttribute("LIST_BOOKING_BY_TRIPID", list);
+                request.setAttribute("TOUR", tour);
                 request.setAttribute("TRIP_ID", tripID);
 
                 RequestDispatcher rd = request.getRequestDispatcher(url);

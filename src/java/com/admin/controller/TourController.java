@@ -262,18 +262,32 @@ public class TourController extends HttpServlet {
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
         try {
+
+            // CALL DAO
+            TripDAO trip_dao = new TripDAO();
             BookingDAO dao = new BookingDAO();
             ArrayList<BookingDTO> list = dao.getListTotalPrice();
 
             // Lấy danh sách booking
             List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
 
-            // Lấy doanh thu tháng 6            
-            double revenue = dao.getRevenueByMonth(6);
+            // Lấy doanh thu tháng hiện tại           
+            double revenue = dao.getRevenueByMonth();
+            // Lấy doanh thu tháng trước         
+            double revenue_privious_month = dao.getRevenueBy_Privious_Month();
+            // Tính toán theo % tăng giảm
+            double stamp_month;
+            if (revenue_privious_month == 0) {
+                stamp_month = 0;
+            } else {
+                stamp_month = revenue / revenue_privious_month * 100;
+            }
+            // Nếu tháng này - tháng trước < 100% tức là doanh thu giảm 
+            // => 100 - số stamp sẽ là số giảm so với tháng này
+            double stamp_down_month = 100 - (revenue / revenue_privious_month * 100);
 
             // Lấy doanh thu theo ngày hiện tại
             double revenue_by_curentDay = dao.getRevenueByDay();
-
             // Lấy doanh thu theo ngày hôm qua
             double revenue_by_priviousDay = dao.getRevenueByPreviousDay();
 
@@ -287,15 +301,37 @@ public class TourController extends HttpServlet {
             // Nếu ngày hôm nay - hôm qua < 100% tức là doanh thu giảm 
             // => 100 - số stamp sẽ là số giảm so với ngày hôm nay
             double stamp_down = 100 - (revenue_by_curentDay / revenue_by_priviousDay * 100);
+
+            // Lấy tổng số vé của ngày hôm nay và hôm qua với điều kiện đã thanh toán
+            int totalSticket = dao.getTotalTicket();
+            int totalSticket_PriviousDay = dao.getTotalTicket_PreviousDay();
+
+            // Lấy tổng số vé của ngày tháng hiện tại và tháng trước với điều kiện đã thanh toán
+            int totalSticket_Month = dao.getTotalTicket_Month();
+            int totalSticket_PriviousMonth = dao.getTotalTicket_PreviousMonth();
+
+            // Lấy tổng số TRIP đang hoạt động
+            int total_TRIP_Available = trip_dao.getTotal_TRIP_ACTIVE();
+
             if (list != null) {
                 url = Config.LAYOUT + DASHBORAD_URL;
                 request.setAttribute("LIST_ALL_TOUR_REVENUE", list);
                 request.setAttribute("REVENUE_BY_MONTH", revenue);
+                request.setAttribute("REVENUE_BY_PRIVOUS_MONTH", revenue_privious_month);
+                request.setAttribute("REVENUE_GROWTH_RATE_MONTH", (double) Math.floor(stamp_month * 10) / 10);
+                request.setAttribute("REVENUE_GROWTH_RATE_DOWN_MONTH", (double) Math.floor(stamp_down_month * 10) / 10);
+
                 request.setAttribute("REVENUE_BY_CURENT_DAY", revenue_by_curentDay);
                 request.setAttribute("REVENUE_BY_PRIVIOUS_DAY", revenue_by_priviousDay);
                 request.setAttribute("REVENUE_GROWTH_RATE", (double) Math.floor(stamp * 10) / 10);
                 request.setAttribute("REVENUE_GROWTH_RATE_DOWN", (double) Math.floor(stamp_down * 10) / 10);
+
                 request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
+                request.setAttribute("TOTAL_TICKET", totalSticket);
+                request.setAttribute("TOTAL_TICKET_PRIVIOUS_DAY", totalSticket_PriviousDay);
+                request.setAttribute("TOTAL_TICKET_MONTH", totalSticket_Month);
+                request.setAttribute("TOTAL_TICKET_PRIVIOUS_MONTH", totalSticket_PriviousMonth);
+                request.setAttribute("TOTAL_TRIP_ACTIVE", total_TRIP_Available);
 
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);

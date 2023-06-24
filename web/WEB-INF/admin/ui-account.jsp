@@ -145,7 +145,7 @@
                                     <span>
                                         <i class="ti ti-layout-dashboard"></i>
                                     </span>
-                                    <span class="hide-menu">Dashboard</span>
+                                    <span class="hide-menu">Báo cáo</span>
                                 </a>
                             </li>
 
@@ -181,7 +181,7 @@
                                     <span>
                                         <i class="fa-solid fa-list"></i>
                                     </span>
-                                    <span class="hide-menu">TRIP</span>
+                                    <span class="hide-menu">Chuyến đi trong ngày</span>
                                 </a>
                             </li>
                             <!--LIST TRIP-->
@@ -202,7 +202,7 @@
                                     <span>
                                         <i class="fa-solid fa-suitcase"></i>
                                     </span>
-                                    <span class="hide-menu">TOUR</span>
+                                    <span class="hide-menu">Tour du lịch</span>
                                 </a>
                             </li>
                             <!-- End tour manage -->
@@ -238,7 +238,7 @@
                                     </span>
                                     <span class="hide-menu">Người dùng</span>
                                 </a>
-                            </li>                               
+                            </li>                           
                             <!-- Manage Account -->
                         </ul>
                     </nav>
@@ -330,28 +330,28 @@
                                             <thead class="text-dark fs-4">
                                                 <tr>
                                                     <th class="border-bottom-0">                                     
-                                                        <h6 class="fw-semibold mb-0">ID</h6>
+                                                        <h6 class="fw-normal mb-0">ID</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Tên người dùng</h6>
+                                                        <h6 class="fw-normal mb-0">Tên người dùng</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Email</h6>
+                                                        <h6 class="fw-normal mb-0">Email</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Số điện thoại</h6>
+                                                        <h6 class="fw-normal mb-0">Số điện thoại</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Địa chỉ</h6>
+                                                        <h6 class="fw-normal mb-0">Địa chỉ</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Số điểm tích lũy</h6>
+                                                        <h6 class="fw-normal mb-0">Số điểm tích lũy</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                                                        <h6 class="fw-normal mb-0">Trạng thái</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Đổi trạng thái</h6>
+                                                        <h6 class="fw-normal mb-0">Đổi trạng thái</h6>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -372,7 +372,7 @@
                                                                 </h6>
                                                             </td>
                                                             <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal">
+                                                                <p class="mb-0 fw-semibold">
                                                                     ${account.email}
                                                                 </p>
                                                             </td>
@@ -382,12 +382,12 @@
                                                                 </p>
                                                             </td>
                                                             <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal">
+                                                                <p class="mb-0 fw-semibold">
                                                                     ${account.address}                                                                
                                                                 </p>
                                                             </td>
                                                             <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal">
+                                                                <p class="mb-0 fw-semibold">
                                                                     ${account.accumulatedScore}                                                                
                                                                 </p>
                                                             </td>
