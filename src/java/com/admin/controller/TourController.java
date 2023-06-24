@@ -76,15 +76,16 @@ public class TourController extends HttpServlet {
             case "dashborad":
                 get_Info_Dashborad(request, response);
                 break;
-            case "filter_state_false": {
+            case "filter_state_false":
                 filter_state_false(request, response);
                 break;
-            }
-            case "filter_state_true": {
+
+            case "filter_state_true":
                 filter_state_true(request, response);
                 break;
-            }
-           
+
+            case "filter_trip_price":
+                filter_trip_price(request, response);
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
             ------------------------------------------------------------------------------*/
@@ -264,10 +265,9 @@ public class TourController extends HttpServlet {
             BookingDAO dao = new BookingDAO();
             ArrayList<BookingDTO> list = dao.getListTotalPrice();
 
-            
             // Lấy danh sách booking
             List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
-            
+
             // Lấy doanh thu tháng 6            
             double revenue = dao.getRevenueByMonth(6);
 
@@ -306,7 +306,7 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
+
     //Get list trip from database "filter_state_false"
     protected void filter_state_false(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -326,7 +326,7 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
+
     //Get list trip from database "filter_state_true"
     protected void filter_state_true(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -346,7 +346,36 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
+
+    //Get list trip from database "filter_trip_by_price"
+    protected void filter_trip_price(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        String sortByPrice = request.getParameter("sortByPrice");
+        TripDAO dao = new TripDAO();
+        List<TripDTO> listTrip = null;
+        try {
+            switch (sortByPrice) {
+                case "ascending":
+                    listTrip = dao.getTripPriceByAscending();
+                    break;
+                case "descending":
+                    listTrip = dao.getTripPriceByDescending();
+                    break;
+            }
+            if (listTrip != null) {
+                url = Config.LAYOUT + LIST_TRIP_URL;
+                request.setAttribute("LIST_TRIP", listTrip);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE

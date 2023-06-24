@@ -367,8 +367,8 @@
                                         </div>
                                         <!-- Filter theo trạng thái -->
                                         <div class="mb-3">
-                                            <div class="col-6">
-                                                <a href="<c:url value="/tour/filter_state_true.do"/>" alt="createTour">
+                                            <div class="col-12 ">
+<!--                                                <a href="<c:url value="/tour/filter_state_true.do"/>" alt="createTour">
                                                     <button class="btn btn-outline-success">
                                                         <p style="margin:0px; color:#333">Danh sách TRIP hoạt động</p>
                                                     </button>
@@ -377,160 +377,183 @@
                                                     <button class="btn btn-outline-danger">
                                                         <p style="margin:0px; color:#333">Danh sách TRIP tạm dừng</p>
                                                     </button>
-                                                </a>
+                                                </a>-->
+
+                                                <div class="mb-3 row">
+                                                    <div class="col-3">
+                                                        <div class="dropdown">
+                                                            <button type="button" class="form-select">Sắp xếp</button>
+                                                            <div class="dropdown-content">
+                                                                <a class="dropdown-item active" 
+                                                                   href="<c:url value="/tour/filter_state_true.do"/>">
+                                                                    Chuyến đi hoạt động
+                                                                </a>
+                                                                <a class="dropdown-item active" 
+                                                                   href="<c:url value="/tour/filter_state_false.do"/>">
+                                                                    Chuyến đi ngừng hoạt động
+                                                                </a>
+                                                                <a class="dropdown-item active" href="<c:url value="/tour/filter_trip_price.do">
+                                                                       <c:param name="sortByPrice" value="ascending"/>
+                                                                   </c:url>">Giá tăng dần</a>
+                                                                <a class="dropdown-item active" href="<c:url value="/tour/filter_trip_price.do">
+                                                                       <c:param name="sortByPrice" value="descending"/>
+                                                                   </c:url>">Giá giảm dần</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <!-- Filter theo trạng thái -->
+                                            <!-- Filter theo trạng thái -->
 
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Mã Trip</th>
-                                                    <th scope="col">Hình ảnh</th>
-                                                    <th scope="col">Giá người lớn</th>
-                                                    <th scope="col">Giá trẻ em</th>
-                                                    <th scope="col">SL</th>
-                                                    <th scope="col">Trạng thái</th>
-                                                    <th scope="col">Bật/Tắt</th>
-                                                    <th scope="col">Chức năng</th>
-                                                </tr>
-                                            </thead>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Mã Trip</th>
+                                                        <th scope="col">Hình ảnh</th>
+                                                        <th scope="col">Giá người lớn</th>
+                                                        <th scope="col">Giá trẻ em</th>
+                                                        <th scope="col">SL</th>
+                                                        <th scope="col">Trạng thái</th>
+                                                        <th scope="col">Bật/Tắt</th>
+                                                        <th scope="col">Chức năng</th>
+                                                    </tr>
+                                                </thead>
 
-                                            <!--Begin DATA -->
-                                            <tbody>
-                                                <c:if test="${not empty requestScope.LIST_TRIP}">
-                                                    <c:forEach var="tripItem" items="${requestScope.LIST_TRIP}">
-                                                        <tr>
-                                                            <th scope="row">${tripItem.tripID}</th>
-                                                            <td style="width: 230px;">
-                                                                <h6 class="fw-semibold mb-1 titleLink">
-                                                                    <c:url var="getListBookinglLink" value="/booking/listBookingbyTripID.do">
-                                                                        <c:param name="tripID" value="${tripItem.tripID}"/>
-                                                                    </c:url>
-                                                                    <a  style="margin:0px;" href="${getListBookinglLink}">
-                                                                        ${tripItem.code} - [<fmt:formatDate pattern="dd/MM" value="${tripItem.depart_time}"/>]
-                                                                    </a>
-                                                                </h6>
-                                                            </td>
-                                                            <td>
-                                                                <img
-                                                                    style="
-                                                                    width: 60px;
-                                                                    height: 60px;
-                                                                    border-radius: 5px;
-                                                                    "
-                                                                    src="${tripItem.thumbnail}"
-                                                                    />
-                                                            </td>
-                                                            <td style="width: 150px">
-                                                                <fmt:formatNumber value ="${tripItem.priceAdult}" type = "currency"/>
-                                                            </td>
-                                                            <td style="width: 130px;">
-                                                                <fmt:formatNumber value ="${tripItem.priceChild}" type = "currency"/>
-                                                            </td>
-                                                            <td>${tripItem.quantity}</td>
-                                                            <td>
-                                                                <c:if test="${tripItem.availability == true}">
-                                                                    <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>
-                                                                </c:if>
-                                                                <c:if test="${tripItem.availability != true}">
-                                                                    <span class="badge bg-danger rounded-3 fw-semibold">Tạm dừng</span>
-                                                                </c:if>
-                                                            </td>
-                                                            <td>
-                                                                <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
-                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
-                                                                    <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
+                                                <!--Begin DATA -->
+                                                <tbody>
+                                                    <c:if test="${not empty requestScope.LIST_TRIP}">
+                                                        <c:forEach var="tripItem" items="${requestScope.LIST_TRIP}">
+                                                            <tr>
+                                                                <th scope="row">${tripItem.tripID}</th>
+                                                                <td style="width: 230px;">
+                                                                    <h6 class="fw-semibold mb-1 titleLink">
+                                                                        <c:url var="getListBookinglLink" value="/booking/listBookingbyTripID.do">
+                                                                            <c:param name="tripID" value="${tripItem.tripID}"/>
+                                                                        </c:url>
+                                                                        <a  style="margin:0px;" href="${getListBookinglLink}">
+                                                                            ${tripItem.code} - [<fmt:formatDate pattern="dd/MM" value="${tripItem.depart_time}"/>]
+                                                                        </a>
+                                                                    </h6>
+                                                                </td>
+                                                                <td>
+                                                                    <img
+                                                                        style="
+                                                                        width: 60px;
+                                                                        height: 60px;
+                                                                        border-radius: 5px;
+                                                                        "
+                                                                        src="${tripItem.thumbnail}"
+                                                                        />
+                                                                </td>
+                                                                <td style="width: 150px">
+                                                                    <fmt:formatNumber value ="${tripItem.priceAdult}" type = "currency"/>
+                                                                </td>
+                                                                <td style="width: 130px;">
+                                                                    <fmt:formatNumber value ="${tripItem.priceChild}" type = "currency"/>
+                                                                </td>
+                                                                <td>${tripItem.quantity}</td>
+                                                                <td>
                                                                     <c:if test="${tripItem.availability == true}">
-                                                                        <button type="submit" class="btn" style="padding: 0" onclick="myFunction()">
-                                                                            <label class="switch">
-                                                                                <input type="checkbox" checked>
-                                                                                <span class="slider">
-                                                                                </span>
-                                                                            </label>
-                                                                        </button> 
+                                                                        <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>
                                                                     </c:if>
-                                                                    <c:if test="${tripItem.availability != true}" >
-                                                                        <button type="" class="btn" style="padding: 0;" onclick="myFunction()">
-                                                                            <label class="switch">
-                                                                                <input type="checkbox">
-                                                                                <span class="slider">
-                                                                                </span>
-                                                                            </label>
-                                                                        </button>
-
+                                                                    <c:if test="${tripItem.availability != true}">
+                                                                        <span class="badge bg-danger rounded-3 fw-semibold">Tạm dừng</span>
                                                                     </c:if>
-                                                                    <!-- Nơi xử lý đổi trạng thái của trip -->
-                                                                </form>
-                                                            </td>
-                                                            <td style="width: 130px;">
-                                                                <form action="<c:url value="/tour/editTrip.do"/>" method="post">
-                                                                    <button class="btn btn-warning">
+                                                                </td>
+                                                                <td>
+                                                                    <form action="<c:url value="/tour/hanleChangeState.do"/>" method="post">
+                                                                        <!-- Nơi xử lý đổi trạng thái của trip -->
                                                                         <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
-                                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                                    </button>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </tbody>
-                                            <!--End DATA -->
-                                        </table>
+                                                                        <c:if test="${tripItem.availability == true}">
+                                                                            <button type="submit" class="btn" style="padding: 0" onclick="myFunction()">
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" checked>
+                                                                                    <span class="slider">
+                                                                                    </span>
+                                                                                </label>
+                                                                            </button> 
+                                                                        </c:if>
+                                                                        <c:if test="${tripItem.availability != true}" >
+                                                                            <button type="" class="btn" style="padding: 0;" onclick="myFunction()">
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox">
+                                                                                    <span class="slider">
+                                                                                    </span>
+                                                                                </label>
+                                                                            </button>
+
+                                                                        </c:if>
+                                                                        <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                                    </form>
+                                                                </td>
+                                                                <td style="width: 130px;">
+                                                                    <form action="<c:url value="/tour/editTrip.do"/>" method="post">
+                                                                        <button class="btn btn-warning">
+                                                                            <input type="hidden" name="tripID" value="${tripItem.tripID}"/>
+                                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </tbody>
+                                                <!--End DATA -->
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
+                                <!--  Phân trang -->
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Trang trước</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Trang sau</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!--  Phân trang -->
                             </div>
-                            <!--  Phân trang -->
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Trang trước</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Trang sau</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!--  Phân trang -->
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <style>
-            .titleLink a{
-                color:#333
-            }
-            .titleLink:hover a{
-                color: green;
-            }
-        </style>
-        <script>
-            const btnActive = document.querySelector(".btnActive");
-
-            function changeStatus() {
-                btnActive.innerText = "Tạm dừng";
-            }
-        </script>
-        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/sidebarmenu.js"></script>
-        <script src="../assets/js/app.min.js"></script>
-        <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-
-        <!-- Confirm Press btn -->
-        <script>
-            function myFunction() {
-                let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
-                if (confirm(text) === false) {
-                    event.preventDefault();
+            <style>
+                .titleLink a{
+                    color:#333
                 }
-            }
-        </script>
+                .titleLink:hover a{
+                    color: green;
+                }
+            </style>
+            <script>
+                const btnActive = document.querySelector(".btnActive");
+
+                function changeStatus() {
+                    btnActive.innerText = "Tạm dừng";
+                }
+            </script>
+            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/js/sidebarmenu.js"></script>
+            <script src="../assets/js/app.min.js"></script>
+            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+
+            <!-- Confirm Press btn -->
+            <script>
+                function myFunction() {
+                    let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
+                    if (confirm(text) === false) {
+                        event.preventDefault();
+                    }
+                }
+            </script>
     </body>
 </html>
 

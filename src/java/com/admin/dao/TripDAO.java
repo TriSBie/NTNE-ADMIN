@@ -98,7 +98,7 @@ public class TripDAO implements Serializable {
         }
         return list;
     }
-    
+
     //Get List Trip by state is true
     public List<TripDTO> getAllTrip_by_state_true()
             throws ClassNotFoundException, SQLException {
@@ -132,7 +132,6 @@ public class TripDAO implements Serializable {
         }
         return list;
     }
-
 
     // Hanler Create Trip 
     public boolean createTrip(float priceAdult, float priceChild, int quantity, String depart_time, int tour_id)
@@ -243,6 +242,81 @@ public class TripDAO implements Serializable {
         return null;
     }
 
+    public List<TripDTO> getTripPriceByAscending()
+            throws ClassNotFoundException, SQLException {
+        List<TripDTO> listTrip = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT TOP (1000) tr.[id]\n"
+                        + "	  ,t.code, t.thumbnail\n"
+                        + "      ,tr.[availability]\n"
+                        + "      ,tr.[priceAdult]\n"
+                        + "      ,tr.[priceChild]\n"
+                        + "      ,tr.[quantity]\n"
+                        + "      ,tr.[depart_time]\n"
+                        + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
+                        + "ORDER BY tr.[priceAdult]";
+                ps = con.prepareStatement(SQL);
+                listTrip = new ArrayList<>();
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    listTrip.add(dto);
+                }
+
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return listTrip;
+    }
+
+    public List<TripDTO> getTripPriceByDescending()
+            throws ClassNotFoundException, SQLException {
+        List<TripDTO> listTrip = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT tr.[id]\n"
+                        + "	  ,t.code, t.thumbnail\n"
+                        + "      ,tr.[availability]\n"
+                        + "      ,tr.[priceAdult]\n"
+                        + "      ,tr.[priceChild]\n"
+                        + "      ,tr.[quantity]\n"
+                        + "      ,tr.[depart_time]\n"
+                        + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
+                        + "ORDER BY tr.[priceAdult] DESC";
+                ps = con.prepareStatement(SQL);
+                listTrip = new ArrayList<>();
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    listTrip.add(dto);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return listTrip;
+    }
+
     // Xử lí update dữ liệu cho thông tin TRIP theo TRIP ID; 
     public boolean updateTrip(double priceAdult, double priceChild, int quantity, String depart_time, int tripID)
             throws ClassNotFoundException, SQLException {
@@ -277,10 +351,11 @@ public class TripDAO implements Serializable {
     }
 
     public static void main(String[] args) {
-
-        TripDAO dao = new TripDAO();
         try {
-            dao.updateTrip(900000, 700000, 10, "2023/06/23", 1);
+            List<TripDTO> trip = new TripDAO().getTripPriceByDescending();
+            for (TripDTO x : trip) {
+                System.out.println(x.getPriceAdult());
+            }
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
