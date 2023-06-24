@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +53,11 @@ public class BookingDAO implements Serializable {
                     int bookingID = rs.getInt(1);
                     String code = rs.getString(2);
                     Date depart_time = rs.getDate(3);
-                    Date expireDate = rs.getDate(4);
+
+                    Timestamp ts = rs.getTimestamp(4);
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String expireDate = formatter.format(ts);
+
                     String custNameBooking = rs.getString(5);
                     int totalQuantity = rs.getInt(6) + rs.getInt(7);
                     double totalPrice = rs.getDouble(8);
@@ -58,7 +65,7 @@ public class BookingDAO implements Serializable {
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
-                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, (java.sql.Date) expireDate, totalQuantity, status, dto);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto);
                     listOfSummaryBooking.add(booking);
                 }
             }
@@ -82,9 +89,9 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id, bk.requirement, bk.cusBook,bk.cusMail,bk.cusPhone,bk.cusAddress,bk.expireDate,\n"
+                String SQL = "SELECT DISTINCT bk.id, bk.requirement, bk.cusBook, bk.cusMail, bk.cusPhone, bk.cusAddress, bk.expireDate,\n"
                         + "bk.quantityAdult, bk.quantityChild,Trip.tripID,Trip.code as tripCode, Trip.tourName, Trip.depart_time,\n"
-                        + "bk.totalPrice, Trip.priceAdult, Trip.priceChild,pm.id as paymentID, pm.name AS thanhToan, bk.status, acc.id as accountID\n"
+                        + "bk.totalPrice, Trip.priceAdult, Trip.priceChild,pm.id as paymentID, pm.name AS thanhToan, bk.status, acc.id as accountID, bk.reason\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
                         + "INNER JOIN (SELECT tr.code,tr.name AS tourName, tp.depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr \n"
@@ -117,7 +124,7 @@ public class BookingDAO implements Serializable {
                     String paymentName = rs.getString(18);
                     boolean status = rs.getBoolean(19);
                     int accountID = rs.getInt(20);
-
+                    String reason = rs.getString(21);
                     //TRIP DTO
                     TripDTO tripDTO = new TripDTO();
                     tripDTO.setCode(tripCode);
@@ -131,7 +138,7 @@ public class BookingDAO implements Serializable {
                     PaymentDTO paymentDTO = new PaymentDTO(paymentID, paymentName);
 
                     //BOOKING DTO 
-                    bookingDTO = new BookingDTO(bookingID, totalPrice, requirement, cusNameBooking, cusMail, cusPhone, cusAddress, rs.getDate(7), status, accountID, quantityAdult, quantityChild, tripDTO, paymentDTO);
+                    bookingDTO = new BookingDTO(bookingID, totalPrice, requirement, cusNameBooking, cusMail, cusPhone, cusAddress, rs.getString(7), status, accountID, quantityAdult, quantityChild, tripDTO, paymentDTO, reason);
                 }
             }
         } finally {
@@ -149,8 +156,10 @@ public class BookingDAO implements Serializable {
     }
 
     // Xử lí đổi trạng thái TRIP
-    public boolean changeStateBooking(int bookingID)
+    public boolean changeStateBooking(int bookingID, String description)
             throws ClassNotFoundException, SQLException {
+        PreparedStatement ps2 = null;
+
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
@@ -169,12 +178,16 @@ public class BookingDAO implements Serializable {
                         + "UPDATE [dbo].[Booking] SET [status] = 0 WHERE id = ?;\n"
                         + "END\n"
                         + "END";
+                String SQL2 = "UPDATE [dbo].[Booking] SET [reason] = ? WHERE id = ?";
                 ps = con.prepareStatement(SQL);
+                ps2 = con.prepareStatement(SQL2);
                 ps.setInt(1, bookingID);
                 ps.setInt(2, bookingID);
                 ps.setInt(3, bookingID);
+                ps2.setString(1, description);
+                ps2.setInt(2, bookingID);
                 ps.execute();
-                ps.close();
+                ps2.execute();
                 return true;
             }
         } finally {
@@ -186,6 +199,10 @@ public class BookingDAO implements Serializable {
             }
             if (ps != null) {
                 ps.close();
+            }
+            if (ps2 != null) {
+                ps2.close();
+
             }
         }
         return false;
@@ -334,7 +351,11 @@ public class BookingDAO implements Serializable {
                     int bookingID = rs.getInt(1);
                     String code = rs.getString(2);
                     Date depart_time = rs.getDate(3);
-                    Date expireDate = rs.getDate(4);
+
+                    Timestamp ts = rs.getTimestamp(4);
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String expireDate = formatter.format(ts);
+
                     String custNameBooking = rs.getString(5);
                     int totalQuantity = rs.getInt(6) + rs.getInt(7);
                     double totalPrice = rs.getDouble(8);
@@ -342,7 +363,7 @@ public class BookingDAO implements Serializable {
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
-                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, (java.sql.Date) expireDate, totalQuantity, status, dto);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto);
                     listOfSummaryBooking.add(booking);
                 }
             }
@@ -383,7 +404,11 @@ public class BookingDAO implements Serializable {
                     int bookingID = rs.getInt(1);
                     String code = rs.getString(2);
                     Date depart_time = rs.getDate(3);
-                    Date expireDate = rs.getDate(4);
+
+                    Timestamp ts = rs.getTimestamp(4);
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String expireDate = formatter.format(ts);
+
                     String custNameBooking = rs.getString(5);
                     int totalQuantity = rs.getInt(6) + rs.getInt(7);
                     double totalPrice = rs.getDouble(8);
@@ -391,7 +416,7 @@ public class BookingDAO implements Serializable {
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
-                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, (java.sql.Date) expireDate, totalQuantity, status, dto);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto);
                     listOfSummaryBooking.add(booking);
                 }
             }
@@ -409,22 +434,64 @@ public class BookingDAO implements Serializable {
         return listOfSummaryBooking;
     }
 
-//    public static void main(String[] args) {
-//        try {
-//            ArrayList<BookingDTO> list = new BookingDAO().getListOfBookingByStatus(true);
-////            if (dto != null) {
-////                System.out.println(dto);
-////                System.out.println(dto.getPaymentDTO().getPaymentName());
-////                System.out.println(dto.getTripDTO().getTourName());
-////                System.out.println(dto.getTripDTO().getCode());
-////            }
+    public Timestamp test() throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "  SELECT [expireDate] from [NTNECompany].[dbo].[Booking]\n"
+                        + "  WHERE id = 32";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getTimestamp(1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args)
+            throws ClassNotFoundException, SQLException, ParseException {
+
+//        Date date = new SimpleDateFormat("dd-MM-yyyy");
+//        Date formatDate = formatter6.parse(now);
+//        String str = new BookingDAO().test();
+//        System.out.println(str);
+//        SimpleDateFormat formatter6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = formatter6.parse(str);
+//        System.out.println(date);
+//        LocalDateTime ldt = LocalDateTime.ofInstant(now.toInstant(), ZoneId.systemDefault());
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        Timestamp ts = new BookingDAO().test();
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd\tHH:mm:ss");
+//        String dateFormat = formatter.format(ts);
+        try {
+            boolean status = new BookingDAO().changeStateBooking(5, "Thieu tien");
+            System.out.println(status);
+            BookingDTO test = new BookingDAO().getDetailBookingByID(5);
+            System.out.println(test.getReason());
+//            if (list != null) {
+//                for (BookingDTO bookingDTO : list) {
+//                    System.out.println(bookingDTO.getExpireDate());
+//                }
+//            }
 //            if (list != null) {
 //                for (BookingDTO bookingDTO : list) {
 //                    System.out.println(bookingDTO.getCusBook());
 //                }
 //            }
-//        } catch (ClassNotFoundException | SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

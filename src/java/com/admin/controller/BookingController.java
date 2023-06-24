@@ -7,15 +7,10 @@ package com.admin.controller;
 
 import com.admin.config.Config;
 import com.admin.dao.BookingDAO;
-import com.admin.dao.TripDAO;
 import com.admin.model.BookingDTO;
-import com.admin.model.TripDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -148,11 +143,11 @@ public class BookingController extends HttpServlet {
         try {
             // Get Parameter
             int bookingItemID = Integer.parseInt(request.getParameter("bookingItemID"));
+            String description = request.getParameter("descriptionBookingChanged");
             // Call DAO
             BookingDAO dao = new BookingDAO();
-            boolean checkChangeStateBooking = dao.changeStateBooking(bookingItemID);
+            boolean checkChangeStateBooking = dao.changeStateBooking(bookingItemID, description);
             if (checkChangeStateBooking) {
-                //Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
                 request.setAttribute("msg_success", "Bạn đã thay đổi trạng thái của Booking có mã Booking");
                 request.setAttribute("bookingItemID", bookingItemID);
                 request.getRequestDispatcher("/booking/viewBooking.do").forward(request, response);
