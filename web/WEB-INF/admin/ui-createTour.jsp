@@ -287,7 +287,7 @@
                                             <label
                                                 for="exampleInputEmail1"
                                                 class="form-label"
-                                                >Mô tả ngắn</label
+                                                >Các điểm đến</label
                                             >
                                             <input
                                                 type="text"

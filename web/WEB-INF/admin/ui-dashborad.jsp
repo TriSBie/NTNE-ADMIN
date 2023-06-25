@@ -249,7 +249,7 @@
                     <div class="row">
                         <!-- Báo cáo hôm nay -->
                         <div class="row">
-                            <h5 class="card-title mb-9 fw-semibold">Chi tiết báo cáo ngày hôm nay</h5>
+                            <h5 class="card-title mb-9 fw-semibold">CHI TIẾT BÁO CÁO HÔM NAY</h5>
                             <!-- Doanh thu hôm nay -->
                             <div class="col-lg-4">
                                 <div class="card">
@@ -366,7 +366,7 @@
                         </div>
                         <!-- Báo cáo hôm nay -->
 
-                        <h5 class="card-title mb-9 fw-semibold">Chi tiết báo cáo tháng này</h5>
+                        <h5 class="card-title mb-9 fw-semibold">CHI TIẾT BÁO CÁO THÁNG NÀY</h5>
                         <!-- Báo cáo tháng này -->
                         <div class="row">
                             <div class="col-lg-4">

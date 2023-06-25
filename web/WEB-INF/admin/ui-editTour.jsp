@@ -263,7 +263,7 @@
                                                         <input name="tourName" type="text" class="form-control" value="${TOUR_DETAIL.tourName}" placeholder="Tên TOUR hiện tại [ ${TOUR_DETAIL.tourName} ]" required/>
                                                     </div>
                                                     <div class="col-6">
-                                                        <label class="form-label">Mời bạn nhập địa điểm</label>
+                                                        <label class="form-label">Các điểm đến</label>
                                                         <input name="location" type="text" class="form-control" value="${TOUR_DETAIL.location}" placeholder="Địa điểm hiện tại [ ${TOUR_DETAIL.location} ]" required/>
                                                     </div>
                                                 </div>

@@ -24,6 +24,47 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+
+
+        <style>
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 12px;
+                border: none;
+            }
+
+            .dropdown {
+                width: 100%;
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                width: 100%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+
+            }
+
+            .dropdown-content a {
+                font-size: 12px;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #ddd;}
+
+            .dropdown:hover .dropdown-content {display: block;}
+
+            .dropdown:hover .dropbtn {background-color: #3e8e41;}
+        </style>
     </head>
 
     <body>
@@ -179,7 +220,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
-            
+
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
@@ -257,20 +298,36 @@
                                         </div>
                                     </c:if>
                                     <!-- Thông báo nếu thao tác thành công -->
-                                    <h5 class="card-title fw-semibold mb-4">Danh Sách BOOKING</h5>
-                                    <!-- Filter theo trạng thái -->
-                                    <div class="mb-3">
-                                        <div class="col-6">
-                                            <form action="<c:url value="/booking/filterStatusBooking.do"/>">
-                                                <button class="btn btn-outline-success" name="payStatus" value="yes">
-                                                    <p style="margin:0px; color:#333">Danh sách KH đã thanh toán</p>
-                                                </button>
-                                                <button class="btn btn-outline-danger" name="payStatus" value="no">
-                                                    <p style="margin:0px; color:#333">Danh sách KH chưa thanh toán</p>
-                                                </button>
-                                            </form>
+                                    <h3 class="mb-3">Danh Sách BOOKING</h3>
+                                    <!-- Filter -->
+                                    <div class="row alig n-items-start">
+                                        <!-- Theo trạng thái -->
+                                        <div class="col-3 ">
+                                            <div class="dropdown">
+                                                <button type="button" class="form-select">Mặc định</button>
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item active" 
+                                                       href="<c:url value="/booking/filterStatusBooking.do?payStatus=yes"/>">
+                                                        Khách hàng đã thanh toán
+                                                    </a>
+                                                    <a class="dropdown-item active" 
+                                                       href="<c:url value="/booking/filterStatusBooking.do?payStatus=no"/>">
+                                                        Khách hàng chưa thanh toán
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
+<!--                                        <div class="col-3">
+                                            <label>Danh sách theo ngày booking</label>
+                                            <a class="dropdown-item active" 
+                                               href="<c:url value="/booking/filterStatusBooking.do?payStatus=no"/>">
+                                                <input name="depart_time" type="date" class="form-control" value="" >
+                                            </a>
+                                            </input>
+                                        </div>-->
                                     </div>
+                                    <!-- Filter -->
+
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
@@ -394,7 +451,7 @@
                                                                                                         rows="5" 
                                                                                                         class="form-control" 
                                                                                                         id="editor${counter.count}" 
-                                                                                                        name="destinationDescription"
+                                                                                                        name="descriptionBookingChanged"
                                                                                                         value=${bookingITEM.reason}>
                                                                                                     </textarea>
                                                                                                 </div>
@@ -654,8 +711,6 @@
                                                                                     </div>
                                                                                     <!-- END CREATE TRIP -->
                                                                                     <!-- Check Box -->
-
-
                                                                                     <div class="mb-3 form-check">
                                                                                         <input type="checkbox" class="form-check-input confirmative-change" required/>
                                                                                         <label class="form-check-label"
