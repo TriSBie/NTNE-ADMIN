@@ -79,13 +79,15 @@ public class TourController extends HttpServlet {
             case "filter_state_false":
                 filter_state_false(request, response);
                 break;
-
             case "filter_state_true":
                 filter_state_true(request, response);
                 break;
-
             case "filter_trip_price":
                 filter_trip_price(request, response);
+                break;
+            case "filter_all_trip_this_month":
+                filter_all_trip_this_month(request, response);
+                break;
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
             ------------------------------------------------------------------------------*/
@@ -312,6 +314,10 @@ public class TourController extends HttpServlet {
 
             // Lấy tổng số TRIP đang hoạt động
             int total_TRIP_Available = trip_dao.getTotal_TRIP_ACTIVE();
+            
+            
+            // Lấy tổng số TRIP đã và đang hoạt động trong tháng này
+            int total_TRIP_in_this_month = trip_dao.getTotal_TRIP();
 
             if (list != null) {
                 url = Config.LAYOUT + DASHBORAD_URL;
@@ -332,6 +338,7 @@ public class TourController extends HttpServlet {
                 request.setAttribute("TOTAL_TICKET_MONTH", totalSticket_Month);
                 request.setAttribute("TOTAL_TICKET_PRIVIOUS_MONTH", totalSticket_PriviousMonth);
                 request.setAttribute("TOTAL_TRIP_ACTIVE", total_TRIP_Available);
+                request.setAttribute("TOTAL_TRIP_IN_THIS_MONTH", total_TRIP_in_this_month);
 
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
@@ -383,6 +390,26 @@ public class TourController extends HttpServlet {
         }
     }
 
+    //Get list trip from database "filter_state_true"
+    protected void filter_all_trip_this_month(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            TripDAO dao = new TripDAO();
+            List<TripDTO> listTrip = dao.getAllTrip_in_this_month();
+            if (listTrip != null) {
+                url = Config.LAYOUT + LIST_TRIP_URL;
+                request.setAttribute("LIST_TRIP", listTrip);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
     //Get list trip from database "filter_trip_by_price"
     protected void filter_trip_price(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

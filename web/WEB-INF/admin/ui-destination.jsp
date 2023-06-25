@@ -260,12 +260,19 @@
                                                 <strong>${msg_success}</strong>
                                             </div>
                                         </c:if>
-                                        <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
+                                        <div style="display: flex; justify-content: space-between">
                                             <h5 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h5>
                                             <a href="#popup1" class="openPopup" onclick="openPopup()">
                                                 <button class="btn btn-primary">Tạo địa điểm mới </button>
                                             </a>
                                         </div>
+                                        <!-- Filter -->
+                                        <div class="row alig n-items-start">
+                                            <div class="col-3">
+                                                <input  id="myInput" name="depart_time" type="text" class="form-control" placeholder="Tìm kiếm địa điểm.." />
+                                            </div>
+                                        </div>
+                                        <!-- Filter -->
                                         <div class="container-fluid">
                                             <div class="card">
                                                 <div class="card-body overlay" id="popup1">
@@ -339,7 +346,7 @@
                                                 <th scope="col">Chức năng</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="myTable">
                                             <c:if test="${not empty requestScope.LIST_DESTINATION}">
                                                 <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
                                                     <tr scope="row" id="anchorLink${counter.count}">
@@ -460,19 +467,19 @@
                                 </div>
                             </div>
                             <!--  Phân trang -->
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Trang trước</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Trang sau</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <!--                            <nav aria-label="Page navigation example">
+                                                            <ul class="pagination justify-content-center">
+                                                                <li class="page-item disabled">
+                                                                    <a class="page-link" href="#" tabindex="-1">Trang trước</a>
+                                                                </li>
+                                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                                <li class="page-item">
+                                                                    <a class="page-link" href="#">Trang sau</a>
+                                                                </li>
+                                                            </ul>
+                                                        </nav>-->
                             <!--  Phân trang -->
                         </div>
                     </div>
@@ -641,6 +648,18 @@
                     ).style.zIndex = "10";
         }
     </script>
+    
+    
+    <script>
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
 </body>
 </html>
 

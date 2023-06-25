@@ -317,14 +317,9 @@
                                                 </div>
                                             </div>
                                         </div>
-<!--                                        <div class="col-3">
-                                            <label>Danh sách theo ngày booking</label>
-                                            <a class="dropdown-item active" 
-                                               href="<c:url value="/booking/filterStatusBooking.do?payStatus=no"/>">
-                                                <input name="depart_time" type="date" class="form-control" value="" >
-                                            </a>
-                                            </input>
-                                        </div>-->
+                                        <div class="col-3">
+                                            <input  id="myInput" name="depart_time" type="text" class="form-control" placeholder="Tìm kiếm.." />
+                                        </div>
                                     </div>
                                     <!-- Filter -->
 
@@ -362,7 +357,7 @@
                                                 </a>
                                             </c:if>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="myTable">
                                                 <!--GET LIST BOOKING BY DEFAULT-->
                                                 <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
                                                     <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}" varStatus="counter">
@@ -549,7 +544,383 @@
                                                         </tr>
                                                     </c:forEach>
                                                 </c:if>
-                                                <!--END-->
+                                                <!--GET LIST BOOKING BY DEFAULT-->
+
+                                                <!--LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI-->
+                                                <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING_CURRENT_DAY}">
+                                                    <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING_CURRENT_DAY}" varStatus="counter">
+                                                        <tr>
+                                                            <td class="border-bottom-0">
+                                                                <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
+                                                                    <c:param name="bookingID" value="${bookingITEM.id}"/>
+                                                                </c:url>
+                                                                <a href=${getDetaiBookingLink} class="bookingIDLink">
+                                                                    <h6 class="fw-semibold mb-0" title="Xem chi tiết">
+                                                                        ${bookingITEM.id}
+                                                                    </h6>
+                                                                </a>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${bookingITEM.tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${bookingITEM.tripDTO.depart_time}"/>]
+                                                                </h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-semibold">
+                                                                    ${bookingITEM.expireDate}
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-semibold">
+                                                                    <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <div class="d-flex align-items-center gap-2">
+                                                                    <c:choose>
+                                                                        <c:when test="${bookingITEM.status}">
+                                                                            <span
+                                                                                class="badge bg-success rounded-3 fw-semibold"
+                                                                                >
+                                                                                Đã thanh toán
+                                                                            </span>
+                                                                        </c:when>
+                                                                        <c:when test="${!bookingITEM.status}">
+                                                                            <span
+                                                                                class="badge bg-danger rounded-3 fw-semibold"
+                                                                                >
+                                                                                Chưa thanh toán
+                                                                            </span>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                                <c:if test="${bookingITEM.status == true}">
+                                                                    <a class="anchorLink"
+                                                                       href="#popupEdit${counter.count}"
+                                                                       onclick="openPopupEdit(${counter.count})"
+                                                                       >
+                                                                        <label class="switch">
+                                                                            <button class="btn" style="padding: 0">
+                                                                                <input type="checkbox" checked>
+                                                                                <span class="slider">
+                                                                                </span>
+                                                                            </button>
+                                                                        </label>
+                                                                    </a>
+                                                                    <div class="card">
+                                                                        <div
+                                                                            class="card-body overlay2"
+                                                                            id="popupEdit${counter.count}"
+                                                                            >
+                                                                            <div class="popup2">
+                                                                                <!-- Tên TOUR -->
+                                                                                <h3>Lý do đổi trạng thái thanh toán</h3>
+                                                                                <hr class="hr" />
+                                                                                <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
+                                                                                <!-- CREATE TRIP -->
+                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                                                    <div class="formTour">
+                                                                                        <div class="formTour-package">
+                                                                                            <div class="mb-3 row">
+                                                                                                <div class="mb-3 col-12">
+                                                                                                    <label class="form-label">Mô tả lý do</label>
+                                                                                                    <textarea 
+                                                                                                        rows="5" 
+                                                                                                        class="form-control" 
+                                                                                                        id="editor${counter.count}" 
+                                                                                                        name="descriptionBookingChanged"
+                                                                                                        value=${bookingITEM.reason}>
+                                                                                                    </textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- END CREATE TRIP -->
+                                                                                    <!-- Check Box -->
+                                                                                    <div class="mb-3 form-check">
+                                                                                        <input type="checkbox" class="form-check-input" required/>
+                                                                                        <label class="form-check-label"
+                                                                                               >Xác thực thay đổi trạng thái booking</label
+                                                                                        >
+                                                                                    </div>
+
+                                                                                    <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        class="btn btn-primary"
+                                                                                        onclick="closePopupEdit()"
+                                                                                        >
+                                                                                        Lưu
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <c:if test="${bookingITEM.status != true}" >
+                                                                    <a class="anchorLink"
+                                                                       href="#popupEdit${counter.count}"
+                                                                       onclick="openPopupEdit(${counter.count})"
+                                                                       >
+                                                                        <label class="switch">
+                                                                            <button class="btn">
+                                                                                <input type="checkbox">
+                                                                                <span class="slider">
+                                                                                </span>
+                                                                            </button>
+                                                                        </label>
+                                                                    </a>
+                                                                    <div class="card">
+                                                                        <div
+                                                                            class="card-body overlay2"
+                                                                            id="popupEdit${counter.count}"
+                                                                            >
+                                                                            <div class="popup2">
+                                                                                <!-- Tên TOUR -->
+                                                                                <h3>Lý do đổi trạng thái thanh toán</h3>
+                                                                                <hr class="hr" />
+                                                                                <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
+                                                                                <!-- CREATE TRIP -->
+                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                                                    <div class="formTour">
+                                                                                        <div class="formTour-package">
+                                                                                            <div class="mb-3 row">
+                                                                                                <div class="mb-3 col-12">
+                                                                                                    <label class="form-label">Mô tả lý do</label>
+                                                                                                    <textarea 
+                                                                                                        rows="5" 
+                                                                                                        class="form-control" 
+                                                                                                        id="editor${counter.count}" 
+                                                                                                        name="descriptionBookingChanged"
+                                                                                                        value=${bookingITEM.reason}>
+                                                                                                    </textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- END CREATE TRIP -->
+                                                                                    <!-- Check Box -->
+
+
+                                                                                    <div class="mb-3 form-check">
+                                                                                        <input type="checkbox" class="form-check-input confirmative-change" required/>
+                                                                                        <label class="form-check-label"
+                                                                                               >Xác thực thay đổi trạng thái booking</label
+                                                                                        >
+                                                                                    </div>
+                                                                                    <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        class="btn btn-primary saveBtn"
+                                                                                        onclick="closePopupEdit()"
+                                                                                        >
+                                                                                        Lưu
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <!-- Nơi xử lý đổi trạng thái của Booking -->
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
+                                                <!--LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI-->
+
+                                                <!--LẤY DANH SÁCH BOOKING THEO THÁNG HIỆN TẠI-->
+                                                <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING_CURRENT_MONTH}">
+                                                    <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING_CURRENT_MONTH}" varStatus="counter">
+                                                        <tr>
+                                                            <td class="border-bottom-0">
+                                                                <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
+                                                                    <c:param name="bookingID" value="${bookingITEM.id}"/>
+                                                                </c:url>
+                                                                <a href=${getDetaiBookingLink} class="bookingIDLink">
+                                                                    <h6 class="fw-semibold mb-0" title="Xem chi tiết">
+                                                                        ${bookingITEM.id}
+                                                                    </h6>
+                                                                </a>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-1">
+                                                                    ${bookingITEM.tripDTO.code} - [<fmt:formatDate pattern="dd/MM" value="${bookingITEM.tripDTO.depart_time}"/>]
+                                                                </h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-semibold">
+                                                                    ${bookingITEM.expireDate}
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-semibold">
+                                                                    <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
+                                                                </p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <div class="d-flex align-items-center gap-2">
+                                                                    <c:choose>
+                                                                        <c:when test="${bookingITEM.status}">
+                                                                            <span
+                                                                                class="badge bg-success rounded-3 fw-semibold"
+                                                                                >
+                                                                                Đã thanh toán
+                                                                            </span>
+                                                                        </c:when>
+                                                                        <c:when test="${!bookingITEM.status}">
+                                                                            <span
+                                                                                class="badge bg-danger rounded-3 fw-semibold"
+                                                                                >
+                                                                                Chưa thanh toán
+                                                                            </span>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <!-- Nơi xử lý đổi trạng thái của trip -->
+                                                                <c:if test="${bookingITEM.status == true}">
+                                                                    <a class="anchorLink"
+                                                                       href="#popupEdit${counter.count}"
+                                                                       onclick="openPopupEdit(${counter.count})"
+                                                                       >
+                                                                        <label class="switch">
+                                                                            <button class="btn" style="padding: 0">
+                                                                                <input type="checkbox" checked>
+                                                                                <span class="slider">
+                                                                                </span>
+                                                                            </button>
+                                                                        </label>
+                                                                    </a>
+                                                                    <div class="card">
+                                                                        <div
+                                                                            class="card-body overlay2"
+                                                                            id="popupEdit${counter.count}"
+                                                                            >
+                                                                            <div class="popup2">
+                                                                                <!-- Tên TOUR -->
+                                                                                <h3>Lý do đổi trạng thái thanh toán</h3>
+                                                                                <hr class="hr" />
+                                                                                <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
+                                                                                <!-- CREATE TRIP -->
+                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                                                    <div class="formTour">
+                                                                                        <div class="formTour-package">
+                                                                                            <div class="mb-3 row">
+                                                                                                <div class="mb-3 col-12">
+                                                                                                    <label class="form-label">Mô tả lý do</label>
+                                                                                                    <textarea 
+                                                                                                        rows="5" 
+                                                                                                        class="form-control" 
+                                                                                                        id="editor${counter.count}" 
+                                                                                                        name="descriptionBookingChanged"
+                                                                                                        value=${bookingITEM.reason}>
+                                                                                                    </textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- END CREATE TRIP -->
+                                                                                    <!-- Check Box -->
+                                                                                    <div class="mb-3 form-check">
+                                                                                        <input type="checkbox" class="form-check-input" required/>
+                                                                                        <label class="form-check-label"
+                                                                                               >Xác thực thay đổi trạng thái booking</label
+                                                                                        >
+                                                                                    </div>
+
+                                                                                    <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        class="btn btn-primary"
+                                                                                        onclick="closePopupEdit()"
+                                                                                        >
+                                                                                        Lưu
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <c:if test="${bookingITEM.status != true}" >
+                                                                    <a class="anchorLink"
+                                                                       href="#popupEdit${counter.count}"
+                                                                       onclick="openPopupEdit(${counter.count})"
+                                                                       >
+                                                                        <label class="switch">
+                                                                            <button class="btn">
+                                                                                <input type="checkbox">
+                                                                                <span class="slider">
+                                                                                </span>
+                                                                            </button>
+                                                                        </label>
+                                                                    </a>
+                                                                    <div class="card">
+                                                                        <div
+                                                                            class="card-body overlay2"
+                                                                            id="popupEdit${counter.count}"
+                                                                            >
+                                                                            <div class="popup2">
+                                                                                <!-- Tên TOUR -->
+                                                                                <h3>Lý do đổi trạng thái thanh toán</h3>
+                                                                                <hr class="hr" />
+                                                                                <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
+                                                                                <!-- CREATE TRIP -->
+                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                                                    <div class="formTour">
+                                                                                        <div class="formTour-package">
+                                                                                            <div class="mb-3 row">
+                                                                                                <div class="mb-3 col-12">
+                                                                                                    <label class="form-label">Mô tả lý do</label>
+                                                                                                    <textarea 
+                                                                                                        rows="5" 
+                                                                                                        class="form-control" 
+                                                                                                        id="editor${counter.count}" 
+                                                                                                        name="descriptionBookingChanged"
+                                                                                                        value=${bookingITEM.reason}>
+                                                                                                    </textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- END CREATE TRIP -->
+                                                                                    <!-- Check Box -->
+
+
+                                                                                    <div class="mb-3 form-check">
+                                                                                        <input type="checkbox" class="form-check-input confirmative-change" required/>
+                                                                                        <label class="form-check-label"
+                                                                                               >Xác thực thay đổi trạng thái booking</label
+                                                                                        >
+                                                                                    </div>
+                                                                                    <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        class="btn btn-primary saveBtn"
+                                                                                        onclick="closePopupEdit()"
+                                                                                        >
+                                                                                        Lưu
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <!-- Nơi xử lý đổi trạng thái của Booking -->
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
+                                                <!--LẤY DANH SÁCH BOOKING THEO THÁNG HIỆN TẠI-->
 
                                                 <!--GET LIST OF BOOKING WITH STATUS IN CONDITION-->
                                                 <c:if test="${not empty requestScope.BOOKING_STATUS_WITH_CONDITION}">
@@ -938,6 +1309,17 @@
                                                                                                         ).style.zIndex = "10";
                                                                                             }
 
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
         </script>
     </body>
 </html>

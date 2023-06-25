@@ -325,6 +325,14 @@
                                     </c:if>
                                     <!-- Thông báo nếu thao tác thành công -->
                                     <h5 class="card-title fw-semibold mb-4">Danh Sách Tài khoản</h5>
+                                    <!-- Filter -->
+                                    <div class="row alig n-items-start">
+                                        <!-- Theo trạng thái -->
+                                        <div class="col-3">
+                                            <input  id="myInput" type="text" class="form-control" placeholder="Tìm kiếm.." />
+                                        </div>
+                                    </div>
+                                    <!-- Filter -->
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
@@ -355,9 +363,8 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="myTable">
                                                 <!--GET LIST USER BY DEFAULT-->
-
                                                 <c:if test="${not empty requestScope.LIST_ACCOUNT}">
                                                     <c:forEach var="account" items="${LIST_ACCOUNT}">
                                                         <tr>
@@ -489,6 +496,17 @@
                                                                                     event.preventDefault();
                                                                                 }
                                                                             }
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
         </script>
     </body>
 </html>

@@ -53,9 +53,16 @@ public class BookingController extends HttpServlet {
             case "listBookingbyTripID":
                 listBookingbyTripID(request, response);
                 break;
-
             case "filterStatusBooking":
                 filterStatusBooking(request, response);
+                break;
+            // Lây danh sách booking theo ngày hiện tại;
+            case "viewBookingCurentDay":
+                getListBookingCurentDay(request, response);
+                break;
+            // Lây danh sách booking theo tháng hiện tại;
+            case "viewBookingCurentMonth":
+                getListBookingCurentMonth(request, response);
                 break;
 
             /*------------------------------------------------------------------------------
@@ -75,9 +82,55 @@ public class BookingController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
+
+            // LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI
+            List<BookingDTO> listBooking_Current_Day = new BookingDAO().getListOfBooking_Current_Day();
+
             if (listOfSummaryBooking != null) {
                 url = Config.LAYOUT + VIEW_BOOKING_URL;
                 request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else if (listBooking_Current_Day != null) {
+                url = Config.LAYOUT + VIEW_BOOKING_URL;
+                request.setAttribute("LIST_OF_SUMMARY_BOOKING_CURRENT_DAY", listBooking_Current_Day);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Lấy danh sách booing theo ngày hiện tại
+    protected void getListBookingCurentDay(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            // LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI
+            List<BookingDTO> listBooking_Current_Day = new BookingDAO().getListOfBooking_Current_Day();
+            if (listBooking_Current_Day != null) {
+                url = Config.LAYOUT + VIEW_BOOKING_URL;
+                request.setAttribute("LIST_OF_SUMMARY_BOOKING_CURRENT_DAY", listBooking_Current_Day);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    // Lấy danh sách booing theo tháng hiện tại
+    protected void getListBookingCurentMonth(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            // LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI
+            List<BookingDTO> listBooking_Current_Month = new BookingDAO().getListOfBooking_Current_Month();
+            if (listBooking_Current_Month != null) {
+                url = Config.LAYOUT + VIEW_BOOKING_URL;
+                request.setAttribute("LIST_OF_SUMMARY_BOOKING_CURRENT_MONTH", listBooking_Current_Month);
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);
@@ -121,7 +174,7 @@ public class BookingController extends HttpServlet {
             // Get TOUR BY TRIP ID
             TourDAO dao_tour = new TourDAO();
             TourDTO tour = dao_tour.getTour_by_TripID(tripID);
-            
+
             BookingDAO dao = new BookingDAO();
             ArrayList<BookingDTO> list = dao.getListBooking_By_TripID(tripID);
             System.out.println(tripID);

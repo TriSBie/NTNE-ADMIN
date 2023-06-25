@@ -26,7 +26,7 @@ public class TripDAO implements Serializable {
     private PreparedStatement ps = null;
     private ResultSet rs = null;
 
-//Get List Trip
+    //Get List Trip
     public List<TripDTO> getAllTrip()
             throws ClassNotFoundException, SQLException {
         List<TripDTO> list = null;
@@ -110,6 +110,40 @@ public class TripDAO implements Serializable {
                         + "FROM [NTNECompany].[dbo].[Trip] tr\n"
                         + "JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
                         + "WHERE [availability] = 1\n"
+                        + "ORDER BY tr.[depart_time] DESC";
+                list = new ArrayList<>();
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
+
+    // Lấy danh sách các TRIP trong tháng
+    public List<TripDTO> getAllTrip_in_this_month()
+            throws ClassNotFoundException, SQLException {
+        List<TripDTO> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT TOP (1000) tr.[id],t.code, t.thumbnail ,tr.[availability] ,tr.[priceAdult],tr.[priceChild],tr.[quantity],tr.[depart_time]\n"
+                        + "FROM [NTNECompany].[dbo].[Trip] tr\n"
+                        + "JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
+                        + "WHERE MONTH(tr.depart_time) = MONTH(GETDATE())\n"
                         + "ORDER BY tr.[depart_time] DESC";
                 list = new ArrayList<>();
                 ps = con.prepareStatement(SQL);
@@ -357,6 +391,35 @@ public class TripDAO implements Serializable {
             if (con != null) {
                 String SQL = "SELECT COUNT(id) FROM [dbo].[Trip] \n"
                         + " WHERE [availability] = 1";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                int total = 0;
+                while (rs.next()) {
+                    total = rs.getInt(1);
+                }
+                return total;
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
+    // lẤY TỔNG SỐ LƯỢNG TRIP HIỆN TẠI ĐANG HOẠT ĐỘNG TRONG THÁNG HIỆN TẠI
+    public int getTotal_TRIP() throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT COUNT(id) FROM [dbo].[Trip]\n"
+                        + "WHERE MONTH([dbo].[Trip].depart_time) = MONTH(GETDATE())";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 int total = 0;

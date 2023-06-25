@@ -556,7 +556,7 @@ public class BookingDAO implements Serializable {
                     Date depart_time = rs.getDate(3);
 
                     Timestamp ts = rs.getTimestamp(4);
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                     String expireDate = formatter.format(ts);
 
                     String custNameBooking = rs.getString(5);
@@ -585,16 +585,44 @@ public class BookingDAO implements Serializable {
         return listOfSummaryBooking;
     }
 
-    public Timestamp test() throws ClassNotFoundException, SQLException {
+    // LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI
+    public ArrayList<BookingDTO> getListOfBooking_Current_Day() throws ClassNotFoundException, SQLException {
+        ArrayList<BookingDTO> listOfSummaryBooking = null;
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "  SELECT [expireDate] from [NTNECompany].[dbo].[Booking]\n"
-                        + "  WHERE id = 32";
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr\n"
+                        + "WHERE bk.trip_id = tp.id\n"
+                        + "AND tp.tour_id = tr.id)Trip\n"
+                        + "ON Trip.tripID = bk.trip_id\n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "WHERE DAY(bk.expireDate) = DAY(GETDATE()) AND bk.status = 1\n"
+                        + "ORDER BY bk.expireDate DESC";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
-                if (rs.next()) {
-                    return rs.getTimestamp(1);
+                listOfSummaryBooking = new ArrayList<>();
+                while (rs.next()) {
+                    int bookingID = rs.getInt(1);
+                    String code = rs.getString(2);
+                    Date depart_time = rs.getDate(3);
+
+                    Timestamp ts = rs.getTimestamp(4);
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                    String expireDate = formatter.format(ts);
+
+                    String custNameBooking = rs.getString(5);
+                    int totalQuantity = rs.getInt(6) + rs.getInt(7);
+                    double totalPrice = rs.getDouble(8);
+                    boolean status = rs.getBoolean(9);
+                    String reason = rs.getString(10);
+                    TripDTO dto = new TripDTO();
+                    dto.setCode(code);
+                    dto.setDepart_time(depart_time);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
+                    listOfSummaryBooking.add(booking);
                 }
             }
         } finally {
@@ -608,9 +636,63 @@ public class BookingDAO implements Serializable {
                 ps.close();
             }
         }
-        return null;
+        return listOfSummaryBooking;
     }
+    
+    // LẤY DANH SÁCH BOOKING THEO NGÀY THÁNG HIỆN TẠI
+    public ArrayList<BookingDTO> getListOfBooking_Current_Month() throws ClassNotFoundException, SQLException {
+        ArrayList<BookingDTO> listOfSummaryBooking = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr\n"
+                        + "WHERE bk.trip_id = tp.id\n"
+                        + "AND tp.tour_id = tr.id)Trip\n"
+                        + "ON Trip.tripID = bk.trip_id\n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "WHERE MONTH(bk.expireDate) = MONTH(GETDATE()) AND bk.status = 1\n"
+                        + "ORDER BY bk.expireDate DESC";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                listOfSummaryBooking = new ArrayList<>();
+                while (rs.next()) {
+                    int bookingID = rs.getInt(1);
+                    String code = rs.getString(2);
+                    Date depart_time = rs.getDate(3);
 
+                    Timestamp ts = rs.getTimestamp(4);
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                    String expireDate = formatter.format(ts);
+
+                    String custNameBooking = rs.getString(5);
+                    int totalQuantity = rs.getInt(6) + rs.getInt(7);
+                    double totalPrice = rs.getDouble(8);
+                    boolean status = rs.getBoolean(9);
+                    String reason = rs.getString(10);
+                    TripDTO dto = new TripDTO();
+                    dto.setCode(code);
+                    dto.setDepart_time(depart_time);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
+                    listOfSummaryBooking.add(booking);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return listOfSummaryBooking;
+    }
+    
     public static void main(String[] args)
             throws ClassNotFoundException, SQLException, ParseException {
 

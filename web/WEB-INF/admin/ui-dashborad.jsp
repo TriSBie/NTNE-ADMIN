@@ -256,7 +256,9 @@
                                     <div class="card-body">
                                         <div class="row alig n-items-start">
                                             <div class="col-10">
-                                                <h5 class="card-title mb-9 fw-normal">Doanh thu hôm nay</h5>
+                                                <h5 class="card-title mb-9 fw-normal">
+                                                    <a href="<c:url value="/booking/viewBookingCurentDay.do"/>">Doanh thu hôm nay</a>
+                                                </h5>
                                                 <h4 class="fw-semibold mb-3">
                                                     <fmt:formatNumber value ="${REVENUE_BY_CURENT_DAY}" type = "currency"/>
                                                 </h4>
@@ -360,11 +362,11 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                         <!-- Báo cáo hôm nay -->
+
 
                         <h5 class="card-title mb-9 fw-semibold">CHI TIẾT BÁO CÁO THÁNG NÀY</h5>
                         <!-- Báo cáo tháng này -->
@@ -375,7 +377,9 @@
                                     <div class="card-body">
                                         <div class="row alig n-items-start">
                                             <div class="col-11">
-                                                <h5 class="card-title mb-9 fw-normal">Doanh thu tháng 6</h5>
+                                                <h5 class="card-title mb-9 fw-normal">
+                                                    <a href="<c:url value="/booking/viewBookingCurentMonth.do"/>">Doanh thu tháng 6</a>
+                                                </h5>
                                                 <h4 class="fw-semibold mb-3">
                                                     <fmt:formatNumber value ="${REVENUE_BY_MONTH}" type = "currency"/>
                                                 </h4>
@@ -454,57 +458,32 @@
 
                                 </div>
                             </div>
+                            <!-- Số lượng TRIP được hoạt động hôm nay -->
                             <div class="col-lg-4">
-                                <!-- Monthly Earnings -->
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row alig n-items-start">
                                             <div class="col-10">
-                                                <h5 class="card-title mb-9 fw-normal">Doanh thu hôm nay</h5>
+                                                <h5 class="card-title mb-9 fw-normal">Tổng chuyến trong tháng 6</h5>
                                                 <h4 class="fw-semibold mb-3">
-                                                    <fmt:formatNumber value ="${REVENUE_BY_CURENT_DAY}" type = "currency"/>
+                                                    ${TOTAL_TRIP_IN_THIS_MONTH} chuyến
                                                 </h4>
                                                 <div class="d-flex align-items-center pb-1">
-                                                    <c:if test="${REVENUE_GROWTH_RATE > 100}">
-                                                        <span
-                                                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                                                            <i class="ti ti-arrow-up-left text-success"></i>
-                                                        </span>
-                                                        <p class="text-dark me-1 fs-3 mb-0">
-                                                            ${REVENUE_GROWTH_RATE}%
-                                                        </p>
-                                                        <br>
-                                                    </c:if>
-                                                    <c:if test="${REVENUE_GROWTH_RATE < 100 && REVENUE_GROWTH_RATE > 0}">
-                                                        <span
-                                                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                                                            <i class="ti ti-arrow-down-right text-danger"></i>
-                                                        </span>
-                                                        <p class="text-dark me-1 fs-3 mb-0">
-                                                            ${REVENUE_GROWTH_RATE_DOWN}%
-                                                        </p>
-                                                    </c:if>
-
                                                     <p class="fs-3 mb-0">
-                                                        Hôm qua
-                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVIOUS_DAY}" type = "currency"/>
+                                                        <a href="<c:url value="/tour/filter_all_trip_this_month.do"/>">Xem toàn bộ chuyến trong tháng</a>
                                                     </p>
-                                                </div>
-                                                <div class="d-flex align-items-center pb-1">
-
                                                 </div>
                                             </div>
                                             <div class="col-2">
                                                 <div class="d-flex justify-content-end">
                                                     <div
                                                         class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                                                        <i class="ti ti-currency-dollar fs-6"></i>
+                                                        <i class="ti ti-beach fs-6"></i>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -632,7 +611,7 @@
                                                                 </td>
                                                                 <td class="border-bottom-0">
                                                                     <p class="mb-0 fw-semibold">
-                                                                       ${bookingITEM.expireDate}
+                                                                        ${bookingITEM.expireDate}
                                                                     </p>
                                                                 </td>
                                                                 <td class="border-bottom-0">
