@@ -1112,23 +1112,99 @@
                                         </table>
                                     </div>
                                 </div>
-                                <c:if test="${empty requestScope.BOOKING_DETAILS}">
+                                <!--Pagination of BOOKING SUMMARY-->
+                                <c:if test="${not empty requestScope.LIST_OF_SUMMARY_BOOKING}">
                                     <!--  Phân trang -->
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-center">
-                                            <li class="page-item disabled">
-                                                <a class="page-link" href="#" tabindex="-1">Trang trước</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">Trang sau</a>
-                                            </li>
+
+                                            <c:if test="${currentPage != 1}">
+                                                <c:url var="redirectToPagination" value="/booking/viewBooking.do">
+                                                    <c:param name="page" value="${currentPage - 1}"/>
+                                                </c:url>
+                                                <li class="page-item">
+                                                    <a class="page-link" 
+                                                       href="${redirectToPagination}" tabindex="-1">Trang trước</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach begin="1" end="${noOfRecords}" var="i" varStatus="counter">
+                                                <c:choose>
+                                                    <c:when test="${currentPage eq i}">
+                                                        <li class="page-item active">
+                                                            <a class="page-link" href="#">${i}</a>
+                                                        </li>   
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:url var="redirectToPagination" value="/booking/viewBooking.do">
+                                                            <c:param name="page" value="${i}"/>
+                                                        </c:url>
+                                                        <li class="page-item"><a class="page-link" href="${redirectToPagination}">${i}</a></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            <!--                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                                                        <li class="page-item">-->
+                                            <c:if test="${currentPage != noOfRecords}">
+                                                <c:url var="redirectToPagination" value="/booking/viewBooking.do">
+                                                    <c:param name="page" value="${currentPage + 1}"/>
+                                                </c:url>
+                                                <li class="page-item ">
+                                                    <a class="page-link" 
+                                                       href="${redirectToPagination}" tabindex="-1">Trang sau</a>
+                                                </li>
+                                            </c:if>
                                         </ul>
                                     </nav>
                                     <!--  Phân trang -->
                                 </c:if>
+                                <!--End of Booking SUMMARY-->
+
+                                <!--Pagination of Booking with condition-->
+                                <c:if test="${not empty requestScope.BOOKING_STATUS_WITH_CONDITION}">
+                                    <!--  Phân trang -->
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <c:if test="${currentPage != 1}">
+                                                <c:url var="redirectToPagination" value="/booking/filterStatusBooking.do?payStatus=${requestScope.status}">
+                                                    <c:param name="page" value="${currentPage - 1}"/>
+                                                </c:url>
+                                                <li class="page-item">
+                                                    <a class="page-link" 
+                                                       href="${redirectToPagination}" tabindex="-1">Trang trước</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach begin="1" end="${noOfRecords}" var="i" varStatus="counter">
+                                                <c:choose>
+                                                    <c:when test="${currentPage eq i}">
+                                                        <li class="page-item active">
+                                                            <a class="page-link" href="#">
+                                                                ${i}
+                                                            </a>
+                                                        </li>   
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:url var="redirectToPagination" value="/booking/filterStatusBooking.do?payStatus=${requestScope.status}">
+                                                            <c:param name="page" value="${i}"/>
+                                                        </c:url>
+                                                        <li class="page-item"><a class="page-link" href="${redirectToPagination}">${i}</a></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                                <c:if test="${currentPage != noOfRecords}">
+                                                    <c:url var="redirectToPagination" value="/booking/filterStatusBooking.do?payStatus=${requestScope.status}">
+                                                        <c:param name="page" value="${currentPage + 1}"/>
+                                                    </c:url>
+                                                <li class="page-item ">
+                                                    <a class="page-link" 
+                                                       href="${redirectToPagination}" tabindex="-1">Trang sau</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                    <!--  Phân trang -->
+                                </c:if>
+                                <!--End of Pagination-->
                             </div>
                         </div>
                     </div>

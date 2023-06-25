@@ -80,19 +80,21 @@ public class BookingController extends HttpServlet {
     protected void viewBooking(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
+        String page = (request.getParameter("page"));
+        int recordsPerPage = 10;
+        int pageCount = 1;
+        if (page != null) {
+            pageCount = Integer.parseInt(page);
+        }
+        int offset = (pageCount - 1) * recordsPerPage;
         try {
-            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
-
-            // LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI
-            List<BookingDTO> listBooking_Current_Day = new BookingDAO().getListOfBooking_Current_Day();
-
+            int noOfRecords = new BookingDAO().getAllAvailableRows();
+            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookingsWithPagination(offset, recordsPerPage);
             if (listOfSummaryBooking != null) {
                 url = Config.LAYOUT + VIEW_BOOKING_URL;
                 request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
-                request.getRequestDispatcher(url).forward(request, response);
-            } else if (listBooking_Current_Day != null) {
-                url = Config.LAYOUT + VIEW_BOOKING_URL;
-                request.setAttribute("LIST_OF_SUMMARY_BOOKING_CURRENT_DAY", listBooking_Current_Day);
+                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
+                request.setAttribute("currentPage", pageCount);
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);
@@ -120,7 +122,7 @@ public class BookingController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
+
     // Lấy danh sách booing theo tháng hiện tại
     protected void getListBookingCurentMonth(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -225,6 +227,14 @@ public class BookingController extends HttpServlet {
     protected void filterStatusBooking(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
+        String page = (request.getParameter("page"));
+        int recordsPerPage = 10;
+        int pageCount = 1;
+        if (page != null) {
+            pageCount = Integer.parseInt(page);
+        }
+        int offset = (pageCount - 1) * recordsPerPage;
+
         try {
             // Get Parameter from button
             String action = request.getParameter("payStatus");
@@ -233,16 +243,21 @@ public class BookingController extends HttpServlet {
             ArrayList<BookingDTO> listOfBooking = null;
             switch (action) {
                 case "yes":
-                    listOfBooking = dao.getListOfBookingByStatus(true);
+                    listOfBooking = dao.getListOfBookingByStatus(true, offset, recordsPerPage);
                     break;
                 case "no":
-                    listOfBooking = dao.getListOfBookingByStatus(false);
+                    listOfBooking = dao.getListOfBookingByStatus(false, offset, recordsPerPage);
                     break;
             }
             if (listOfBooking != null) {
+                int noOfRecords = new BookingDAO().getAllAvailableRowsWithCondition(action.equals("yes"));
+
                 //Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
                 request.setAttribute("BOOKING_STATUS_WITH_CONDITION", listOfBooking);
                 url = Config.LAYOUT + VIEW_BOOKING_URL;
+                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
+                request.setAttribute("currentPage", pageCount);
+                request.setAttribute("status", action);
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);

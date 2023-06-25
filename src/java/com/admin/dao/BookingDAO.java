@@ -84,6 +84,62 @@ public class BookingDAO implements Serializable {
         return listOfSummaryBooking;
     }
 
+    public List<BookingDTO> getSummaryBookingsWithPagination(int offset, int rowsPerPage)
+            throws ClassNotFoundException, SQLException {
+        List<BookingDTO> listOfSummaryBooking = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr\n"
+                        + "WHERE bk.trip_id = tp.id\n"
+                        + "AND tp.tour_id = tr.id)Trip\n"
+                        + "ON Trip.tripID = bk.trip_id\n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "ORDER BY bk.expireDate DESC\n"
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, offset);
+                ps.setInt(2, rowsPerPage);
+                rs = ps.executeQuery();
+                listOfSummaryBooking = new ArrayList<>();
+                while (rs.next()) {
+                    int bookingID = rs.getInt(1);
+                    String code = rs.getString(2);
+                    Date depart_time = rs.getDate(3);
+
+                    Timestamp ts = rs.getTimestamp(4);
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                    String expireDate = formatter.format(ts);
+
+                    String custNameBooking = rs.getString(5);
+                    int totalQuantity = rs.getInt(6) + rs.getInt(7);
+                    double totalPrice = rs.getDouble(8);
+                    boolean status = rs.getBoolean(9);
+                    String reason = rs.getString(10);
+                    TripDTO dto = new TripDTO();
+                    dto.setCode(code);
+                    dto.setDepart_time(depart_time);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
+                    listOfSummaryBooking.add(booking);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return listOfSummaryBooking;
+    }
+
     public BookingDTO getDetailBookingByID(int bookingID)
             throws ClassNotFoundException, SQLException {
         BookingDTO bookingDTO = null;
@@ -531,7 +587,8 @@ public class BookingDAO implements Serializable {
         return listOfSummaryBooking;
     }
 
-    public ArrayList<BookingDTO> getListOfBookingByStatus(boolean bookingStatus) throws ClassNotFoundException, SQLException {
+    //Lấy booking với status dạng phân trang
+    public ArrayList<BookingDTO> getListOfBookingByStatus(boolean bookingStatus, int offset, int rowsPerPage) throws ClassNotFoundException, SQLException {
         ArrayList<BookingDTO> listOfSummaryBooking = null;
         try {
             con = DBContext.getConnectionDB();
@@ -545,9 +602,12 @@ public class BookingDAO implements Serializable {
                         + "ON Trip.tripID = bk.trip_id\n"
                         + "JOIN Payment pm ON bk.payment_id = pm.id\n"
                         + "WHERE bk.status = ?\n"
-                        + "ORDER BY bk.expireDate DESC";
+                        + "ORDER BY bk.expireDate DESC\n"
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
                 ps = con.prepareStatement(SQL);
                 ps.setBoolean(1, bookingStatus);
+                ps.setInt(2, offset);
+                ps.setInt(3, rowsPerPage);
                 rs = ps.executeQuery();
                 listOfSummaryBooking = new ArrayList<>();
                 while (rs.next()) {
@@ -556,7 +616,7 @@ public class BookingDAO implements Serializable {
                     Date depart_time = rs.getDate(3);
 
                     Timestamp ts = rs.getTimestamp(4);
-                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String expireDate = formatter.format(ts);
 
                     String custNameBooking = rs.getString(5);
@@ -583,6 +643,66 @@ public class BookingDAO implements Serializable {
             }
         }
         return listOfSummaryBooking;
+    }
+
+    //lấy tất cả các row có sẵn
+    public int getAllAvailableRows()
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "select sum([rows])\n"
+                        + "from sys.partitions\n"
+                        + "where object_id=object_id('[NTNECompany].[dbo].[Booking]')\n"
+                        + "and index_id in (0,1)";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
+    //lấy tất cả các row với conditions
+    public int getAllAvailableRowsWithCondition(boolean status)
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = " SELECT COUNT(*) AS numberOfRows FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + " WHERE bk.status = ?";
+                ps = con.prepareStatement(SQL);
+                ps.setBoolean(1, status);
+                rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
     }
 
     // LẤY DANH SÁCH BOOKING THEO NGÀY HIỆN TẠI
@@ -638,7 +758,7 @@ public class BookingDAO implements Serializable {
         }
         return listOfSummaryBooking;
     }
-    
+
     // LẤY DANH SÁCH BOOKING THEO NGÀY THÁNG HIỆN TẠI
     public ArrayList<BookingDTO> getListOfBooking_Current_Month() throws ClassNotFoundException, SQLException {
         ArrayList<BookingDTO> listOfSummaryBooking = null;
@@ -692,7 +812,7 @@ public class BookingDAO implements Serializable {
         }
         return listOfSummaryBooking;
     }
-    
+
     public static void main(String[] args)
             throws ClassNotFoundException, SQLException, ParseException {
 
