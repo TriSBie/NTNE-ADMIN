@@ -359,7 +359,7 @@
                                             </div>
                                         </c:if>
                                         <div style="display: flex; justify-content: space-between; margin: 0px  0px;">
-                                            <h3 class="mb-3">DANH SÁCH TRIP</h3>
+                                            <h3 class="mb-3">DANH SÁCH CÁC CHUYẾN ĐI</h3>
                                             <a href="<c:url value="/tour/createTrip.do"/>" alt="createTour">
                                                 <button class="btn btn-primary">Tạo TRIP</button>
                                             </a>

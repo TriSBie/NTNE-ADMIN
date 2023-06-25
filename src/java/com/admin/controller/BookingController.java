@@ -32,6 +32,7 @@ public class BookingController extends HttpServlet {
     String VIEW_BOOKING_URL = "ui-manageBooking.jsp";
     String VIEW_BOOKING_BY_TRIPID_URL = "ui-listBookingbyTripID.jsp";
     String VIEW_DETAIL_BOOKING = "ui-detailBooking.jsp";
+    String VIEW_LIST_BOOKING_EXPORT_URL = "ui-listBooking_exportExcel.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,6 +47,10 @@ public class BookingController extends HttpServlet {
             ------------------------------------------------------------------------------*/
             case "viewBooking":
                 viewBooking(request, response);
+                break;
+            // Case để lấy tất cả danh sách để export excel
+            case "view_export_excel":
+                view_export_excel(request, response);
                 break;
             case "viewDetailBooking":
                 viewDetailBooking(request, response);
@@ -95,6 +100,24 @@ public class BookingController extends HttpServlet {
                 request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
                 request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
                 request.setAttribute("currentPage", pageCount);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void view_export_excel(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            // Lấy danh sách booking
+            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
+            if (listOfSummaryBooking != null) {
+                url = Config.LAYOUT + VIEW_LIST_BOOKING_EXPORT_URL;
+                request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);

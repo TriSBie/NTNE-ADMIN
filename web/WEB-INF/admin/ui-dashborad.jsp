@@ -559,7 +559,7 @@
                                     <div class="card-body p-4">
                                         <h5 class="card-title fw-semibold mb-4">BOOKING MỚI NHẤT</h5>
                                         <div class="table-responsive">
-                                            <table class="table text-nowrap mb-0 align-middle">
+                                            <table class="table text-nowrap mb-0 align-middle" id="tblData">
                                                 <thead class="text-dark fs-4">
                                                     <c:if test="${empty requestScope.BOOKING_DETAILS}">
                                                         <tr>
@@ -648,7 +648,7 @@
                                                     <!-- Du lieu -->
                                                 </tbody>
                                             </table>
-                                            <a href="<c:url value="/booking/viewBooking.do"/>">
+                                            <a href="<c:url value="/booking/view_export_excel.do"/>">
                                                 <!--<i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại-->
                                                 Xem tất cả danh sách Booking
                                             </a>
@@ -669,6 +669,40 @@
         <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <script src="../assets/js/dashboard.js"></script>
+        
+        <!--Function xuất file excel -->
+        <script>
+            function exportTableToExcel(tableID, filename = '') {
+                var downloadLink;
+                var dataType = 'application/vnd.ms-excel';
+                var tableSelect = document.getElementById(tableID);
+                var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+                // Specify file name
+                filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+                // Create download link element
+                downloadLink = document.createElement("a");
+
+                document.body.appendChild(downloadLink);
+
+                if (navigator.msSaveOrOpenBlob) {
+                    var blob = new Blob(['\ufeff', tableHTML], {
+                        type: dataType
+                    });
+                    navigator.msSaveOrOpenBlob(blob, filename);
+                } else {
+                    // Create a link to the file
+                    downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+                    // Setting the file name
+                    downloadLink.download = filename;
+
+                    //triggering the function
+                    downloadLink.click();
+            }
+            }
+        </script>
     </body>
 </html>
 

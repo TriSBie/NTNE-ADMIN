@@ -298,7 +298,7 @@
                                         </div>
                                     </c:if>
                                     <!-- Thông báo nếu thao tác thành công -->
-                                    <h3 class="mb-3">Danh Sách BOOKING</h3>
+                                    <h3 class="mb-3">DANH SÁCH BOOKING</h3>
                                     <!-- Filter -->
                                     <div class="row alig n-items-start">
                                         <!-- Theo trạng thái -->
@@ -324,7 +324,7 @@
                                     <!-- Filter -->
 
                                     <div class="table-responsive">
-                                        <table class="table text-nowrap mb-0 align-middle">
+                                        <table class="table text-nowrap mb-0 align-middle" id="tblData">
                                             <thead class="text-dark fs-4">
                                                 <c:if test="${empty requestScope.BOOKING_DETAILS}">
                                                     <tr>
@@ -1142,13 +1142,10 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:forEach>
-                                            <!--                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                                                        <li class="page-item">-->
-                                            <c:if test="${currentPage != noOfRecords}">
-                                                <c:url var="redirectToPagination" value="/booking/viewBooking.do">
-                                                    <c:param name="page" value="${currentPage + 1}"/>
-                                                </c:url>
+                                                <c:if test="${currentPage != noOfRecords}">
+                                                    <c:url var="redirectToPagination" value="/booking/viewBooking.do">
+                                                        <c:param name="page" value="${currentPage + 1}"/>
+                                                    </c:url>
                                                 <li class="page-item ">
                                                     <a class="page-link" 
                                                        href="${redirectToPagination}" tabindex="-1">Trang sau</a>
@@ -1159,7 +1156,6 @@
                                     <!--  Phân trang -->
                                 </c:if>
                                 <!--End of Booking SUMMARY-->
-
                                 <!--Pagination of Booking with condition-->
                                 <c:if test="${not empty requestScope.BOOKING_STATUS_WITH_CONDITION}">
                                     <!--  Phân trang -->
@@ -1205,6 +1201,7 @@
                                     <!--  Phân trang -->
                                 </c:if>
                                 <!--End of Pagination-->
+
                             </div>
                         </div>
                     </div>
