@@ -152,6 +152,7 @@ public class BookingController extends HttpServlet {
             // Get Parameter
             int bookingItemID = Integer.parseInt(request.getParameter("bookingItemID"));
             String description = request.getParameter("descriptionBookingChanged");
+            System.out.println(description);
             // Call DAO
             BookingDAO dao = new BookingDAO();
             boolean checkChangeStateBooking = dao.changeStateBooking(bookingItemID, description);

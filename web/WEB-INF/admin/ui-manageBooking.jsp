@@ -582,7 +582,7 @@
                                                                                                         rows="5" 
                                                                                                         class="form-control" 
                                                                                                         id="editor${counter.count}" 
-                                                                                                        name="destinationDescription"
+                                                                                                        name="descriptionBookingChanged"
                                                                                                         value=${bookingITEM.reason}>
                                                                                                     </textarea>
                                                                                                 </div>

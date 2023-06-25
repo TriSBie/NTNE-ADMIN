@@ -44,7 +44,7 @@ public class BookingDTO implements Serializable {
     public BookingDTO() {
     }
 
-    public BookingDTO(int id, double totalPrice, String cusBook, String expireDate, int totalQuantity, boolean status, TripDTO tripDTO) {
+    public BookingDTO(int id, double totalPrice, String cusBook, String expireDate, int totalQuantity, boolean status, TripDTO tripDTO, String reason) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.cusBook = cusBook;
@@ -52,6 +52,7 @@ public class BookingDTO implements Serializable {
         this.status = status;
         this.totalQuantity = totalQuantity;
         this.tripDTO = tripDTO;
+        this.reason = reason;
     }
 
     //get details - without id
