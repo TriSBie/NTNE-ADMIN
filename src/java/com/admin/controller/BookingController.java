@@ -228,6 +228,7 @@ public class BookingController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             // Get Parameter
+            int page = (Integer.parseInt(request.getParameter("page")));
             int bookingItemID = Integer.parseInt(request.getParameter("bookingItemID"));
             String description = request.getParameter("descriptionBookingChanged");
             System.out.println(description);
@@ -237,7 +238,7 @@ public class BookingController extends HttpServlet {
             if (checkChangeStateBooking) {
                 request.setAttribute("msg_success", "Bạn đã thay đổi trạng thái của Booking có mã Booking");
                 request.setAttribute("bookingItemID", bookingItemID);
-                request.getRequestDispatcher("/booking/viewBooking.do").forward(request, response);
+                request.getRequestDispatcher("/booking/viewBooking.do?page=" + page).forward(request, response);
             } else {
                 response.sendRedirect(url);
             }

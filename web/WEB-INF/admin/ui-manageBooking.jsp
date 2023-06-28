@@ -434,21 +434,53 @@
                                                                                 <!-- Tên TOUR -->
                                                                                 <h3>Lý do đổi trạng thái thanh toán</h3>
                                                                                 <hr class="hr" />
+                                                                                <div class="card"
+                                                                                     style="display: flex; 
+                                                                                     flex-direction: row; 
+                                                                                     align-content: flex-start;">    
+                                                                                    <div class="card-img-top" style="width: 200px;">
+                                                                                        <img style="border-radius: 8px" src="${bookingITEM.tripDTO.thumbnail}">
+                                                                                    </div>
+                                                                                    <div class="card-body" style="padding: 5px 12px">
+                                                                                        <div style="display:flex; justify-content: space-between">
+                                                                                            <h4 style="border-bottom: 1px solid #ecececec">Mã BK: ${bookingITEM.id} 
+                                                                                            </h4>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            Trạng thái cũ
+                                                                                            <span
+                                                                                                class="badge bg-success rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Đã thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div>
+                                                                                            Chuyển qua trạng thái
+                                                                                            <span
+                                                                                                class="badge bg-danger rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Chưa thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
                                                                                 <!-- CREATE TRIP -->
-                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                                                <c:url var="handleChangeState" value="/booking/hanleChangeState_Booking.do">
+                                                                                    <c:param name="page" value="${currentPage}"/>
+                                                                                </c:url>
+                                                                                <form action="${handleChangeState}" method="post">
                                                                                     <div class="formTour">
                                                                                         <div class="formTour-package">
                                                                                             <div class="mb-3 row">
                                                                                                 <div class="mb-3 col-12">
                                                                                                     <label class="form-label">Mô tả lý do</label>
                                                                                                     <textarea 
-                                                                                                        rows="5" 
+                                                                                                        rows="5"
                                                                                                         class="form-control" 
-                                                                                                        id="editor${counter.count}" 
                                                                                                         name="descriptionBookingChanged"
-                                                                                                        value=${bookingITEM.reason}>
-                                                                                                    </textarea>
+                                                                                                        value=${bookingITEM.getReason()}><c:out value="${bookingITEM.reason}" /></textarea>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -497,9 +529,43 @@
                                                                                 <!-- Tên TOUR -->
                                                                                 <h3>Lý do đổi trạng thái thanh toán</h3>
                                                                                 <hr class="hr" />
+                                                                                <div class="card"
+                                                                                     style="display: flex; 
+                                                                                     flex-direction: row; 
+                                                                                     align-content: flex-start;">    
+                                                                                    <div class="card-img-top" style="width: 200px;">
+                                                                                        <img style="border-radius: 8px" src="${bookingITEM.tripDTO.thumbnail}">
+                                                                                    </div>
+                                                                                    <div class="card-body" style="padding: 5px 12px">
+                                                                                        <div style="display:flex; justify-content: space-between">
+                                                                                            <h4 style="border-bottom: 1px solid #ecececec">Mã BK: ${bookingITEM.id} 
+                                                                                            </h4>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            Trạng thái cũ
+                                                                                            <span
+                                                                                                class="badge bg-danger rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Chưa thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div>
+                                                                                            Chuyển qua trạng thái
+                                                                                            <span
+                                                                                                class="badge bg-success rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Đã thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
                                                                                 <!-- CREATE TRIP -->
-                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
+                                                                                <c:url var="handleChangeState" value="/booking/hanleChangeState_Booking.do">
+                                                                                    <c:param name="page" value="${currentPage}"/>
+                                                                                </c:url>
+                                                                                <form action="${handleChangeState}" method="post">
                                                                                     <div class="formTour">
                                                                                         <div class="formTour-package">
                                                                                             <div class="mb-3 row">
@@ -508,10 +574,8 @@
                                                                                                     <textarea 
                                                                                                         rows="5" 
                                                                                                         class="form-control" 
-                                                                                                        id="editor${counter.count}" 
                                                                                                         name="descriptionBookingChanged"
-                                                                                                        value=${bookingITEM.reason}>
-                                                                                                    </textarea>
+                                                                                                        value=${bookingITEM.getReason()}><c:out value="${bookingITEM.reason}" /></textarea>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -998,21 +1062,54 @@
                                                                                 <!-- Tên TOUR -->
                                                                                 <h3>Lý do đổi trạng thái thanh toán</h3>
                                                                                 <hr class="hr" />
+                                                                                <div class="card"
+                                                                                     style="display: flex; 
+                                                                                     flex-direction: row; 
+                                                                                     align-content: flex-start;">    
+                                                                                    <div class="card-img-top" style="width: 200px;">
+                                                                                        <img style="border-radius: 8px" src="${bookingITEM.tripDTO.thumbnail}">
+                                                                                    </div>
+                                                                                    <div class="card-body" style="padding: 5px 12px">
+                                                                                        <div style="display:flex; justify-content: space-between">
+                                                                                            <h4 style="border-bottom: 1px solid #ecececec">Mã BK: ${bookingITEM.id} 
+                                                                                            </h4>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            Trạng thái cũ
+                                                                                            <span
+                                                                                                class="badge bg-success rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Đã thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div>
+                                                                                            Chuyển qua trạng thái
+                                                                                            <span
+                                                                                                class="badge bg-danger rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Chưa thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
                                                                                 <!-- CREATE TRIP -->
-                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
-                                                                                    <div class="formTour">
+
+                                                                                <c:url var="handleChangeState" value="/booking/hanleChangeState_Booking.do">
+                                                                                    <c:param name="page" value="${currentPage}"/>
+                                                                                </c:url>
+                                                                                <form action="${handleChangeState}" method="post">                                                                                        <div class="formTour">
                                                                                         <div class="formTour-package">
                                                                                             <div class="mb-3 row">
                                                                                                 <div class="mb-3 col-12">
                                                                                                     <label class="form-label">Mô tả lý do</label>
                                                                                                     <textarea 
-                                                                                                        rows="5" 
+                                                                                                        rows="3" 
                                                                                                         class="form-control" 
                                                                                                         id="editor${counter.count}" 
                                                                                                         name="descriptionBookingChanged"
-                                                                                                        value=${bookingITEM.reason}>
-                                                                                                    </textarea>
+                                                                                                        value=${bookingITEM.getReason()}><c:out value="${bookingITEM.reason}" /></textarea>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -1061,10 +1158,43 @@
                                                                                 <!-- Tên TOUR -->
                                                                                 <h3>Lý do đổi trạng thái thanh toán</h3>
                                                                                 <hr class="hr" />
+                                                                                <div class="card"
+                                                                                     style="display: flex; 
+                                                                                     flex-direction: row; 
+                                                                                     align-content: flex-start;">    
+                                                                                    <div class="card-img-top" style="width: 200px;">
+                                                                                        <img style="border-radius: 8px" src="${bookingITEM.tripDTO.thumbnail}">
+                                                                                    </div>
+                                                                                    <div class="card-body" style="padding: 5px 12px">
+                                                                                        <div style="display:flex; justify-content: space-between">
+                                                                                            <h4 style="border-bottom: 1px solid #ecececec">Mã BK: ${bookingITEM.id} 
+                                                                                            </h4>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            Trạng thái cũ
+                                                                                            <span
+                                                                                                class="badge bg-danger rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Chưa thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div>
+                                                                                            Chuyển qua trạng thái
+                                                                                            <span
+                                                                                                class="badge bg-success rounded-3 fw-semibold"
+                                                                                                >
+                                                                                                Đã thanh toán
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <a href="#anchorLink${counter.count - 1}" class="close" onclick="closePopupEdit()">&times;</a>
                                                                                 <!-- CREATE TRIP -->
-                                                                                <form action="<c:url value="/booking/hanleChangeState_Booking.do"/>" method="post">
-                                                                                    <div class="formTour">
+                                                                                <c:url var="handleChangeState" value="/booking/hanleChangeState_Booking.do">
+                                                                                    <c:param name="page" value="${currentPage}"/>
+                                                                                </c:url>
+                                                                                <form action="${handleChangeState}" method="post">                                                                                    <div class="formTour">
                                                                                         <div class="formTour-package">
                                                                                             <div class="mb-3 row">
                                                                                                 <div class="mb-3 col-12">
@@ -1072,10 +1202,8 @@
                                                                                                     <textarea 
                                                                                                         rows="5" 
                                                                                                         class="form-control" 
-                                                                                                        id="editor${counter.count}" 
                                                                                                         name="descriptionBookingChanged"
-                                                                                                        value=${bookingITEM.reason}>
-                                                                                                    </textarea>
+                                                                                                        value=${bookingITEM.getReason()}><c:out value="${bookingITEM.reason}" /></textarea>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -1292,7 +1420,7 @@
                 z-index: 99;
             }
             .popup2 {
-                top: 8%;
+                top: -4%;
                 left: 3%;
                 /*            margin: 70px auto;*/
                 margin-left: 26%;
@@ -1347,7 +1475,7 @@
         <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <script src="../assets/js/dashboard.js"></script>
-        <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+        <!--        <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>-->
 
         <!-- Confirm Press btn -->
         <!--        <script>
@@ -1360,13 +1488,8 @@
                 </script>-->
         <script>
                                                                                             var index = 1;
-                                                                                            var editor = "editor" + index;
-                                                                                            CKEDITOR.replace(editor);
-                                                                                            CKEDITOR.replace('editorCreate')
                                                                                             function openPopupEdit(value) {
                                                                                                 index = value;
-                                                                                                editor = "editor" + index;
-                                                                                                CKEDITOR.replace(editor);
                                                                                                 document.querySelector(
                                                                                                         '#main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header'
                                                                                                         ).style.zIndex = "0";

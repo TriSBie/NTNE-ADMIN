@@ -37,9 +37,9 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason\n"
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason,Trip.thumbnail\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "INNER JOIN ( SELECT  tr.thumbnail,tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
                         + "WHERE bk.trip_id = tp.id\n"
                         + "AND tp.tour_id = tr.id)Trip\n"
@@ -63,9 +63,11 @@ public class BookingDAO implements Serializable {
                     double totalPrice = rs.getDouble(8);
                     boolean status = rs.getBoolean(9);
                     String reason = rs.getString(10);
+                    String thumbnail = rs.getString(11);
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
+                    dto.setThumbnail(thumbnail);
                     BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
                     listOfSummaryBooking.add(booking);
                 }
@@ -90,9 +92,9 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason\n"
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason, Trip.thumbnail\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "INNER JOIN ( SELECT tr.thumbnail,tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
                         + "WHERE bk.trip_id = tp.id\n"
                         + "AND tp.tour_id = tr.id)Trip\n"
@@ -119,9 +121,11 @@ public class BookingDAO implements Serializable {
                     double totalPrice = rs.getDouble(8);
                     boolean status = rs.getBoolean(9);
                     String reason = rs.getString(10);
+                    String thumbnail = rs.getString(11);
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
+                    dto.setThumbnail(thumbnail);
                     BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
                     listOfSummaryBooking.add(booking);
                 }
@@ -593,9 +597,9 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason\n"
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason, Trip.thumbnail\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "INNER JOIN ( SELECT tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "INNER JOIN ( SELECT tr.thumbnail, tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
                         + "WHERE bk.trip_id = tp.id\n"
                         + "AND tp.tour_id = tr.id)Trip\n"
@@ -624,9 +628,11 @@ public class BookingDAO implements Serializable {
                     double totalPrice = rs.getDouble(8);
                     boolean status = rs.getBoolean(9);
                     String reason = rs.getString(10);
+                    String thumbnail = rs.getString(11);
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
+                    dto.setThumbnail(thumbnail);
                     BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
                     listOfSummaryBooking.add(booking);
                 }
@@ -834,7 +840,7 @@ public class BookingDAO implements Serializable {
             BookingDTO test = new BookingDAO().getDetailBookingByID(5);
             System.out.println(test.getReason());
 
-            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
+            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookingsWithPagination(0, 10);
             for (BookingDTO x : listOfSummaryBooking) {
                 System.out.println(x.getReason());
             }
