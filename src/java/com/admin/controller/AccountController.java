@@ -10,17 +10,13 @@ import com.admin.dao.AccountDAO;
 import com.admin.dao.HashingPassword;
 import com.admin.model.AccountDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -116,14 +112,25 @@ public class AccountController extends HttpServlet {
     protected void getAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
         String url = Config.LAYOUT + ERROR_URL;
+        String page = (request.getParameter("page"));
+        int recordsPerPage = 10;
+        int pageCount = 1;
+        if (page != null) {
+            pageCount = Integer.parseInt(page);
+        }
+        int offset = (pageCount - 1) * recordsPerPage;
         try {
             //LAY LIST TU DAO
-            List<AccountDTO> listAccount = new AccountDAO().getListOfAccounts();
+
+            int noOfRecords = new AccountDAO().getAllAvailableRows();
+            List<AccountDTO> listAccount = new AccountDAO().getListOfAccounts(offset, recordsPerPage);
             if (listAccount != null) {
                 //SET ATTRIBUTE
                 url = Config.LAYOUT + ACCOUNT_URL;
                 System.out.println(listAccount.size());
                 request.setAttribute("LIST_ACCOUNT", listAccount);
+                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
+                request.setAttribute("currentPage", pageCount);
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 response.sendRedirect(url);

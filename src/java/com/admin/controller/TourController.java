@@ -158,13 +158,23 @@ public class TourController extends HttpServlet {
     protected void listTour(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
+        String page = (request.getParameter("page"));
+        int recordsPerPage = 10;
+        int pageCount = 1;
+        if (page != null) {
+            pageCount = Integer.parseInt(page);
+        }
+        int offset = (pageCount - 1) * recordsPerPage;
         try {
             TourDAO dao = new TourDAO();
-            List<TourDTO> listTour = dao.getAllTours();
+            int noOfRecords = new TripDAO().getAllAvailableRows();
+            List<TourDTO> listTour = dao.getAllTours(offset, recordsPerPage);
             if (listTour != null) {
                 url = Config.LAYOUT + LIST_TOUR_URL;
                 request.setAttribute("LIST_TOUR", listTour);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
+                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
+                request.setAttribute("currentPage", pageCount);
                 rd.forward(request, response);
             } else {
                 response.sendRedirect(url);
@@ -198,12 +208,22 @@ public class TourController extends HttpServlet {
     protected void listTrip(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
+        String page = (request.getParameter("page"));
+        int recordsPerPage = 10;
+        int pageCount = 1;
+        if (page != null) {
+            pageCount = Integer.parseInt(page);
+        }
+        int offset = (pageCount - 1) * recordsPerPage;
         try {
             TripDAO dao = new TripDAO();
-            List<TripDTO> listTrip = dao.getAllTrip();
+            int noOfRecords = new TripDAO().getAllAvailableRows();
+            List<TripDTO> listTrip = dao.getAllTrip(offset, recordsPerPage);
             if (listTrip != null) {
                 url = Config.LAYOUT + LIST_TRIP_URL;
                 request.setAttribute("LIST_TRIP", listTrip);
+                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
+                request.setAttribute("currentPage", pageCount);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -214,16 +234,27 @@ public class TourController extends HttpServlet {
         }
     }
 
-    //Get list of destination
+//Get list of destination
     protected void listDestination(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
+        String page = (request.getParameter("page"));
+        int recordsPerPage = 10;
+        int pageCount = 1;
+        if (page != null) {
+            pageCount = Integer.parseInt(page);
+        }
+        int offset = (pageCount - 1) * recordsPerPage;
         try {
             DestinationDAO dao = new DestinationDAO();
-            List<DestinationDTO> listDestination = dao.getAll_List_Destination();
+
+            int noOfRecords = dao.getAllAvailableRows();
+            List<DestinationDTO> listDestination = dao.getAll_List_Destination(offset, recordsPerPage);
             if (listDestination != null) {
                 url = Config.LAYOUT + LIST_DESTINATION_URL;
                 request.setAttribute("LIST_DESTINATION", listDestination);
+                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
+                request.setAttribute("currentPage", pageCount);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -314,8 +345,7 @@ public class TourController extends HttpServlet {
 
             // Lấy tổng số TRIP đang hoạt động
             int total_TRIP_Available = trip_dao.getTotal_TRIP_ACTIVE();
-            
-            
+
             // Lấy tổng số TRIP đã và đang hoạt động trong tháng này
             int total_TRIP_in_this_month = trip_dao.getTotal_TRIP();
 
@@ -409,7 +439,7 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
+
     //Get list trip from database "filter_trip_by_price"
     protected void filter_trip_price(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -562,10 +592,14 @@ public class TourController extends HttpServlet {
             request.setAttribute("LIST_DESTINATION", listDestination);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TourController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TourController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (SQLException ex) {
-            Logger.getLogger(TourController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TourController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

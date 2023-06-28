@@ -27,13 +27,13 @@ public class TripDAO implements Serializable {
     private ResultSet rs = null;
 
     //Get List Trip
-    public List<TripDTO> getAllTrip()
+    public List<TripDTO> getAllTrip(int offset, int rowsPerPage)
             throws ClassNotFoundException, SQLException {
         List<TripDTO> list = null;
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT TOP (1000) tr.[id]\n"
+                String SQL = "SELECT tr.[id]\n"
                         + "	  ,t.code, t.thumbnail\n"
                         + "      ,tr.[availability]\n"
                         + "      ,tr.[priceAdult]\n"
@@ -41,9 +41,12 @@ public class TripDAO implements Serializable {
                         + "      ,tr.[quantity]\n"
                         + "      ,tr.[depart_time]\n"
                         + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
-                        + "ORDER BY tr.[depart_time] DESC";
+                        + "ORDER BY tr.[depart_time] DESC\n"
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
                 list = new ArrayList<>();
                 ps = con.prepareStatement(SQL);
+                ps.setInt(1, offset);
+                ps.setInt(2, rowsPerPage);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -442,9 +445,39 @@ public class TripDAO implements Serializable {
         return 0;
     }
 
+    //lấy tất cả các row có sẵn
+    public int getAllAvailableRows()
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "select sum([rows])\n"
+                        + "from sys.partitions\n"
+                        + "where object_id=object_id('[NTNECompany].[dbo].[Trip]')\n"
+                        + "and index_id in (0,1)";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         try {
-            List<TripDTO> trip = new TripDAO().getTripPriceByDescending();
+            List<TripDTO> trip = new TripDAO().getAllTrip(0, 10);
             for (TripDTO x : trip) {
                 System.out.println(x.getPriceAdult());
             }

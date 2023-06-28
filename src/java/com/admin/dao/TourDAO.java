@@ -39,9 +39,52 @@ public class TourDAO implements Serializable {
                         + "      ,[thumbnail]\n"
                         + "      ,[location]\n"
                         + "      ,[code]\n"
-                        + "  FROM [NTNECompany].[dbo].[Tour]";
+                        + "  FROM [NTNECompany].[dbo].[Tour]\n";
                 list = new ArrayList<>();
                 ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    TourDTO dto = new TourDTO(rs.getInt("id"), rs.getString("name"),
+                            rs.getDouble("priceAdult"), rs.getDouble("priceChild"),
+                            rs.getString("thumbnail"), rs.getString("location"), rs.getString("code"));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
+
+    public List<TourDTO> getAllTours(int offset, int rowsPerPage)
+            throws ClassNotFoundException, SQLException {
+        List<TourDTO> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT [id]\n"
+                        + "      ,[name]\n"
+                        + "      ,[priceAdult]\n"
+                        + "      ,[priceChild]\n"
+                        + "      ,[thumbnail]\n"
+                        + "      ,[location]\n"
+                        + "      ,[code]\n"
+                        + "  FROM [NTNECompany].[dbo].[Tour]\n"
+                        + "ORDER BY id DESC\n"
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+                list = new ArrayList<>();
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, offset);
+                ps.setInt(2, rowsPerPage);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     TourDTO dto = new TourDTO(rs.getInt("id"), rs.getString("name"),
@@ -239,7 +282,46 @@ public class TourDAO implements Serializable {
         }
         return null;
     }
-//    public static void main(String[] args) {
+
+    public int getAllAvailableRows()
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "select sum([rows])\n"
+                        + "from sys.partitions\n"
+                        + "where object_id=object_id('[NTNECompany].[dbo].[Tour]')\n"
+                        + "and index_id in (0,1)";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        try {
+            List<TourDTO> result = new TourDAO().getAllTours(0, 10);
+            for (TourDTO x : result) {
+                System.out.println(x.getTourName());
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 //        TourDTO tourDTO = new TourDTO("Da nang 1 Minh Em", 1000000, 2000000, "abcdxez.com", "dia diem1, dia diem 2, dia diem 3");
 //        List<TourItemDTO> tourItemsDTO = new ArrayList<>();
 //        tourItemsDTO.add(new TourItemDTO(3, "8h-12h", "test4"));

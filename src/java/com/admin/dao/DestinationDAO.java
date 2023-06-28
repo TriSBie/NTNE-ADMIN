@@ -54,8 +54,42 @@ public class DestinationDAO implements Serializable {
         }
         return list;
     }
-//    Get all list destination
 
+    //Lay theo phan trang
+    public List<DestinationDTO> getAll_List_Destination(int offset, int rowsPerPage)
+            throws ClassNotFoundException, SQLException {
+        List<DestinationDTO> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT * from  [dbo].[Destination]\n"
+                        + "ORDER BY id DESC\n"
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                list = new ArrayList<>();
+                ps = con.prepareStatement(SQL);
+                ps.setInt(1, offset);
+                ps.setInt(2, rowsPerPage);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    DestinationDTO dto = new DestinationDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
+
+    //khong lay theo phan trang
     public List<DestinationDTO> getAll_List_Destination()
             throws ClassNotFoundException, SQLException {
         List<DestinationDTO> list = null;
@@ -156,14 +190,44 @@ public class DestinationDAO implements Serializable {
         return false;
     }
 
-//    public static void main(String[] args) {
-//        try {
-//            List<DestinationDTO> dto = new DestinationDAO().getAll_List_Destination();
-//            for (DestinationDTO item : dto) {
-//                System.out.println(item.getLat());
-//            }
-//        } catch (ClassNotFoundException | SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+    //lấy tất cả các row có sẵn
+    public int getAllAvailableRows()
+            throws ClassNotFoundException, SQLException {
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "select sum([rows])\n"
+                        + "from sys.partitions\n"
+                        + "where object_id=object_id('[NTNECompany].[dbo].[Destination]')\n"
+                        + "and index_id in (0,1)";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        try {
+            List<DestinationDTO> dto = new DestinationDAO().getAll_List_Destination(0, 10);
+            for (DestinationDTO item : dto) {
+                System.out.println(item.getName());
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

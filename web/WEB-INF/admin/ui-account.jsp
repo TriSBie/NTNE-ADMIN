@@ -453,15 +453,41 @@
                                 <!--  Phân trang -->
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">Trang trước</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Trang sau</a>
-                                        </li>
+                                        <c:if test="${currentPage != 1}">
+                                            <c:url var="redirectToPagination" value="/account/accountList.do">
+                                                <c:param name="page" value="${currentPage - 1}"/>
+                                            </c:url>
+                                            <li class="page-item">
+                                                <a class="page-link" 
+                                                   href="${redirectToPagination}" tabindex="-1">Trang trước</a>
+                                            </li>
+                                        </c:if>
+                                        <c:forEach begin="1" end="${noOfRecords}" var="i" varStatus="counter">
+                                            <c:choose>
+                                                <c:when test="${currentPage eq i}">
+                                                    <li class="page-item active">
+                                                        <a class="page-link" href="#">
+                                                            ${i}
+                                                        </a>
+                                                    </li>   
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:url var="redirectToPagination" value="/account/accountList.do">
+                                                        <c:param name="page" value="${i}"/>
+                                                    </c:url>
+                                                    <li class="page-item"><a class="page-link" href="${redirectToPagination}">${i}</a></li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                            <c:if test="${currentPage != noOfRecords}">
+                                                <c:url var="redirectToPagination" value="/account/accountList.do?">
+                                                    <c:param name="page" value="${currentPage + 1}"/>
+                                                </c:url>
+                                            <li class="page-item ">
+                                                <a class="page-link" 
+                                                   href="${redirectToPagination}" tabindex="-1">Trang sau</a>
+                                            </li>
+                                        </c:if>
                                     </ul>
                                 </nav>
                                 <!--  Phân trang -->
