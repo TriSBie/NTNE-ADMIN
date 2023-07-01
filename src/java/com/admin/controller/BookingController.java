@@ -114,7 +114,7 @@ public class BookingController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             // Lấy danh sách booking
-            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
+            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings_ExportExcel();
             if (listOfSummaryBooking != null) {
                 url = Config.LAYOUT + VIEW_LIST_BOOKING_EXPORT_URL;
                 request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);

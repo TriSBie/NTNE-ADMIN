@@ -86,6 +86,65 @@ public class BookingDAO implements Serializable {
         return listOfSummaryBooking;
     }
 
+    // Lấy DS Booking to view export file Excel
+    public List<BookingDTO> getSummaryBookings_ExportExcel()
+            throws ClassNotFoundException, SQLException {
+        List<BookingDTO> listOfSummaryBooking = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook, bk.cusPhone, bk.cusMail,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason,Trip.thumbnail\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "INNER JOIN ( SELECT  tr.thumbnail,tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "FROM Booking bk, Trip tp, Tour tr\n"
+                        + "WHERE bk.trip_id = tp.id\n"
+                        + "AND tp.tour_id = tr.id)Trip\n"
+                        + "ON Trip.tripID = bk.trip_id\n"
+                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "ORDER BY bk.expireDate DESC";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                listOfSummaryBooking = new ArrayList<>();
+                while (rs.next()) {
+                    int bookingID = rs.getInt(1);
+                    String code = rs.getString(2);
+                    Date depart_time = rs.getDate(3);
+
+                    Timestamp ts = rs.getTimestamp(4);
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                    String expireDate = formatter.format(ts);
+
+                    String custNameBooking = rs.getString(5);
+                    String custMailBooking = rs.getString(6);
+                    String custPhoneBooking = rs.getString(7);
+
+                    int totalQuantity = rs.getInt(8) + rs.getInt(9);
+                    double totalPrice = rs.getDouble(10);
+                    boolean status = rs.getBoolean(11);
+                    String reason = rs.getString(12);
+                    String thumbnail = rs.getString(13);
+                    TripDTO dto = new TripDTO();
+                    dto.setCode(code);
+                    dto.setDepart_time(depart_time);
+                    dto.setThumbnail(thumbnail);
+                    BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, custMailBooking, custPhoneBooking, expireDate, totalQuantity, status, dto, reason);
+                    listOfSummaryBooking.add(booking);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return listOfSummaryBooking;
+    }
+
     public List<BookingDTO> getSummaryBookingsWithPagination(int offset, int rowsPerPage)
             throws ClassNotFoundException, SQLException {
         List<BookingDTO> listOfSummaryBooking = null;
@@ -369,7 +428,10 @@ public class BookingDAO implements Serializable {
             con = DBContext.getConnectionDB();
             if (con != null) {
                 String SQL = "SELECT SUM([totalPrice])  FROM [dbo].[Booking]\n"
-                        + "where DAY([expireDate]) =  DAY(GETDATE()) AND [status] = 1";
+                        + "where DAY([expireDate]) =  DAY(GETDATE())\n"
+                        + "AND MONTH([expireDate]) = MONTH(GETDATE()) \n"
+                        + "AND YEAR([expireDate]) = YEAR(GETDATE())\n"
+                        + "AND [status] = 1";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 double revenue = 0;
@@ -397,8 +459,18 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT SUM([totalPrice])  FROM [dbo].[Booking]\n"
-                        + "where DAY([expireDate]) =  DAY(GETDATE()) - 1 AND [status] = 1;";
+                String SQL = "DECLARE @day int\n"
+                        + "SELECT @day = DAY([expireDate]) FROM [dbo].[Booking]\n"
+                        + "IF @day = 1 \n"
+                        + "BEGIN\n"
+                        + "     SELECT SUM([totalPrice])  FROM [dbo].[Booking]\n"
+                        + "     WHERE DAY([expireDate]) =  DAY(DATEADD(d, -1, DATEADD(m, DATEDIFF(m, 0, GETDATE()), 0))) AND [status] = 1;\n"
+                        + "END\n"
+                        + "ELSE\n"
+                        + "BEGIN\n"
+                        + "	SELECT SUM([totalPrice])  FROM [dbo].[Booking]\n"
+                        + "	where DAY([expireDate]) =  DAY(GETDATE()) - 1 AND [status] = 1;\n"
+                        + "END";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 double revenue = 0;
@@ -455,8 +527,8 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT SUM([quantityAdult] + [quantityChild])  FROM [dbo].[Booking] \n"
-                        + " WHERE [status] = 1 AND DAY([expireDate]) = DAY(GETDATE()) - 1";
+                String SQL = "SELECT SUM([quantityAdult] + [quantityChild])  FROM [dbo].[Booking]\n"
+                        + "WHERE DAY([expireDate]) =  DAY(DATEADD(d, -1, DATEADD(m, DATEDIFF(m, 0, GETDATE()), 0))) AND [status] = 1;";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 int total = 0;
@@ -725,7 +797,10 @@ public class BookingDAO implements Serializable {
                         + "AND tp.tour_id = tr.id)Trip\n"
                         + "ON Trip.tripID = bk.trip_id\n"
                         + "JOIN Payment pm ON bk.payment_id = pm.id\n"
-                        + "WHERE DAY(bk.expireDate) = DAY(GETDATE()) AND bk.status = 1\n"
+                        + "WHERE DAY(bk.expireDate) = DAY(GETDATE()) \n"
+                        + "AND MONTH(bk.expireDate) = MONTH(GETDATE()) \n"
+                        + "AND YEAR(bk.expireDate) = YEAR(GETDATE())\n"
+                        + "AND bk.status = 1\n"
                         + "ORDER BY bk.expireDate DESC";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();

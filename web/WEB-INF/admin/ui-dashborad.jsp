@@ -378,7 +378,7 @@
                                         <div class="row alig n-items-start">
                                             <div class="col-11">
                                                 <h5 class="card-title mb-9 fw-normal">
-                                                    <a href="<c:url value="/booking/viewBookingCurentMonth.do"/>">Doanh thu tháng 6</a>
+                                                    <a href="<c:url value="/booking/viewBookingCurentMonth.do"/>">Doanh thu tháng 7</a>
                                                 </h5>
                                                 <h4 class="fw-semibold mb-3">
                                                     <fmt:formatNumber value ="${REVENUE_BY_MONTH}" type = "currency"/>
@@ -405,7 +405,7 @@
                                                     </c:if>
 
                                                     <p class="fs-3 mb-0">
-                                                        Tháng trước
+                                                        | Tháng 6 
                                                         <fmt:formatNumber value ="${REVENUE_BY_PRIVOUS_MONTH}" type = "currency"/>
                                                     </p>
                                                 </div>
@@ -464,7 +464,7 @@
                                     <div class="card-body">
                                         <div class="row alig n-items-start">
                                             <div class="col-10">
-                                                <h5 class="card-title mb-9 fw-normal">Tổng chuyến trong tháng 6</h5>
+                                                <h5 class="card-title mb-9 fw-normal">Tổng chuyến trong tháng 7</h5>
                                                 <h4 class="fw-semibold mb-3">
                                                     ${TOTAL_TRIP_IN_THIS_MONTH} chuyến
                                                 </h4>
@@ -489,70 +489,7 @@
                         </div>
                         <!-- Báo cáo tháng này -->
 
-                        <!-- Top doanh thu theo TOUR  -->
-                        <div class="row">
-                            <div class="col-lg-12 d-flex align-items-stretch">
-                                <div class="card w-100">
-                                    <div class="card-body p-4">
-                                        <h5 class="card-title fw-semibold mb-4">
-                                            TOP DOANH THU THEO TOUR
-                                        </h5>
-                                        <div class="table-responsive">
-                                            <table class="table text-nowrap mb-0 align-middle">
-                                                <thead class="text-dark fs-4">
-                                                    <tr>
-                                                        <th class="border-bottom-0">
-                                                            <h6 class="mb-0 fw-normal">ID</h6>
-                                                        </th>
-                                                        <th class="border-bottom-0">
-                                                            <h6 class="mb-0 fw-normal">Tên TOUR</h6>
-                                                        </th>
-                                                        <th class="border-bottom-0">
-                                                            <h6 class="mb-0 fw-normal">Hình ảnh</h6>
-                                                        </th>
-                                                        <th class="border-bottom-0">
-                                                            <h6 class="mb-0 fw-normal">Tổng doanh thu</h6>
-                                                        </th>
-                                                        <th class="border-bottom-0">
-                                                            <h6 class="mb-0 fw-normal">Doanh thu hôm nay</h6>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Du lieu -->
-                                                    <c:forEach var="item" items="${LIST_ALL_TOUR_REVENUE}" varStatus="counter">
-                                                        <tr>
-                                                            <td class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">${counter.count}</h6>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-1">${item.tourName}</h6>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">
-                                                                    <img
-                                                                        class="img-thumbnail"
-                                                                        style="width: 80px; height: 80px"
-                                                                        src=${item.tourThumbnail}
-                                                                        />
-                                                                </h6>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="fw-semibold mb-1"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                    <!-- Du lieu -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Top doanh thu theo TOUR  -->
-
-                        <!-- Danh sách booking gần nhất  -->
+                                                <!-- Danh sách booking gần nhất  -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card w-100">
@@ -658,6 +595,71 @@
                             </div>
                         </div>
                         <!-- Danh sách booking gần nhất  -->
+                        
+                        <!-- Top doanh thu theo TOUR  -->
+                        <div class="row">
+                            <div class="col-lg-12 d-flex align-items-stretch">
+                                <div class="card w-100">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold mb-4">
+                                            TOP DOANH THU THEO TOUR
+                                        </h5>
+                                        <div class="table-responsive">
+                                            <table class="table text-nowrap mb-0 align-middle">
+                                                <thead class="text-dark fs-4">
+                                                    <tr>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">ID</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Tên TOUR</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Hình ảnh</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Tổng doanh thu</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Doanh thu hôm nay</h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Du lieu -->
+                                                    <c:forEach var="item" items="${LIST_ALL_TOUR_REVENUE}" varStatus="counter">
+                                                        <tr>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">${counter.count}</h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-1">${item.tourName}</h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <h6 class="fw-semibold mb-0">
+                                                                    <img
+                                                                        class="img-thumbnail"
+                                                                        style="width: 80px; height: 80px"
+                                                                        src=${item.tourThumbnail}
+                                                                        />
+                                                                </h6>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="fw-semibold mb-1"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                    <!-- Du lieu -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Top doanh thu theo TOUR  -->
+
+
                     </div>
                 </div>
             </div>

@@ -277,6 +277,15 @@
                                                                 <h6 class="mb-0 fw-normal">Tên khách hàng</h6>
                                                             </th>
                                                             <th class="border-bottom-0">
+                                                                <h6 class="mb-0 fw-normal">Số điện thoại</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
+                                                                <h6 class="mb-0 fw-normal">Email</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
+                                                                <h6 class="mb-0 fw-normal">Số vé</h6>
+                                                            </th>
+                                                            <th class="border-bottom-0">
                                                                 <h6 class="mb-0 fw-normal">Tổng giá (VND)</h6>
                                                             </th>
                                                             <th class="border-bottom-0">
@@ -317,6 +326,15 @@
                                                                 </td>
                                                                 <td class="border-bottom-0">
                                                                     <p class="fw-semibold mb-1">${bookingITEM.cusBook}</p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="fw-semibold mb-1">${bookingITEM.cusMail}</p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="fw-semibold mb-1">${bookingITEM.cusPhone}</p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="fw-semibold mb-1">${bookingITEM.totalQuantity}</p>
                                                                 </td>
                                                                 <td class="border-bottom-0">
                                                                     <p class="fw-semibold mb-1">

@@ -317,7 +317,7 @@ public class TourController extends HttpServlet {
             }
             // Nếu tháng này - tháng trước < 100% tức là doanh thu giảm 
             // => 100 - số stamp sẽ là số giảm so với tháng này
-            double stamp_down_month = 100 - (revenue / revenue_privious_month * 100);
+            double stamp_down_month = revenue_privious_month / revenue * 100;
 
             // Lấy doanh thu theo ngày hiện tại
             double revenue_by_curentDay = dao.getRevenueByDay();
@@ -333,7 +333,7 @@ public class TourController extends HttpServlet {
             }
             // Nếu ngày hôm nay - hôm qua < 100% tức là doanh thu giảm 
             // => 100 - số stamp sẽ là số giảm so với ngày hôm nay
-            double stamp_down = 100 - (revenue_by_curentDay / revenue_by_priviousDay * 100);
+            double stamp_down = revenue_by_priviousDay / revenue_by_curentDay * 100;
 
             // Lấy tổng số vé của ngày hôm nay và hôm qua với điều kiện đã thanh toán
             int totalSticket = dao.getTotalTicket();

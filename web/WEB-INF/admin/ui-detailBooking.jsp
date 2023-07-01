@@ -500,6 +500,9 @@
                                     <!--GET BOOKING DETAIL BY ID-->
                                     <div class="card">
                                         <div class="card-body">
+                                            <h5 class="fw-semibold mb-1">
+                                                Thông tin cơ bản của TOUR
+                                            </h5>
                                             <div class="mb-3 row">
                                                 <div class="col-12">
                                                     <img
@@ -531,17 +534,17 @@
                                                         class="form-check-inline"
                                                         >Giá trẻ em
                                                     </label>
-                                                    <h6 class="mb-0 fw-normal">
+                                                    <h6 class="mb-0 fw-semibold">
                                                         <fmt:formatNumber value ="${tripDTO.priceAdult}" type = "currency"/>
                                                     </h6>
                                                 </div>
                                                 <div class="col-6">
                                                     <label
                                                         for="exampleInputEmail1"
-                                                        class="form-check-inline"
+                                                        class="form-check-semibold"
                                                         >Giá trẻ em
                                                     </label>
-                                                    <h6 class="mb-0 fw-normal">
+                                                    <h6 class="mb-0 fw-semibold">
                                                         <fmt:formatNumber value ="${tripDTO.priceChild}" type = "currency"/>
                                                     </h6>
                                                 </div>
@@ -551,10 +554,10 @@
                                                     <label
                                                         for="exampleInputEmail1"
                                                         class="form-check-inline"
-                                                        >Chuyến đi này được khỏi hành vào ngày
+                                                        >Các điểm đến
                                                     </label>
-                                                    <h6 class="mb-0 fw-normal">
-                                                        <fmt:formatDate value="${tripDTO.depart_time}" pattern="dd-MM-yyyy" />
+                                                    <h6 class="mb-0 fw-semibold">
+                                                        ${TOUR.location}
                                                     </h6>
                                                 </div>
                                             </div>  

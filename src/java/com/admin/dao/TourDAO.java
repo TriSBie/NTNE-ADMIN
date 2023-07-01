@@ -226,7 +226,7 @@ public class TourDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT [dbo].[Tour].name,[dbo].[Tour].priceAdult, [dbo].[Tour].priceChild, [dbo].[Tour].thumbnail\n"
+                String SQL = "SELECT DISTINCT [dbo].[Tour].name,[dbo].[Tour].priceAdult, [dbo].[Tour].priceChild, [dbo].[Tour].thumbnail, [dbo].[Tour].location\n"
                         + "  FROM [dbo].[Booking], [dbo].[Trip], [dbo].[Tour]\n"
                         + "  WHERE [dbo].[Booking].trip_id = [dbo].[Trip].id AND [dbo].[Trip].tour_id = [dbo].[Tour].id AND [dbo].[Booking].id = ?";
                 ps = con.prepareStatement(SQL);
@@ -234,7 +234,7 @@ public class TourDAO implements Serializable {
 
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    TourDTO tour = new TourDTO(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getString(4));
+                    TourDTO tour = new TourDTO(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getString(4), rs.getString(5));
                     return tour;
                 }
             }
@@ -312,31 +312,8 @@ public class TourDAO implements Serializable {
         return 0;
     }
 
-    public static void main(String[] args) {
-        try {
-            List<TourDTO> result = new TourDAO().getAllTours(0, 10);
-            for (TourDTO x : result) {
-                System.out.println(x.getTourName());
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        TourDTO result = new TourDAO().getTour_by_BookingID(37);
+        System.out.println(result.getLocation());
     }
-//        TourDTO tourDTO = new TourDTO("Da nang 1 Minh Em", 1000000, 2000000, "abcdxez.com", "dia diem1, dia diem 2, dia diem 3");
-//        List<TourItemDTO> tourItemsDTO = new ArrayList<>();
-//        tourItemsDTO.add(new TourItemDTO(3, "8h-12h", "test4"));
-//        tourItemsDTO.add(new TourItemDTO(3, "12h-15h", "test5"));
-//        tourItemsDTO.add(new TourItemDTO(3, "15h-19h", "test6"));
-//        System.out.println(tourDTO.getLocation());
-//        try {
-//            boolean result = new TourDAO().createNewTour(tourDTO, tourItemsDTO);
-//            if (result) {
-//                System.out.println("HAHAHA");
-//            } else {
-//                System.out.println("BUGS BUGS BUGS");
-//            }
-//        } catch (ClassNotFoundException | SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
 }

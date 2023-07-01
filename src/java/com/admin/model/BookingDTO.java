@@ -55,6 +55,20 @@ public class BookingDTO implements Serializable {
         this.reason = reason;
     }
 
+    // View Export EXCEL
+    public BookingDTO(int id, double totalPrice, String cusBook, String cusMail, String cusPhone, String expireDate, int totalQuantity, boolean status, TripDTO tripDTO, String reason) {
+        this.id = id;
+        this.totalPrice = totalPrice;
+        this.cusBook = cusBook;
+        this.cusMail = cusMail;
+        this.cusPhone = cusPhone;
+        this.expireDate = expireDate;
+        this.status = status;
+        this.totalQuantity = totalQuantity;
+        this.tripDTO = tripDTO;
+        this.reason = reason;
+    }
+
     //get details - without id
     public BookingDTO(double totalPrice, String requirement, String cusBook, String cusMail, String cusPhone, String expireDate, boolean status, PaymentDTO paymentDTO, int account_id, int quantityAdult, int quantityChild, int trip_id) {
         this.totalPrice = totalPrice;
