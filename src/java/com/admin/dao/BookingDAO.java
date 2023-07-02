@@ -345,7 +345,7 @@ public class BookingDAO implements Serializable {
                 rs = ps.executeQuery();
                 ArrayList<BookingDTO> listTotalPrice = new ArrayList<>();
                 while (rs.next()) {
-                    BookingDTO booking = new BookingDTO(rs.getString(1), rs.getString(2), rs.getDouble(3));
+                    BookingDTO booking = new BookingDTO(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4));
                     listTotalPrice.add(booking);
                 }
                 return listTotalPrice;
@@ -894,43 +894,48 @@ public class BookingDAO implements Serializable {
         return listOfSummaryBooking;
     }
 
-    public static void main(String[] args)
-            throws ClassNotFoundException, SQLException, ParseException {
-
-//        Date date = new SimpleDateFormat("dd-MM-yyyy");
-//        Date formatDate = formatter6.parse(now);
-//        String str = new BookingDAO().test();
-//        System.out.println(str);
-//        SimpleDateFormat formatter6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Date date = formatter6.parse(str);
-//        System.out.println(date);
-//        LocalDateTime ldt = LocalDateTime.ofInstant(now.toInstant(), ZoneId.systemDefault());
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        Timestamp ts = new BookingDAO().test();
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd\tHH:mm:ss");
-//        String dateFormat = formatter.format(ts);
+    // LẤY RA DOANH THU TRONG NGÀY HÔM NAY CỦA TOUR ĐÓ VÀ ID
+    public ArrayList<BookingDTO> getRevenue_Current_Day_of_Tour() throws ClassNotFoundException, SQLException {
+        ArrayList<BookingDTO> list = null;
         try {
-            boolean status = new BookingDAO().changeStateBooking(5, "Thieu tien");
-            System.out.println(status);
-            BookingDTO test = new BookingDAO().getDetailBookingByID(5);
-            System.out.println(test.getReason());
-
-            List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookingsWithPagination(0, 10);
-            for (BookingDTO x : listOfSummaryBooking) {
-                System.out.println(x.getReason());
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT SUM(BK.totalPrice), TP.tour_id\n"
+                        + "FROM [dbo].[Booking] as BK, [dbo].[Trip] as TP\n"
+                        + "WHERE BK.trip_id = TP.id\n"
+                        + "AND DAY(BK.expireDate) = DAY(GETDATE())\n"
+                        + "AND MONTH(BK.expireDate) = MONTH(GETDATE()) \n"
+                        + "AND YEAR(BK.expireDate) = YEAR(GETDATE())\n"
+                        + "GROUP BY TP.tour_id ";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                list = new ArrayList<>();
+                while (rs.next()) {
+                    double revenue = rs.getDouble(1);
+                    int tour_id = rs.getInt(2);
+                    BookingDTO booking = new BookingDTO(revenue, tour_id);
+                    list.add(booking);
+                }
             }
-//            if (list != null) {
-//                for (BookingDTO bookingDTO : list) {
-//                    System.out.println(bookingDTO.getExpireDate());
-//                }
-//            }
-//            if (list != null) {
-//                for (BookingDTO bookingDTO : list) {
-//                    System.out.println(bookingDTO.getCusBook());
-//                }
-//            }
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        BookingDAO dao = new BookingDAO();
+        ArrayList<BookingDTO> list = dao.getRevenue_Current_Day_of_Tour();
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getTour_id());
         }
     }
 }

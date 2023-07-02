@@ -31,7 +31,7 @@ public class BookingDTO implements Serializable {
     private int quantityChild;
     private int trip_id;
 
-    //Extra attributes    private int trip_id;
+    //Extra attributes  private int trip_id;
     private TripDTO tripDTO;
     private PaymentDTO paymentDTO;
     private int totalQuantity;
@@ -40,6 +40,9 @@ public class BookingDTO implements Serializable {
     private String tourName;
     private String tourThumbnail;
     private double revenue;
+
+    // TOUR
+    private int tour_id;
 
     public BookingDTO() {
     }
@@ -105,12 +108,29 @@ public class BookingDTO implements Serializable {
     }
 
     // Get list Totalprice
-    public BookingDTO(String tourName, String tourThumbnail, double revenue) {
+    public BookingDTO(String tourName, String tourThumbnail, double revenue, int tour_id) {
         this.tourName = tourName;
         this.tourThumbnail = tourThumbnail;
         this.revenue = revenue;
+        this.tour_id = tour_id;
     }
 
+    // CẤU TRÚC ĐỂ LẤY RA TỔNG DOANH THU NGÀY HIỆN TẠI CỦA 1 TOUR
+    public BookingDTO(double revenue, int tour_id) {
+        this.revenue = revenue;
+        this.tour_id = tour_id;
+    }
+
+    public int getTour_id() {
+        return tour_id;
+    }
+
+    public void setTour_id(int tour_id) {
+        this.tour_id = tour_id;
+    }
+
+    
+    
     public String getTourName() {
         return tourName;
     }

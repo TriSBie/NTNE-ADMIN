@@ -489,7 +489,7 @@
                         </div>
                         <!-- Báo cáo tháng này -->
 
-                                                <!-- Danh sách booking gần nhất  -->
+                        <!-- Danh sách booking gần nhất  -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card w-100">
@@ -595,7 +595,7 @@
                             </div>
                         </div>
                         <!-- Danh sách booking gần nhất  -->
-                        
+
                         <!-- Top doanh thu theo TOUR  -->
                         <div class="row">
                             <div class="col-lg-12 d-flex align-items-stretch">
@@ -647,6 +647,13 @@
                                                             <td class="border-bottom-0">
                                                                 <p class="fw-semibold mb-1"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
                                                             </td>
+                                                            <td class="border-bottom-0">
+                                                                <c:forEach var="tour" items="${LIST_REVENUE_CURRENT_DAY_OF_TOUR}" varStatus="counter">
+                                                                    <c:if test="${item.tour_id == tour.tour_id}">
+                                                                        <p class="fw-semibold mb-1"><fmt:formatNumber value ="${tour.revenue}" type = "currency"/></p>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </td>
                                                         </tr>
                                                     </c:forEach>
                                                     <!-- Du lieu -->
@@ -671,7 +678,7 @@
         <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <script src="../assets/js/dashboard.js"></script>
-        
+
         <!--Function xuất file excel -->
         <script>
             function exportTableToExcel(tableID, filename = '') {
