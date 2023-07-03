@@ -3,10 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-dashborad.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/dao/BookingDAO.java</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/model/BookingDTO.java</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/controller/TourController.java</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/src/java/com/admin/controller/AccountController.java</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/src/java/com/admin/model/BookingDTO.java</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/web/WEB-INF/admin/ui-manageBooking.jsp</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/web/WEB-INF/admin/ui-listTrip.jsp</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/web/WEB-INF/admin/ui-account.jsp</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/src/java/com/admin/dao/AccountDAO.java</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/src/java/com/admin/controller/TourController.java</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/src/java/com/admin/dao/BookingDAO.java</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/web/WEB-INF/admin/ui-destination.jsp</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/src/java/com/admin/controller/BookingController.java</file>
+            <file>file:/D:/Ky5/SWP/SWP391-NTNE-Web/NTN_ADMIN_NEW/NTNE-ADMIN/src/java/com/admin/model/TripDTO.java</file>
         </group>
     </open-files>
 </project-private>

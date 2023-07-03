@@ -522,10 +522,12 @@
             transition: opacity 500ms;
             visibility: hidden;
             opacity: 0;
+            z-index: 9;
         }
         .overlay:target {
             visibility: visible;
             opacity: 1;
+            z-index: 0;
         }
 
         #main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header{
