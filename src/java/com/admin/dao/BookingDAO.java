@@ -6,6 +6,7 @@
 package com.admin.dao;
 
 import com.admin.model.BookingDTO;
+import com.admin.model.Chart;
 import com.admin.model.PaymentDTO;
 import com.admin.model.TripDTO;
 import java.io.Serializable;
@@ -929,6 +930,47 @@ public class BookingDAO implements Serializable {
             }
         }
         return list;
+    }
+    
+    // CHART getSummaryTotalOfWeeks
+    public List<Chart> getSummaryTotalOfWeeks()
+            throws SQLException, ClassNotFoundException {
+        List<Chart> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = " SELECT SUM(totalPrice) as totalOfWeeks, convert(date, expireDate) as Date\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] \n"
+                        + "WHERE convert(date, expireDate) IN\n"
+                        + "(SELECT DISTINCT TOP 7 convert(date, expireDate)\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] \n"
+                        + "WHERE convert(date, expireDate) IN \n"
+                        + "(SELECT DISTINCT TOP 7 convert(date, expireDate) as Date)\n"
+                        + "AND status = 1\n"
+                        + "ORDER BY convert(date, expireDate) DESC)\n"
+                        + "AND status = 1\n"
+                        + "GROUP BY convert(date, expireDate)";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                list = new ArrayList<>();
+                while (rs.next()) {
+                    Chart chart = new Chart(rs.getDate(2), rs.getInt(1));
+                    list.add(chart);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {

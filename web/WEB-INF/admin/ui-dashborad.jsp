@@ -244,7 +244,23 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
+                    <!-- CHART REPORT -->
+                    <div class="row">
+                        <div class="col-lg-12 d-flex align-items-strech">
+                            <div class="card w-100">
+                                <div class="card-body">
+                                    <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                        <div class="mb-3 mb-sm-0">
+                                            <h5 class="card-title fw-semibold">SƠ ĐỒ DOANH THU 7 NGÀY GẦN NHẤT</h5>
+                                        </div>
+                                    </div>
+                                    <div id="chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CHART REPORT -->
 
                     <div class="row">
                         <!-- Báo cáo hôm nay -->
@@ -677,7 +693,6 @@
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-        <script src="../assets/js/dashboard.js"></script>
 
         <!--Function xuất file excel -->
         <script>
@@ -711,6 +726,204 @@
                     downloadLink.click();
             }
             }
+        </script>
+
+        <script>
+            var revenues = [];
+            <c:forEach var="item" items="${TOTAL_PRICE_OF_A_WEEKS}">
+            revenues.push(${item.totalOfWeeks})
+            </c:forEach>
+
+            var dates = [];
+            <c:forEach var="item" items="${TOTAL_PER_DAY_OF_A_WEEKS}">
+            dates.push("${item}")
+            </c:forEach>
+
+            $(function () {
+                // =====================================
+                // Profit
+                // =====================================
+                var chart = {
+
+                    series: [
+                        {name: "Doanh thu",
+                            data: [revenues[0], revenues[1], revenues[2], revenues[3], revenues[4], revenues[5], revenues[6]]
+                        }
+                    ],
+                    chart: {
+                        type: "bar",
+                        height: 345,
+                        offsetX: -15,
+                        toolbar: {show: true},
+                        foreColor: "#adb0bb",
+                        fontFamily: 'inherit',
+                        sparkline: {enabled: false},
+                    },
+                    colors: ["#5D87FF", "#49BEFF"],
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: "35%",
+                            borderRadius: [6],
+                            borderRadiusApplication: 'end',
+                            borderRadiusWhenStacked: 'all'
+                        },
+                    },
+                    markers: {size: 0},
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    legend: {
+                        show: false,
+                    },
+                    grid: {
+                        borderColor: "rgba(0,0,0,0.1)",
+                        strokeDashArray: 3,
+                        xaxis: {
+                            lines: {
+                                show: false,
+                            },
+                        },
+                    },
+                    xaxis: {
+                        type: "category",
+                        categories: [dates[0], dates[1], dates[2], dates[3], dates[4], dates[5], dates[6]]
+                        ,
+                        labels: {
+                            style: {cssClass: "grey--text lighten-2--text fill-color"},
+                        },
+                    },
+                    yaxis: {
+                        show: true,
+                        min: 0,
+                        max: 7000000,
+                        tickAmount: 4,
+                        labels: {
+                            style: {
+                                cssClass: "grey--text lighten-2--text fill-color",
+                            },
+                        },
+                    },
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        lineCap: "butt",
+                        colors: ["transparent"],
+                    },
+                    tooltip: {theme: "light"},
+                    responsive: [
+                        {
+                            breakpoint: 600,
+                            options: {
+                                plotOptions: {
+                                    bar: {
+                                        borderRadius: 3,
+                                    }
+                                },
+                            }
+                        }
+                    ]
+
+
+                };
+                var chart = new ApexCharts(document.querySelector("#chart"), chart);
+                chart.render();
+                // =====================================
+                // Breakup
+                // =====================================
+                var breakup = {
+                    color: "#adb5bd",
+                    series: [38, 40, 25],
+                    labels: ["2022", "2021", "2020"],
+                    chart: {
+                        width: 180,
+                        type: "donut",
+                        fontFamily: "Plus Jakarta Sans', sans-serif",
+                        foreColor: "#adb0bb",
+                    },
+                    plotOptions: {
+                        pie: {
+                            startAngle: 0,
+                            endAngle: 360,
+                            donut: {
+                                size: '75%',
+                            },
+                        },
+                    },
+                    stroke: {
+                        show: false,
+                    },
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    legend: {
+                        show: false,
+                    },
+                    colors: ["#5D87FF", "#ecf2ff", "#F9F9FD"],
+                    responsive: [
+                        {
+                            breakpoint: 991,
+                            options: {
+                                chart: {
+                                    width: 150,
+                                },
+                            },
+                        },
+                    ],
+                    tooltip: {
+                        theme: "dark",
+                        fillSeriesColor: false,
+                    },
+                };
+                var chart = new ApexCharts(document.querySelector("#breakup"), breakup);
+                chart.render();
+                // =====================================
+                // Earning
+                // =====================================
+                var earning = {
+                    chart: {
+                        id: "sparkline3",
+                        type: "area",
+                        height: 60,
+                        sparkline: {
+                            enabled: true,
+                        },
+                        group: "sparklines",
+                        fontFamily: "Plus Jakarta Sans', sans-serif",
+                        foreColor: "#adb0bb",
+                    },
+                    series: [
+                        {
+                            name: "Earnings",
+                            color: "#49BEFF",
+                            data: [25, 66, 20, 40, 12, 58, 20],
+                        },
+                    ],
+                    stroke: {
+                        curve: "smooth",
+                        width: 2,
+                    },
+                    fill: {
+                        colors: ["#f3feff"],
+                        type: "solid",
+                        opacity: 0.05,
+                    },
+                    markers: {
+                        size: 0,
+                    },
+                    tooltip: {
+                        theme: "dark",
+                        fixed: {
+                            enabled: true,
+                            position: "right",
+                        },
+                        x: {
+                            show: false,
+                        },
+                    },
+                };
+                new ApexCharts(document.querySelector("#earning"), earning).render();
+            })
         </script>
     </body>
 </html>

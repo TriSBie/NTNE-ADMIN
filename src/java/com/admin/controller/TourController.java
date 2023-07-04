@@ -12,12 +12,14 @@ import com.admin.dao.TourDAO;
 import com.admin.dao.TourItemDAO;
 import com.admin.dao.TripDAO;
 import com.admin.model.BookingDTO;
+import com.admin.model.Chart;
 import com.admin.model.DestinationDTO;
 import com.admin.model.TourDTO;
 import com.admin.model.TourItemDTO;
 import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -353,6 +355,16 @@ public class TourController extends HttpServlet {
             // Lấy tổng số TRIP đã và đang hoạt động trong tháng này
             int total_TRIP_in_this_month = trip_dao.getTotal_TRIP();
 
+            
+            //Lấy thông tin tổng doanh thu trong 7 ngày
+            List<Chart> chartList = new BookingDAO().getSummaryTotalOfWeeks();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM");
+            List<String> datePerWeeks = new ArrayList<>();
+            for (Chart date : chartList) {
+                String dateFormat = sdf.format(date.getDate());
+                datePerWeeks.add(dateFormat);
+            }
+            
             if (list != null) {
                 url = Config.LAYOUT + DASHBORAD_URL;
                 request.setAttribute("LIST_ALL_TOUR_REVENUE", list);
@@ -375,6 +387,9 @@ public class TourController extends HttpServlet {
                 request.setAttribute("TOTAL_TRIP_IN_THIS_MONTH", total_TRIP_in_this_month);
                 
                 request.setAttribute("LIST_REVENUE_CURRENT_DAY_OF_TOUR", listRevenue_Current_Day_Of_Tour);
+                
+                request.setAttribute("TOTAL_PRICE_OF_A_WEEKS", chartList);
+                request.setAttribute("TOTAL_PER_DAY_OF_A_WEEKS", datePerWeeks);
                 
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);

@@ -225,7 +225,7 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
                         <h2 class="card-title fw-semibold mb-4">Chỉnh sửa TRIP</h2>
                         <div class="card">
@@ -266,6 +266,7 @@
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="Giá hiện tại:<fmt:formatNumber value ="${TRIP_DETAIL.priceAdult}" type = "currency"/>"
+                                                            required=""
                                                             />
                                                     </div>
                                                     <div class="col-6">
@@ -282,6 +283,7 @@
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="Giá hiện tại: <fmt:formatNumber value ="${TRIP_DETAIL.priceChild}" type = "currency"/>"
+                                                            required=""
                                                             />
                                                     </div>
                                                 </div>
@@ -293,7 +295,7 @@
                                                                 Ngày hiện tại: ${TRIP_DETAIL.depart_time}
                                                             </p></label
                                                         >
-                                                        <input name="depart_time" type="date" class="form-control" />
+                                                        <input name="depart_time" type="date" class="form-control" required="" />
                                                     </div>
                                                     <div class="col-6">
                                                         <label
@@ -303,7 +305,7 @@
                                                             >Số chỗ cho phép
                                                             <p class="form-text">Số chỗ hiện tại: ${TRIP_DETAIL.quantity}</p>
                                                         </label>
-                                                        <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" />
+                                                        <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" required=""/>
                                                     </div>
                                                 </div>
                                             </div>

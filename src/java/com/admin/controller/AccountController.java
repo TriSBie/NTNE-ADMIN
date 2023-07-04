@@ -31,7 +31,9 @@ public class AccountController extends HttpServlet {
 
     String DASHBOARD_URL = "ui-dashborad.jsp";
     String ACCOUNT_URL = "ui-account.jsp";
-    String ERROR_URL = "error.jsp";
+    String ERROR_URL = "error.jsp"; 
+    String LOGIN_URL = "index.jsp";
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
@@ -46,6 +48,7 @@ public class AccountController extends HttpServlet {
                 break;
             case "hanleLogout":
                 hanleLogout(request, response);
+                break;
             case "accountList":
                 getAccount(request, response);
                 break;
@@ -96,11 +99,10 @@ public class AccountController extends HttpServlet {
         HttpSession session = request.getSession();
         String url = Config.LAYOUT + ERROR_URL;
         try {
-
             if (session.getAttribute("admin") != null) {
                 session.removeAttribute("admin");
                 // chuyen huong ve login
-                response.sendRedirect("/ADMIN_PAGE");
+                response.sendRedirect("/");
             } else {
                 response.sendRedirect(url);
             }

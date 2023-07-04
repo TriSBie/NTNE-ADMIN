@@ -248,7 +248,7 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
                         <div class="card">
                             <div class="card-body">
@@ -295,6 +295,7 @@
                                                                             id="exampleInputEmail1"
                                                                             aria-describedby="destination_name"
                                                                             value=""
+                                                                            required=""
                                                                             />
                                                                     </div>
                                                                 </div>
@@ -302,7 +303,7 @@
                                                                     <div class="col-6">
                                                                         <label class="form-label"
                                                                                >Nhập vĩ độ </label>
-                                                                        <input name="latitude" type="number" class="form-control" value=""/>
+                                                                        <input name="latitude" type="number" class="form-control" value="" required=""/>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <label
@@ -310,12 +311,12 @@
                                                                             for="tour"
                                                                             >Nhập kinh độ
                                                                         </label>
-                                                                        <input name="longitude" type="number" class="form-control" value=""/>
+                                                                        <input name="longitude" type="number" class="form-control" value="" required=""/>
                                                                     </div>
                                                                 </div>
                                                                 <div class="mb-3 col-12">
                                                                     <label class="form-label">Mô tả ngắn</label>
-                                                                    <textarea rows="3" class="form-control" name="editor1" id="editorCreate" value=""></textarea>
+                                                                    <textarea rows="3" class="form-control" name="editor1" id="editorCreate" value="" required=""></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>

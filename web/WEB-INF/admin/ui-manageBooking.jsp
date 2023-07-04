@@ -285,7 +285,7 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
                     <!-- Danh Sách BOOKING -->
                     <div class="row">
                         <div class="col-lg-12 d-flex align-items-stretch">

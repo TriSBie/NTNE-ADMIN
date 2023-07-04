@@ -314,7 +314,7 @@
                     <c:set var="tripDTO" value="${requestScope.BOOKING_DETAILS.tripDTO}"/>
                     <c:set var="paymentDTO" value="${requestScope.BOOKING_DETAILS.paymentDTO}"/>
                     <c:set var="bookingDTO" value="${requestScope.BOOKING_DETAILS}"/>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="background-color: #E6E9EB;">
                         <!-- Danh Sách BOOKING -->
                         <div class="row">
                             <h5 class="fw-semibold mb-1">

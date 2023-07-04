@@ -279,7 +279,7 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
                         <h2 class="card-title fw-semibold mb-4">Tạo TRIP</h2>
                         <a href="<c:url value="/tour/listTrip.do"/>">

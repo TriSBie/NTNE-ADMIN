@@ -244,7 +244,7 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="row">
                         <!-- Danh sách booking gần nhất  -->
                         <div class="row">

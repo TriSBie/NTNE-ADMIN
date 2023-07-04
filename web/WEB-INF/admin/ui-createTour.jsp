@@ -244,7 +244,7 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
                         <h2 class="card-title fw-semibold mb-4">TẠO TOUR</h2>
                         <a href="<c:url value="/tour/listTour.do"/>">
@@ -267,6 +267,7 @@
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
                                                 name="name"
+                                                required=""
                                                 />
                                         </div>
                                         <div class="col-2">
@@ -281,6 +282,7 @@
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
                                                 name="code"
+                                                required=""
                                                 />
                                         </div>
                                         <div class="col-5">
@@ -295,6 +297,7 @@
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
                                                 name="location"
+                                                required=""
                                                 />
                                         </div>
                                     </div>
@@ -311,6 +314,7 @@
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
                                                 name="priceAdult"
+                                                required=""
                                                 />
                                         </div>
                                         <div class="col-6">
@@ -321,10 +325,11 @@
                                             >
                                             <input
                                                 type="number"
-                                                class="form-control"
+                                                class="form-control "
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
                                                 name="priceChild"
+                                                
                                                 />
                                         </div>
                                     </div>
@@ -334,7 +339,7 @@
                                         <label class="form-label"
                                                >Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com/)
                                         </label>
-                                        <input type="text" class="form-control" name="thumbnail"/>
+                                        <input type="text" class="form-control" name="thumbnail" required=""/>
                                     </div>
 
 
@@ -361,12 +366,12 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <label class="form-label">Mốc thời gian</label>
-                                                    <input type="text" class="form-control" name="duration"/>
+                                                    <input type="text" class="form-control" name="duration" required=""/>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-12">
                                                 <label class="form-label">Chi tiết</label>
-                                                <textarea id="textarea1" name="script" rows="5" class="form-control" >
+                                                <textarea id="textarea1" name="script" rows="5" class="form-control" required="">
                                                 </textarea>                                               
                                             </div>
                                         </div>
@@ -434,12 +439,12 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <label class="form-label">Mốc thời gian</label>
-                                                    <input type="text" class="form-control" name="duration"/>
+                                                    <input type="text" class="form-control" name="duration" required=""/>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-12">
                                                 <label class="form-label">Chi tiết</label>` +
-                                                        `<textarea id=` + `"textarea` + index + `" name="script" rows="5" class="form-control">
+                                                        `<textarea id=` + `"textarea` + index + `" name="script" rows="5" class="form-control" required="">
                                                 </textarea>                                              
                                             </div>`;
                                                 div.classList.add("formTour-package");

@@ -227,7 +227,7 @@
                     </nav>
                 </header>
                 <!--  Header End -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
                         <h2 class="card-title fw-semibold mb-4">Chỉnh sửa chi tiết lịch trình TOUR</h2>
                         <div class="card">
@@ -270,6 +270,7 @@
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="${TOUR_ITEM_DETAIL.duration}"
+                                                            required=""
                                                             />
                                                     </div>
                                                     <div class="col-6">
