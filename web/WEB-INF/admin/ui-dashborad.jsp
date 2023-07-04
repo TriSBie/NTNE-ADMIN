@@ -272,7 +272,7 @@
                                     <div class="card-body">
                                         <div class="row alig n-items-start">
                                             <div class="col-10">
-                                                <h5 class="card-title fw-semibold">
+                                                <h5 class="card-title mb-9 fw-normal">
                                                     <a href="<c:url value="/booking/viewBookingCurentDay.do"/>">Doanh thu hôm nay</a>
                                                 </h5>
                                                 <h4 class="fw-semibold mb-3">
@@ -796,7 +796,7 @@
                     yaxis: {
                         show: true,
                         min: 0,
-                        max: 7000000,
+                        max: 20000000,
                         tickAmount: 4,
                         labels: {
                             style: {

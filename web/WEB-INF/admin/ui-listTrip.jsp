@@ -411,8 +411,8 @@
                                                     <c:if test="${not empty requestScope.LIST_TRIP}">
                                                         <c:forEach var="tripItem" items="${requestScope.LIST_TRIP}">
                                                             <tr>
-                                                                <th scope="row">${tripItem.tripID}</th>
-                                                                <td style="width: 230px;">
+                                                                <td scope="row">${tripItem.tripID}</td>
+                                                                <td style="width: 150px;">
                                                                     <h6 class="fw-semibold mb-1 titleLink">
                                                                         <c:url var="getListBookinglLink" value="/booking/listBookingbyTripID.do">
                                                                             <c:param name="tripID" value="${tripItem.tripID}"/>
@@ -438,7 +438,14 @@
                                                                 <td style="width: 130px;">
                                                                     <fmt:formatNumber value ="${tripItem.priceChild}" type = "currency"/>
                                                                 </td>
-                                                                <td>${tripItem.quantity}</td>
+                                                                <td>
+                                                                    <c:if test="${tripItem.current_quantity == tripItem.quantity}">
+                                                                        <p style="color: red;font-weight: bold ">${tripItem.current_quantity}/${tripItem.quantity}</p>
+                                                                    </c:if>
+                                                                    <c:if test="${tripItem.current_quantity < tripItem.quantity}">
+                                                                        <p>${tripItem.current_quantity}/${tripItem.quantity}</p>
+                                                                    </c:if>
+                                                                </td>
                                                                 <td>
                                                                     <c:if test="${tripItem.availability == true}">
                                                                         <span class="badge bg-success rounded-3 fw-semibold">Hoạt động</span>

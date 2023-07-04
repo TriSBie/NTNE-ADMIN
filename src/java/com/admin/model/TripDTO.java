@@ -19,6 +19,7 @@ public class TripDTO implements Serializable {
     private double priceAdult;
     private double priceChild;
     private int quantity;
+    private int current_quantity;
     private Date depart_time;
     private int tourID;
     //Extra attribute
@@ -36,8 +37,6 @@ public class TripDTO implements Serializable {
         this.quantity = quantity;
         this.depart_time = depart_time;
     }
-    
-    
 
     public TripDTO(boolean availability, double priceAdult, double priceChild, int quantity, Date depart_time, int tourID) {
         this.availability = availability;
@@ -48,7 +47,7 @@ public class TripDTO implements Serializable {
         this.tourID = tourID;
     }
 
-    public TripDTO(int tripID ,String tourName, String thumbnail, double priceAdult, double priceChild, int quantity, Date depart_time) {
+    public TripDTO(int tripID, String tourName, String thumbnail, double priceAdult, double priceChild, int quantity, Date depart_time) {
         this.tripID = tripID;
         this.tourName = tourName;
         this.thumbnail = thumbnail;
@@ -79,6 +78,26 @@ public class TripDTO implements Serializable {
         this.thumbnail = thumbnail;
     }
 
+    public TripDTO(int tripID, String code, String thumbnail, boolean availability, double priceAdult, double priceChild, int quantity, int current_quantity, Date depart_time) {
+        this.tripID = tripID;
+        this.code = code;
+        this.availability = availability;
+        this.priceAdult = priceAdult;
+        this.priceChild = priceChild;
+        this.quantity = quantity;
+        this.current_quantity = current_quantity;
+        this.depart_time = depart_time;
+        this.thumbnail = thumbnail;
+    }
+
+    public int getCurrent_quantity() {
+        return current_quantity;
+    }
+
+    public void setCurrent_quantity(int current_quantity) {
+        this.current_quantity = current_quantity;
+    }
+
     public String getTourName() {
         return tourName;
     }
@@ -86,7 +105,6 @@ public class TripDTO implements Serializable {
     public void setTourName(String tourName) {
         this.tourName = tourName;
     }
-    
 
     public int getTripID() {
         return tripID;
@@ -151,7 +169,6 @@ public class TripDTO implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-
 
     public String getThumbnail() {
         return thumbnail;

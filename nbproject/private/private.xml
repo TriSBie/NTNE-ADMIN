@@ -9,17 +9,22 @@
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/assets/css/styles.css</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/controller/BookingController.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/dao/TourDAO.java</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listTrip.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-editTourItem.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/assets/js/dashboard.js</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listBookingbyTripID.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-dashborad.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/model/BookingDTO.java</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/dao/BookingDAO.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/META-INF/context.xml</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listTourItems.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-editTour.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/controller/TourController.java</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/dao/TripDAO.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/controller/AccountController.java</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/dao/TourItemDAO.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-destination.jsp</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/model/TripDTO.java</file>
         </group>
     </open-files>
 </project-private>
