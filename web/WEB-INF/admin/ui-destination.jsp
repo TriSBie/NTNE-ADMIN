@@ -521,18 +521,17 @@
             right: 0;
             background: rgba(0, 0, 0, 0.7);
             transition: opacity 500ms;
-            visibility: hidden;
+            display: none;
             opacity: 0;
-            z-index: 9;
         }
         .overlay:target {
-            visibility: visible;
+            display:  block;
             opacity: 1;
-            z-index: 0;
+            z-index: 4;
         }
 
         #main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header{
-            z-index: 0;
+            z-index: 5;
         }
         .popup {
             margin: 70px auto;
@@ -576,12 +575,13 @@
             right: 0;
             background: rgba(0, 0, 0, 0.7);
             transition: opacity 500ms;
-            visibility: hidden;
+            display: none;
             opacity: 0;
         }
         .overlay2:target {
-            visibility: visible;
+            display: block;
             opacity: 1;
+            z-index: 4
         }
         .popup2 {
             top: 10%;
@@ -622,6 +622,10 @@
             max-height: 30%;
             overflow: auto;
         }
+
+        .pagination{
+            z-index: 0;
+        }
     </style>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -640,14 +644,14 @@
         var btnOpenPopup = document.querySelector('.openPopup');
         var popup = document.querySelector('.overlay');
         function openPopup() {
-            document.querySelector(".app-header").style.zIndex = 0;
+            document.querySelector(".app-header").style.zIndex = "4";
         }
 //        addEventListener(btnOpenPopup, function () {
 //            document.querySelector(".app-header").style.zIndex = 0;
 //        })
 
         function showZindex() {
-            document.querySelector(".app-header").style.zIndex = 10;
+            document.querySelector(".app-header").style.zIndex = "10";
         }
 
 //        function closePopup() {
@@ -656,18 +660,13 @@
 //        }
     </script>
 
-<!--    <script>
+    <script>
         var index = 1;
-        var editor = "editor" + index;
-        CKEDITOR.replace(editor);
-        CKEDITOR.replace('editorCreate')
         function openPopupEdit(value) {
             index = value;
-            editor = "editor" + index;
-            CKEDITOR.replace(editor);
             document.querySelector(
                     '#main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header'
-                    ).style.zIndex = "0";
+                    ).style.zIndex = "4";
         }
 
         function closePopupEdit(e) {
@@ -675,8 +674,7 @@
                     '#main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header'
                     ).style.zIndex = "10";
         }
-    </script>-->
-
+    </script>
 
     <script>
         $(document).ready(function () {

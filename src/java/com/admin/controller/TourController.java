@@ -169,13 +169,13 @@ public class TourController extends HttpServlet {
         int offset = (pageCount - 1) * recordsPerPage;
         try {
             TourDAO dao = new TourDAO();
-            int noOfRecords = new TripDAO().getAllAvailableRows();
+            int noOfRecords = new TourDAO().getAllAvailableRows();
             List<TourDTO> listTour = dao.getAllTours(offset, recordsPerPage);
             if (listTour != null) {
                 url = Config.LAYOUT + LIST_TOUR_URL;
                 request.setAttribute("LIST_TOUR", listTour);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
-                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage));
+                request.setAttribute("noOfRecords", (int) Math.ceil(noOfRecords * 1.00 / recordsPerPage));
                 request.setAttribute("currentPage", pageCount);
                 rd.forward(request, response);
             } else {
@@ -306,10 +306,9 @@ public class TourController extends HttpServlet {
             // Lấy danh sách booking
             List<BookingDTO> listOfSummaryBooking = new BookingDAO().getSummaryBookings();
 
-            
             // LẤY RA DANH SÁCH DOANH THU CHO MỘT NGÀY HIỆN TẠI CỦA MỘT TOUR
             List<BookingDTO> listRevenue_Current_Day_Of_Tour = new BookingDAO().getRevenue_Current_Day_of_Tour();
-            
+
             // Lấy doanh thu tháng hiện tại           
             double revenue = dao.getRevenueByMonth();
             // Lấy doanh thu tháng trước         
@@ -355,7 +354,6 @@ public class TourController extends HttpServlet {
             // Lấy tổng số TRIP đã và đang hoạt động trong tháng này
             int total_TRIP_in_this_month = trip_dao.getTotal_TRIP();
 
-            
             //Lấy thông tin tổng doanh thu trong 7 ngày
             List<Chart> chartList = new BookingDAO().getSummaryTotalOfWeeks();
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM");
@@ -364,7 +362,7 @@ public class TourController extends HttpServlet {
                 String dateFormat = sdf.format(date.getDate());
                 datePerWeeks.add(dateFormat);
             }
-            
+
             if (list != null) {
                 url = Config.LAYOUT + DASHBORAD_URL;
                 request.setAttribute("LIST_ALL_TOUR_REVENUE", list);
@@ -385,12 +383,12 @@ public class TourController extends HttpServlet {
                 request.setAttribute("TOTAL_TICKET_PRIVIOUS_MONTH", totalSticket_PriviousMonth);
                 request.setAttribute("TOTAL_TRIP_ACTIVE", total_TRIP_Available);
                 request.setAttribute("TOTAL_TRIP_IN_THIS_MONTH", total_TRIP_in_this_month);
-                
+
                 request.setAttribute("LIST_REVENUE_CURRENT_DAY_OF_TOUR", listRevenue_Current_Day_Of_Tour);
-                
+
                 request.setAttribute("TOTAL_PRICE_OF_A_WEEKS", chartList);
                 request.setAttribute("TOTAL_PER_DAY_OF_A_WEEKS", datePerWeeks);
-                
+
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {

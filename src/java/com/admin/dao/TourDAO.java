@@ -313,7 +313,13 @@ public class TourDAO implements Serializable {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        TourDTO result = new TourDAO().getTour_by_BookingID(37);
-        System.out.println(result.getLocation());
+        int record = new TourDAO().getAllAvailableRows();
+        System.out.println(record);
+        int numberOfRows = 10;
+        System.out.println(Math.ceil(record * 1.00 / numberOfRows));
+        List<TourDTO> result = new TourDAO().getAllTours(0, 10);
+//        for (TourDTO tourDTO : result) {
+//            System.out.println(tour);
+//        }
     }
 }
