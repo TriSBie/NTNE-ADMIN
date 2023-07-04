@@ -258,14 +258,14 @@ public class TourDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "  SELECT [dbo].[Tour].name,[dbo].[Trip].priceAdult, [dbo].[Trip].priceChild, [dbo].[Tour].thumbnail\n"
+                String SQL = "  SELECT [dbo].[Tour].name,[dbo].[Trip].priceAdult, [dbo].[Trip].priceChild, [dbo].[Tour].thumbnail, [dbo].[Tour].location\n"
                         + "  FROM [dbo].[Trip], [dbo].[Tour]\n"
                         + "  WHERE [dbo].[Trip].tour_id = [dbo].[Tour].id AND [dbo].[Trip].id = ?";
                 ps = con.prepareStatement(SQL);
                 ps.setInt(1, tripID);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    TourDTO tour = new TourDTO(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getString(4));
+                    TourDTO tour = new TourDTO(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getString(4), rs.getString(5));
                     return tour;
                 }
             }

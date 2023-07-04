@@ -341,9 +341,9 @@
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Tổng giá (VND)</h6>
                                                         </th>
-<!--                                                        <th class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">Trạng thái</h6>
-                                                        </th>-->
+                                                        <!--                                                        <th class="border-bottom-0">
+                                                                                                                    <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                                                                                                                </th>-->
                                                     </tr>
                                                 </c:if>
                                                 <c:if test="${not empty requestScope.BOOKING_DETAILS}">
@@ -387,26 +387,26 @@
                                                                     <fmt:formatNumber value="${bookingITEM.totalPrice}" type="currency"/>
                                                                 </p>
                                                             </td>
-<!--                                                            <td class="border-bottom-0">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <c:choose>
-                                                                        <c:when test="${bookingITEM.status}">
-                                                                            <span
-                                                                                class="badge bg-success rounded-3 fw-semibold"
-                                                                                >
-                                                                                Đã thanh toán
-                                                                            </span>
-                                                                        </c:when>
-                                                                        <c:when test="${!bookingITEM.status}">
-                                                                            <span
-                                                                                class="badge bg-danger rounded-3 fw-semibold"
-                                                                                >
-                                                                                Chưa thanh toán
-                                                                            </span>
-                                                                        </c:when>
-                                                                    </c:choose>
-                                                                </div>
-                                                            </td>-->
+                                                            <!--                                                            <td class="border-bottom-0">
+                                                                                                                            <div class="d-flex align-items-center gap-2">
+                                                            <c:choose>
+                                                                <c:when test="${bookingITEM.status}">
+                                                                    <span
+                                                                        class="badge bg-success rounded-3 fw-semibold"
+                                                                        >
+                                                                        Đã thanh toán
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:when test="${!bookingITEM.status}">
+                                                                    <span
+                                                                        class="badge bg-danger rounded-3 fw-semibold"
+                                                                        >
+                                                                        Chưa thanh toán
+                                                                    </span>
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </div>
+                                                    </td>-->
                                                         </tr>
                                                     </c:forEach>
                                                 </c:if>
@@ -420,90 +420,108 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- INFO -->
-                        <div class="col-lg-4 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">Thông tin cơ bản</h5>
-                                    <div class="mb-3 row">
-                                        <div class="col-12">
-                                            <img
-                                                style="
-                                                width: 300px;
-                                                height: 200px;
-                                                border-radius: 5px;
-                                                "
-                                                src="${TOUR.thumbnail}"
-                                                />
+                        <!-- TOUR INFO -->
+                        <c:if test="${not empty requestScope.TOUR}">
+                            <div class="col-lg-4 d-flex align-items-stretch">
+                                <!--GET BOOKING DETAIL BY ID-->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="fw-semibold mb-1">
+                                            Thông tin cơ bản của TOUR
+                                        </h5>
+                                        <div class="mb-3 row">
+                                            <div class="col-12">
+                                                <img
+                                                    style="
+                                                    width: 300px;
+                                                    height: 200px;
+                                                    border-radius: 5px;
+                                                    "
+                                                    src="${TOUR.thumbnail}"
+                                                    />
+                                            </div>
+                                        </div>    
+                                        <div class="mb-3 row">
+                                            <div class="col-12">
+                                                <label
+                                                    for="exampleInputEmail1"
+                                                    class="form-check-inline"
+                                                    >Tên TOUR
+                                                </label>
+                                                <h6 class="fw-semibold mb-1">
+                                                    ${TOUR.tourName}
+                                                </h6>
+                                            </div>
                                         </div>
-                                    </div>    
-                                    <div class="mb-3 row">
-                                        <div class="col-12">
-                                            <label
-                                                for="exampleInputEmail1"
-                                                class="form-check-inline"
-                                                >Tên TOUR
-                                            </label>
-                                            <h6 class="fw-semibold mb-1">
-                                                ${TOUR.tourName}
-                                            </h6>
-                                        </div>
+                                        <div class="mb-3 row">
+                                            <div class="col-6">
+                                                <label
+                                                    for="exampleInputEmail1"
+                                                    class="form-check-inline"
+                                                    >Giá trẻ em
+                                                </label>
+                                                <h6 class="mb-0 fw-semibold">
+                                                    <fmt:formatNumber value ="${TOUR.priceAdult}" type = "currency"/>
+                                                </h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <label
+                                                    for="exampleInputEmail1"
+                                                    class="form-check-semibold"
+                                                    >Giá trẻ em
+                                                </label>
+                                                <h6 class="mb-0 fw-semibold">
+                                                    <fmt:formatNumber value ="${TOUR.priceChild}" type = "currency"/>
+                                                </h6>
+                                            </div>
+                                        </div>  
+                                        <div class="mb-3 row">
+                                            <div class="col-12">
+                                                <label
+                                                    for="exampleInputEmail1"
+                                                    class="form-check-inline"
+                                                    >Các điểm đến
+                                                </label>
+                                                <h6 class="mb-0 fw-semibold">
+                                                    ${TOUR.location}
+                                                </h6>
+                                            </div>
+                                        </div>  
                                     </div>
-                                    <div class="mb-3 row">
-                                        <div class="col-6">
-                                            <label
-                                                for="exampleInputEmail1"
-                                                class="form-check-inline"
-                                                >Giá người lớn
-                                            </label>
-                                            <h6 class="mb-0 fw-normal">
-                                                <fmt:formatNumber value ="${TOUR.priceAdult}" type = "currency"/>
-                                            </h6>
-                                        </div>
-                                        <div class="col-6">
-                                            <label
-                                                for="exampleInputEmail1"
-                                                class="form-check-inline"
-                                                >Giá trẻ em
-                                            </label>
-                                            <h6 class="mb-0 fw-normal">
-                                                <fmt:formatNumber value ="${TOUR.priceChild}" type = "currency"/>
-                                            </h6>
-                                        </div>
-                                    </div>  
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
             </div>
         </div>
-        <style>
-            .bookingIDLink h6{
-                color: black;
-            }
+    </div>
+    <style>
+        .bookingIDLink h6{
+            color: black;
+        }
 
-            .bookingIDLink:hover h6{
-                color :green;
-            }
-        </style>                                     
-        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/sidebarmenu.js"></script>
-        <script src="../assets/js/app.min.js"></script>
-        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-        <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-        <script src="../assets/js/dashboard.js"></script>
+        .bookingIDLink:hover h6{
+            color :green;
+        }
+    </style>                                     
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
 
-        <!-- Confirm Press btn -->
-        <script>
-            function myFunction() {
-                let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
-                if (confirm(text) === false) {
-                    event.preventDefault();
-                }
+    <!-- Confirm Press btn -->
+    <script>
+        function myFunction() {
+            let text = "Bạn có chắc muốn thay đổi trạng thái hay không ?";
+            if (confirm(text) === false) {
+                event.preventDefault();
             }
-        </script>
-    </body>
+        }
+    </script>
+</body>
 </html>
 

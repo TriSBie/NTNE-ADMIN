@@ -541,7 +541,7 @@
             border-radius: 5px;
             width: 50%;
             position: relative;
-            top: -5%;
+            top: 10%;
             left: 10%;
             transition: all 1s ease-in-out;
         }
@@ -584,7 +584,7 @@
             opacity: 1;
         }
         .popup2 {
-            top: -6%;
+            top: 10%;
             left: 8%;
             /*            margin: 70px auto;*/
             margin-left: 26%;
@@ -595,6 +595,7 @@
             width: 50%;
             position: relative;
             transition: all 1s ease-in-out;
+            z-index: 1;
         }
         .popup2 img {
             width: 100%;
@@ -655,7 +656,7 @@
 //        }
     </script>
 
-    <script>
+<!--    <script>
         var index = 1;
         var editor = "editor" + index;
         CKEDITOR.replace(editor);
@@ -674,7 +675,7 @@
                     '#main-wrapper[data-layout="vertical"][data-header-position="fixed"] .app-header'
                     ).style.zIndex = "10";
         }
-    </script>
+    </script>-->
 
 
     <script>

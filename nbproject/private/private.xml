@@ -4,27 +4,22 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-detailBooking.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-manageBooking.jsp</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/model/TourDTO.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-createTour.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/assets/css/styles.css</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listTrip.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/model/Chart.java</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/controller/BookingController.java</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/dao/TourDAO.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-editTourItem.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/assets/js/dashboard.js</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-createTrip.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listBooking_exportExcel.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listBookingbyTripID.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-dashborad.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/dao/BookingDAO.java</file>
+            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/model/BookingDTO.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/META-INF/context.xml</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listTourItems.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-editTour.jsp</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/controller/TourController.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/src/java/com/admin/controller/AccountController.java</file>
             <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-destination.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-account.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-editTrip.jsp</file>
-            <file>file:/C:/FPT/S5/SWP391/NTNE-ADMIN/web/WEB-INF/admin/ui-listTour.jsp</file>
         </group>
     </open-files>
 </project-private>
