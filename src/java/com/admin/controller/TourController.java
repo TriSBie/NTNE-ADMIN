@@ -544,6 +544,7 @@ public class TourController extends HttpServlet {
             boolean checkCreate = dao.createTrip(priceAdult, priceChild, quantity, depart_time, tour_id);
             if (checkCreate) {
                 // Phải quay về frontcontroller để đưa dữ liệu lên trang listTourItems
+                request.setAttribute("msg_success_create", "Bạn đã tạo thành công chuyến đi mới với trạng thái mặc định là [Tạm Dừng]!");
                 request.getRequestDispatcher("/tour/listTrip.do").forward(request, response);
             } else {
                 response.sendRedirect(url);
@@ -686,11 +687,17 @@ public class TourController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             int tripID = Integer.parseInt(request.getParameter("tripID"));
+            
+            // Get TOUR BY TRIP ID
+            TourDAO dao_tour = new TourDAO();
+            TourDTO tour = dao_tour.getTour_by_TripID(tripID);
+            
             TripDAO dao = new TripDAO();
             TripDTO trip = dao.getTrip_by_tripID(tripID);
             if (trip != null) {
                 url = Config.LAYOUT + UPDATE_TRIP;
                 request.setAttribute("TRIP_DETAIL", trip);
+                request.setAttribute("TOUR", tour);
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {

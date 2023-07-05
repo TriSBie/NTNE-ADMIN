@@ -353,6 +353,12 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <!-- Thông báo nếu thao tác thành công -->
+                                        
+                                        <c:if test="${msg_success_create != null}">
+                                            <div class="alert alert-success">
+                                                <strong>${msg_success_create}!</strong>
+                                            </div>
+                                        </c:if>
                                         <c:if test="${msg_success != null}">
                                             <div class="alert alert-success">
                                                 <strong>${msg_success} [ ${tripID} ]!</strong>
@@ -405,7 +411,7 @@
                                                         <th scope="col">Giá trẻ em</th>
                                                         <th scope="col">SL</th>
                                                         <th scope="col">Trạng thái</th>
-                                                        <th scope="col">Bật/Tắt</th>
+                                                        <th scope="col">Tắt/Bật</th>
                                                         <th scope="col">Chức năng</th>
                                                     </tr>
                                                 </thead>

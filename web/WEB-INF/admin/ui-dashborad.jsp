@@ -256,6 +256,7 @@
                                         </div>
                                     </div>
                                     <div id="chart"></div>
+                                    <p class="fw-normal">Đơn vị VNĐ</p>
                                 </div>
                             </div>
                         </div>

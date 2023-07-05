@@ -16,7 +16,10 @@
         <title>Chỉnh sửa TRIP</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
-
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            />
     </head>
 
     <body>
@@ -238,29 +241,23 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
-                        <h2 class="card-title fw-semibold mb-4">Chỉnh sửa TRIP</h2>
-                        <div class="card">
-                            <div class="card-body">
-                                <c:if test="${not empty requestScope.TRIP_DETAIL}">               
-                                    <form action="<c:url value="/tour/hanleEditTrip.do"/>" method="post">
-
-                                        <!-- gán ID TRIP -->
-                                        <input type="hidden" name="tripID" value="${TRIP_DETAIL.tripID}"/>
-
-                                        <!-- Tên TOUR -->
-                                        <div class="mb-3">
-                                            <h3 class="text-body">${TRIP_DETAIL.tourName}</h3>
-                                            <img
-                                                src="${TRIP_DETAIL.thumbnail}"
-                                                alt="${TRIP_DETAIL.tourName}"
-                                                class="img-thumbnail"
-                                                style="width: 300px"
-                                                />
-                                        </div>
-
-                                        <!-- CREATE TRIP -->
-                                        <div class="formTour">
-                                            <div class="formTour-package">
+                        <div class="row">
+                            <div class="col-lg-8  ">
+                                <div class="card" style="height: 93.5%">
+                                    <div class="card-body">
+                                        <c:if test="${ empty requestScope.BOOKING_DETAILS}">
+                                            <a href="<c:url value="/tour/listTrip.do"/>">
+                                                <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                                            </a>
+                                        </c:if>
+                                        <h5 class="fw-normal mb-4">
+                                            THAY ĐỔI THÔNG TIN CHUYẾN ĐI
+                                        </h5>
+                                        <c:if test="${not empty requestScope.TRIP_DETAIL}">               
+                                            <form action="<c:url value="/tour/hanleEditTrip.do"/>" method="post">
+                                                <!-- gán ID TRIP -->
+                                                <input type="hidden" name="tripID" value="${TRIP_DETAIL.tripID}"/>
+                                                <!-- CREATE TRIP -->
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
                                                         <label
@@ -310,22 +307,81 @@
                                                         <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" required=""/>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <!-- END CREATE TRIP -->
+                                                <!-- END CREATE TRIP -->
 
-                                        <!-- Hình Ảnh TOUR -->
-                                        <!-- Check Box -->
-                                        <div class="mb-3 form-check">
-                                            <input type="checkbox" class="form-check-input" required/>
-                                            <label class="form-check-label"
-                                                   >Xác thực thay đổi thông tin TRIP</label
-                                            >
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Lưu</button>
-                                    </form>
-                                </c:if>
+                                                <!-- Hình Ảnh TOUR -->
+                                                <!-- Check Box -->
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" class="form-check-input" required/>
+                                                    <label class="form-check-label"
+                                                           >Xác thực thay đổi thông tin TRIP</label
+                                                    >
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Lưu</button>
+                                            </form>
+                                        </c:if>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- TOUR INFO -->
+                            <c:if test="${not empty requestScope.TOUR}">
+                                <div class="col-lg-4 d-flex align-items-stretch">
+                                    <!--GET BOOKING DETAIL BY ID-->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="fw-semibold mb-1">
+                                                Thông tin cơ bản của TOUR
+                                            </h5>
+                                            <div class="mb-3 row">
+                                                <div class="col-12">
+                                                    <img
+                                                        style="
+                                                        width: 300px;
+                                                        height: 200px;
+                                                        border-radius: 5px;
+                                                        "
+                                                        src="${TOUR.thumbnail}"
+                                                        />
+                                                </div>
+                                            </div>    
+                                            <div class="mb-3 row">
+                                                <div class="col-12">
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-check-inline"
+                                                        >Tên TOUR
+                                                    </label>
+                                                    <h6 class="fw-semibold mb-1">
+                                                        ${TOUR.tourName}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-check-inline"
+                                                        >Giá người lớn
+                                                    </label>
+                                                    <h6 class="mb-0 fw-semibold">
+                                                        <fmt:formatNumber value ="${TOUR.priceAdult}" type = "currency"/>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-check-semibold"
+                                                        >Giá trẻ em
+                                                    </label>
+                                                    <h6 class="mb-0 fw-semibold">
+                                                        <fmt:formatNumber value ="${TOUR.priceChild}" type = "currency"/>
+                                                    </h6>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>
