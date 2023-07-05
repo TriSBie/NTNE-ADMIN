@@ -68,7 +68,7 @@ public class TripDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT TOP (1000) tr.[id],t.code, t.thumbnail ,tr.[availability] ,tr.[priceAdult],tr.[priceChild],tr.[quantity],tr.[depart_time]\n"
+                String SQL = "SELECT TOP (1000) tr.[id],t.code, t.thumbnail ,tr.[availability] ,tr.[priceAdult],tr.[priceChild],tr.[quantity], tr.current_quantity,tr.[depart_time]\n"
                         + "FROM [NTNECompany].[dbo].[Trip] tr\n"
                         + "JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
                         + "WHERE [availability] = 0\n"
@@ -77,7 +77,7 @@ public class TripDAO implements Serializable {
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getInt(8), rs.getDate(9));
                     list.add(dto);
                 }
             }
@@ -102,7 +102,7 @@ public class TripDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT TOP (1000) tr.[id],t.code, t.thumbnail ,tr.[availability] ,tr.[priceAdult],tr.[priceChild],tr.[quantity],tr.[depart_time]\n"
+                String SQL = "SELECT TOP (1000) tr.[id],t.code, t.thumbnail ,tr.[availability] ,tr.[priceAdult],tr.[priceChild],tr.[quantity], tr.current_quantity,tr.[depart_time]\n"
                         + "FROM [NTNECompany].[dbo].[Trip] tr\n"
                         + "JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
                         + "WHERE [availability] = 1\n"
@@ -111,7 +111,7 @@ public class TripDAO implements Serializable {
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getInt(8), rs.getDate(9));
                     list.add(dto);
                 }
             }
@@ -284,6 +284,7 @@ public class TripDAO implements Serializable {
                         + "      ,tr.[priceAdult]\n"
                         + "      ,tr.[priceChild]\n"
                         + "      ,tr.[quantity]\n"
+                        + "      ,tr.[current_quantity]\n"
                         + "      ,tr.[depart_time]\n"
                         + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
                         + "ORDER BY tr.[priceAdult]";
@@ -291,7 +292,7 @@ public class TripDAO implements Serializable {
                 listTrip = new ArrayList<>();
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getInt(8), rs.getDate(9));
                     listTrip.add(dto);
                 }
 
@@ -322,6 +323,7 @@ public class TripDAO implements Serializable {
                         + "      ,tr.[priceAdult]\n"
                         + "      ,tr.[priceChild]\n"
                         + "      ,tr.[quantity]\n"
+                        + "      ,tr.[current_quantity]\n"
                         + "      ,tr.[depart_time]\n"
                         + "  FROM [NTNECompany].[dbo].[Trip] tr JOIN [NTNECompany].[dbo].[Tour] t ON t.id = tr.tour_id\n"
                         + "ORDER BY tr.[priceAdult] DESC";
@@ -329,7 +331,7 @@ public class TripDAO implements Serializable {
                 listTrip = new ArrayList<>();
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getDate(8));
+                    TripDTO dto = new TripDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7), rs.getInt(8), rs.getDate(9));
                     listTrip.add(dto);
                 }
             }

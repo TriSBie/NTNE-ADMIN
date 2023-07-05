@@ -257,7 +257,9 @@
                                         <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
                                             <h3 class="mb-3">DANH SÁCH TOUR</h3>
                                             <a href="<c:url value="/tour/createTourForm.do"/>" alt="createTour">
-                                                <button class="btn btn-primary">Tạo TOUR</button>
+                                                <button class="btn btn-primary">
+                                                    <i class="ti ti-plus"></i>
+                                                </button>
                                             </a>
                                         </div>
                                         <table class="table">
@@ -363,9 +365,10 @@
                                             <a class="page-link" 
                                                href="${redirectToPagination}" tabindex="-1">Trang sau</a>
                                         </li>
-                                    </c:if>
-                                </ul>
-                            </nav>
+
+                                    </ul>
+                                </nav>
+                            </c:if>
                             <!--  Phân trang -->
                         </div>
                     </div>

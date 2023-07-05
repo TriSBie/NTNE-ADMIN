@@ -495,6 +495,7 @@
                                                                                     </div>
 
                                                                                     <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <input type="hidden" name="tripID" value="${bookingITEM.tripDTO.tripID}"/>
                                                                                     <button
                                                                                         type="submit"
                                                                                         class="btn btn-primary"
@@ -591,6 +592,7 @@
                                                                                         >
                                                                                     </div>
                                                                                     <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <input type="hidden" name="tripID" value="${bookingITEM.tripDTO.tripID}"/>
                                                                                     <button
                                                                                         type="submit"
                                                                                         class="btn btn-primary saveBtn"
@@ -779,6 +781,8 @@
                                                                                         >
                                                                                     </div>
                                                                                     <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <input type="hidden" name="tripID" value="${bookingITEM.tripDTO.tripID}"/>
+
                                                                                     <button
                                                                                         type="submit"
                                                                                         class="btn btn-primary saveBtn"
@@ -903,6 +907,7 @@
                                                                                     </div>
 
                                                                                     <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <input type="hidden" name="tripID" value="${bookingITEM.tripDTO.tripID}"/>
                                                                                     <button
                                                                                         type="submit"
                                                                                         class="btn btn-primary"
@@ -967,6 +972,7 @@
                                                                                         >
                                                                                     </div>
                                                                                     <input type="hidden" name="bookingItemID" value="${bookingITEM.id}"/>
+                                                                                    <input type="hidden" name="tripID" value="${bookingITEM.tripDTO.tripID}"/>
                                                                                     <button
                                                                                         type="submit"
                                                                                         class="btn btn-primary saveBtn"

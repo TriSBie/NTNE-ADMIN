@@ -361,7 +361,10 @@
                                         <div style="display: flex; justify-content: space-between; margin: 0px  0px;">
                                             <h3 class="mb-3">DANH SÁCH CÁC CHUYẾN ĐI</h3>
                                             <a href="<c:url value="/tour/createTrip.do"/>" alt="createTour">
-                                                <button class="btn btn-primary">Tạo TRIP</button>
+                                                <button class="btn btn-primary">
+                                                    <!-- Tạo TRIP-->
+                                                    <i class="ti ti-plus"></i>
+                                                </button>
                                             </a>
                                         </div>
                                         <!-- Filter theo trạng thái -->
@@ -498,45 +501,48 @@
                                     </div>
                                 </div>
                                 <!--  Phân trang -->
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <c:if test="${currentPage != 1}">
-                                            <c:url var="redirectToPagination" value="/tour/listTrip.do">
-                                                <c:param name="page" value="${currentPage - 1}"/>
-                                            </c:url>
-                                            <li class="page-item">
-                                                <a class="page-link" 
-                                                   href="${redirectToPagination}" tabindex="-1">Trang trước</a>
-                                            </li>
-                                        </c:if>
-                                        <c:forEach begin="1" end="${noOfRecords}" var="i" varStatus="counter">
-                                            <c:choose>
-                                                <c:when test="${currentPage eq i}">
-                                                    <li class="page-item active">
-                                                        <a class="page-link" href="#">
-                                                            ${i}
-                                                        </a>
-                                                    </li>   
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <c:url var="redirectToPagination" value="/tour/listTrip.do">
-                                                        <c:param name="page" value="${i}"/>
-                                                    </c:url>
-                                                    <li class="page-item"><a class="page-link" href="${redirectToPagination}">${i}</a></li>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-                                            <c:if test="${currentPage != noOfRecords}">
-                                                <c:url var="redirectToPagination" value="/tour/listTrip.do?">
-                                                    <c:param name="page" value="${currentPage + 1}"/>
+                                <c:if test="${empty SHOW}">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <c:if test="${currentPage != 1}">
+                                                <c:url var="redirectToPagination" value="/tour/listTrip.do">
+                                                    <c:param name="page" value="${currentPage - 1}"/>
                                                 </c:url>
-                                            <li class="page-item ">
-                                                <a class="page-link" 
-                                                   href="${redirectToPagination}" tabindex="-1">Trang sau</a>
-                                            </li>
-                                        </c:if>
-                                    </ul>
-                                </nav>
+                                                <li class="page-item">
+                                                    <a class="page-link" 
+                                                       href="${redirectToPagination}" tabindex="-1">Trang trước</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach begin="1" end="${noOfRecords}" var="i" varStatus="counter">
+                                                <c:choose>
+                                                    <c:when test="${currentPage eq i}">
+                                                        <li class="page-item active">
+                                                            <a class="page-link" href="#">
+                                                                ${i}
+                                                            </a>
+                                                        </li>   
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:url var="redirectToPagination" value="/tour/listTrip.do">
+                                                            <c:param name="page" value="${i}"/>
+                                                        </c:url>
+                                                        <li class="page-item"><a class="page-link" href="${redirectToPagination}">${i}</a></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                                <c:if test="${currentPage != noOfRecords}">
+                                                    <c:url var="redirectToPagination" value="/tour/listTrip.do?">
+                                                        <c:param name="page" value="${currentPage + 1}"/>
+                                                    </c:url>
+                                                <li class="page-item ">
+                                                    <a class="page-link" 
+                                                       href="${redirectToPagination}" tabindex="-1">Trang sau</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </c:if>
+
                                 <!--  Phân trang -->
                             </div>
                         </div>

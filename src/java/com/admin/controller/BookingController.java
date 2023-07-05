@@ -230,11 +230,13 @@ public class BookingController extends HttpServlet {
             // Get Parameter
             int page = (Integer.parseInt(request.getParameter("page")));
             int bookingItemID = Integer.parseInt(request.getParameter("bookingItemID"));
+            int tripID = Integer.parseInt(request.getParameter("tripID"));
+            System.out.println(tripID);
             String description = request.getParameter("descriptionBookingChanged");
             System.out.println(description);
             // Call DAO
             BookingDAO dao = new BookingDAO();
-            boolean checkChangeStateBooking = dao.changeStateBooking(bookingItemID, description);
+            boolean checkChangeStateBooking = dao.changeStateBooking(bookingItemID, tripID, description);
             if (checkChangeStateBooking) {
                 request.setAttribute("msg_success", "Bạn đã thay đổi trạng thái của Booking có mã Booking");
                 request.setAttribute("bookingItemID", bookingItemID);

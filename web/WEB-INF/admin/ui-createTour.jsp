@@ -329,7 +329,7 @@
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
                                                 name="priceChild"
-                                                
+
                                                 />
                                         </div>
                                     </div>
@@ -347,7 +347,10 @@
                                     <!-- CREATE DES -->
                                     <div class="formTour">
                                         <div class="formTour-package">
-                                            <h2 class="card-title fw-semibold mb-4">Địa điểm 1</h2>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h2 class="card-title fw-semibold mb-4">Địa điểm 1</h2>
+                                                <button type="button" class="btn-close" aria-label="Close" onclick="handleDeleteCreateForm(1)"></button>
+                                            </div>
                                             <div class="mb-3 row">
                                                 <div class="col-6">
                                                     <label class="form-label" for="tour"
@@ -408,19 +411,65 @@
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <!-- CKEditor -->
         <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+
         <script>
                                             const buttonCreate = document.querySelector(".btnCreate");
                                             const formCreate = document.querySelector(".formTour");
                                             const formTour_package = document.querySelector(".formTour-package");
+                                            var values = [];
+                                            var contentDivArr = [];
+                                            var updatedContentDivArr = [];
+
                                             var index = 1;
+                                            //PUSH DEFAULT VALUES
+                                            contentDivArr.push(`
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                 <h2 class="card-title fw-semibold mb-4">Địa điểm ` + index + `</h2>
+                                                <button type="button" class="btn-close" aria-label="Close" onclick="handleDeleteCreateForm(` + index + `)"></button>
+                                                </div>
+                                               
+                                                <div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label class="form-label" for="tour"
+                                                           >Mời bạn chọn địa điểm:
+                                                    </label>
+                                                    <select
+                                                        name="destination_id"
+                                                        class="form-select col-2"
+                                                        id="tour"
+                                                        aria-label="Default select example"
+                                                        >
+            <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
+                                                            <option value="${destination.id}">${counter.count} - ${destination.name}</option>
+            </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label">Mốc thời gian</label>
+                                                    <input type="text" class="form-control" name="duration" required=""/>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-12">
+                                                <label class="form-label">Chi tiết</label>` +
+                                                    `<textarea id=` + `"textarea` + index + `" name="script" rows="5" class="form-control" required="">
+                                                </textarea>                                              
+                                            </div>`);
+
+
                                             var textArea = "textarea" + index;
-                                            console.log(textArea)
                                             CKEDITOR.replace(textArea);
+
+
                                             function createTourForm(e) {
+                                                index = contentDivArr.length;
                                                 index += 1;
                                                 const div = document.createElement("div");
-                                                div.innerHTML = `
-                                                <h2 class="card-title fw-semibold mb-4">Địa điểm ` + index + `</h2>
+                                                let newTourFormSection = `
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                 <h2 class="card-title fw-semibold mb-4">Địa điểm ` + index + `</h2>
+                                                <button type="button" class="btn-close" aria-label="Close" onclick="handleDeleteCreateForm(` + index + `)"></button>
+                                                </div>
+                                               
                                                 <div class="mb-3 row">
                                                 <div class="col-6">
                                                     <label class="form-label" for="tour"
@@ -447,11 +496,84 @@
                                                         `<textarea id=` + `"textarea` + index + `" name="script" rows="5" class="form-control" required="">
                                                 </textarea>                                              
                                             </div>`;
+
+                                                div.innerHTML = newTourFormSection;
                                                 div.classList.add("formTour-package");
                                                 formCreate.appendChild(div);
                                                 console.log(index);
                                                 var textArea = "textarea" + index;
                                                 CKEDITOR.replace(textArea);
+                                                contentDivArr.push(newTourFormSection);
+                                            }
+
+                                            function createTourFormWithLoop(arrayObj) {
+                                                for (var index = 1; index < arrayObj.length + 1; index++) {
+                                                    const div = document.createElement("div");
+                                                    let newTourFormSection = `
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                 <h2 class="card-title fw-semibold mb-4">Địa điểm ` + index + `</h2>
+                                                <button type="button" class="btn-close" aria-label="Close" onclick="handleDeleteCreateForm(` + index + `)"></button>
+                                                </div>
+                                               
+                                                <div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label class="form-label" for="tour"
+                                                           >Mời bạn chọn địa điểm:
+                                                    </label>
+                                                    <select
+                                                        name="destination_id"
+                                                        class="form-select col-2"
+                                                        id="tour"
+                                                        aria-label="Default select example"
+                                                        >
+            <c:forEach var="destination" items="${requestScope.LIST_DESTINATION}" varStatus="counter">
+                                                            <option value="${destination.id}">${counter.count} - ${destination.name}</option>
+            </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label">Mốc thời gian</label>
+                                                    <input type="text" class="form-control" name="duration" required=""/>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-12">
+                                                <label class="form-label">Chi tiết</label>` +
+                                                            `<textarea id=` + `"textarea` + index + `" name="script" rows="5" class="form-control" required="">
+                                                </textarea>                                              
+                                            </div>`;
+                                                    div.innerHTML = newTourFormSection;
+                                                    div.classList.add("formTour-package");
+                                                    formCreate.appendChild(div);
+                                                    var textArea = "textarea" + index;
+                                                    CKEDITOR.replace(textArea);
+                                                }
+                                            }
+
+                                            function removeAllChildNodes(parent) {
+                                                while (parent.firstChild) {
+                                                    parent.removeChild(parent.firstChild);
+                                                }
+                                            }
+
+                                            function reloadData() {
+                                                removeAllChildNodes(formCreate); //remove all child first
+                                                createTourFormWithLoop(contentDivArr);
+                                            }
+
+                                            function handleDeleteCreateForm(indexCheck) {
+                                                const checkDestini = "Địa điểm " + indexCheck;
+                                                var flag = -1;
+                                                for (var i = 0; i < contentDivArr.length; i++) {
+                                                    if (contentDivArr[i].includes(checkDestini)) {
+                                                        flag = i;
+                                                    }
+                                                }
+                                                index
+                                                if (flag > -1) {
+                                                    //remove at index has flagged
+                                                    contentDivArr.splice(flag, 1)
+                                                }
+                                                reloadData();
                                             }
         </script>
 

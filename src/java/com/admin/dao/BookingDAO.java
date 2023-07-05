@@ -152,16 +152,16 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason, Trip.thumbnail\n"
-                        + "FROM [NTNECompany].[dbo].[Booking] bk\n"
-                        + "INNER JOIN ( SELECT tr.thumbnail,tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
-                        + "FROM Booking bk, Trip tp, Tour tr\n"
-                        + "WHERE bk.trip_id = tp.id\n"
-                        + "AND tp.tour_id = tr.id)Trip\n"
-                        + "ON Trip.tripID = bk.trip_id\n"
-                        + "JOIN Payment pm ON bk.payment_id = pm.id\n"
-                        + "ORDER BY bk.expireDate DESC\n"
-                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason, Trip.thumbnail, Trip.tripID\n"
+                        + "                        FROM [NTNECompany].[dbo].[Booking] bk\n"
+                        + "                        INNER JOIN ( SELECT tr.thumbnail,tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
+                        + "                        FROM Booking bk, Trip tp, Tour tr\n"
+                        + "                        WHERE bk.trip_id = tp.id\n"
+                        + "                        AND tp.tour_id = tr.id)Trip\n"
+                        + "                        ON Trip.tripID = bk.trip_id\n"
+                        + "                        JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "                        ORDER BY bk.expireDate DESC\n"
+                        + "                        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
                 ps = con.prepareStatement(SQL);
                 ps.setInt(1, offset);
                 ps.setInt(2, rowsPerPage);
@@ -182,10 +182,12 @@ public class BookingDAO implements Serializable {
                     boolean status = rs.getBoolean(9);
                     String reason = rs.getString(10);
                     String thumbnail = rs.getString(11);
+                    int tripID = rs.getInt(12);
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
                     dto.setThumbnail(thumbnail);
+                    dto.setTripID(tripID);
                     BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
                     listOfSummaryBooking.add(booking);
                 }
@@ -282,25 +284,36 @@ public class BookingDAO implements Serializable {
     }
 
     // Xử lí đổi trạng thái TRIP
-    public boolean changeStateBooking(int bookingID, String description)
+    public boolean changeStateBooking(int bookingID, int tripID, String description)
             throws ClassNotFoundException, SQLException {
         PreparedStatement ps2 = null;
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
                 String SQL = "BEGIN\n"
-                        + "DECLARE @status bit;\n"
-                        + "SELECT\n"
-                        + "@status = [status]\n"
-                        + "FROM [dbo].[Booking]\n"
-                        + "WHERE id = ?;\n"
+                        + "DECLARE @status bit\n"
+                        + "DECLARE @quantity int\n"
+                        + "DECLARE @current_quantity int \n"
+                        + "SELECT @status = [status] FROM [dbo].[Booking] WHERE id = ?\n"
+                        + "SELECT @quantity = [quantityAdult] + [quantityChild] FROM [dbo].[Booking] WHERE id = ?;\n"
+                        + "SELECT @current_quantity = [current_quantity] FROM [dbo].[Trip] WHERE [dbo].[Trip].id = ?;\n"
                         + "IF @status = 0\n"
                         + "BEGIN\n"
                         + "UPDATE [dbo].[Booking] SET [status] = 1 WHERE id = ?;\n"
+                        + "UPDATE [dbo].[Trip] SET [current_quantity] = [current_quantity] + @quantity WHERE id = ?;\n"
                         + "END\n"
                         + "ELSE\n"
                         + "BEGIN\n"
-                        + "UPDATE [dbo].[Booking] SET [status] = 0 WHERE id = ?;\n"
+                        + "     IF @current_quantity = 0\n"
+                        + "	 BEGIN \n"
+                        + "		UPDATE [dbo].[Booking] SET [status] = 0 WHERE id = ?;\n"
+                        + "		UPDATE [dbo].[Trip] SET [current_quantity] = 0 WHERE id = ?;\n"
+                        + "	 END\n"
+                        + "	 ELSE \n"
+                        + "	 BEGIN \n"
+                        + "		UPDATE [dbo].[Booking] SET [status] = 0 WHERE id = ?;\n"
+                        + "		UPDATE [dbo].[Trip] SET [current_quantity] = [current_quantity] - @quantity WHERE id = ?;\n"
+                        + "	 END\n"
                         + "END\n"
                         + "END";
                 String SQL2 = "UPDATE [dbo].[Booking] SET [reason] = ? WHERE id = ?";
@@ -308,7 +321,13 @@ public class BookingDAO implements Serializable {
                 ps2 = con.prepareStatement(SQL2);
                 ps.setInt(1, bookingID);
                 ps.setInt(2, bookingID);
-                ps.setInt(3, bookingID);
+                ps.setInt(3, tripID);
+                ps.setInt(4, bookingID);
+                ps.setInt(5, tripID);
+                ps.setInt(6, bookingID);
+                ps.setInt(7, tripID);
+                ps.setInt(8, bookingID);
+                ps.setInt(9, tripID);
                 ps2.setString(1, description);
                 ps2.setInt(2, bookingID);
                 ps.execute();
@@ -670,7 +689,7 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason, Trip.thumbnail\n"
+                String SQL = "SELECT DISTINCT bk.id,Trip.code, Trip.depart_time, bk.expireDate, bk.cusBook,bk.quantityAdult, bk.quantityChild, bk.totalPrice, bk.status, bk.reason, Trip.thumbnail, Trip.tripID\n"
                         + "FROM [NTNECompany].[dbo].[Booking] bk\n"
                         + "INNER JOIN ( SELECT tr.thumbnail, tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
@@ -702,10 +721,12 @@ public class BookingDAO implements Serializable {
                     boolean status = rs.getBoolean(9);
                     String reason = rs.getString(10);
                     String thumbnail = rs.getString(11);
+                    int tripID = rs.getInt(12);
                     TripDTO dto = new TripDTO();
                     dto.setCode(code);
                     dto.setDepart_time(depart_time);
                     dto.setThumbnail(thumbnail);
+                    dto.setTripID(tripID);
                     BookingDTO booking = new BookingDTO(bookingID, totalPrice, custNameBooking, expireDate, totalQuantity, status, dto, reason);
                     listOfSummaryBooking.add(booking);
                 }
@@ -907,7 +928,8 @@ public class BookingDAO implements Serializable {
                         + "AND DAY(BK.expireDate) = DAY(GETDATE())\n"
                         + "AND MONTH(BK.expireDate) = MONTH(GETDATE()) \n"
                         + "AND YEAR(BK.expireDate) = YEAR(GETDATE())\n"
-                        + "GROUP BY TP.tour_id ";
+                        + "AND BK.status = 1\n"
+                        + "GROUP BY TP.tour_id";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 list = new ArrayList<>();
@@ -931,7 +953,7 @@ public class BookingDAO implements Serializable {
         }
         return list;
     }
-    
+
     // CHART getSummaryTotalOfWeeks
     public List<Chart> getSummaryTotalOfWeeks()
             throws SQLException, ClassNotFoundException {
@@ -973,9 +995,50 @@ public class BookingDAO implements Serializable {
 
     }
 
+    // CHART getHighestTotalSummaryOfWeeks
+    public double getHighestTotalSummaryOfWeeks()
+            throws SQLException, ClassNotFoundException {
+        double price = 0;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT TOP 1 SUM(totalPrice) as totalOfWeeks, convert(date, expireDate) as Date\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] \n"
+                        + "WHERE convert(date, expireDate) IN\n"
+                        + "(SELECT DISTINCT TOP 7 convert(date, expireDate)\n"
+                        + "FROM [NTNECompany].[dbo].[Booking] \n"
+                        + "WHERE convert(date, expireDate) IN \n"
+                        + "(SELECT DISTINCT TOP 7 convert(date, expireDate) as Date)\n"
+                        + "AND status = 1\n"
+                        + "ORDER BY convert(date, expireDate) DESC)\n"
+                        + "AND status = 1\n"
+                        + "GROUP BY convert(date, expireDate)\n"
+                        + "ORDER BY SUM(totalPrice) DESC";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    price = rs.getDouble(1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return price;
+
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         BookingDAO dao = new BookingDAO();
         ArrayList<BookingDTO> list = dao.getRevenue_Current_Day_of_Tour();
+        System.out.println((int) dao.getHighestTotalSummaryOfWeeks());
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i).getTour_id());
         }

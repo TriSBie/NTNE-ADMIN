@@ -263,7 +263,9 @@
                                         <div style="display: flex; justify-content: space-between">
                                             <h5 class="mb-3">DANH SÁCH ĐỊA ĐIỂM</h5>
                                             <a href="#popup1" class="openPopup" onclick="openPopup()">
-                                                <button class="btn btn-primary">Tạo địa điểm mới </button>
+                                                <button class="btn btn-primary">
+                                                    <i class="ti ti-plus"></i>
+                                                </button>
                                             </a>
                                         </div>
                                         <!-- Filter -->

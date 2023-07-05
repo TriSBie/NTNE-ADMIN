@@ -655,7 +655,7 @@
                                                                 <h6 class="fw-semibold mb-0">
                                                                     <img
                                                                         class="img-thumbnail"
-                                                                        style="width: 80px; height: 80px"
+                                                                        style="width: 120px; height: 120px"
                                                                         src=${item.tourThumbnail}
                                                                         />
                                                                 </h6>
@@ -796,7 +796,7 @@
                     yaxis: {
                         show: true,
                         min: 0,
-                        max: 20000000,
+                        max: ${requestScope.HIGHEST_PRICE_OF_A_WEEKS},
                         tickAmount: 4,
                         labels: {
                             style: {
