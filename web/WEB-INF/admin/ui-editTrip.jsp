@@ -177,6 +177,17 @@
                 <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
+                        <ul class="navbar-nav">
+                            <li class="nav-item d-block d-xl-none">
+                                <a
+                                    class="nav-link sidebartoggler nav-icon-hover"
+                                    id="headerCollapse"
+                                    href="javascript:void(0)"
+                                    >
+                                    <i class="ti ti-menu-2"></i>
+                                </a>
+                            </li>
+                        </ul>
                         <div
                             class="navbar-collapse justify-content-end px-0"
                             id="navbarNav"
@@ -193,7 +204,7 @@
                                         aria-expanded="false"
                                         >
                                         <img
-                                            src="../assets/images/profile/user-1.jpg"
+                                            src="${admin.linkImg}"
                                             alt=""
                                             width="35"
                                             height="35"
@@ -210,10 +221,10 @@
                                                 class="d-flex align-items-center gap-2 dropdown-item"
                                                 >
                                                 <i class="ti ti-mail fs-6"></i>
-                                                <p class="mb-0 fs-3">Quản lí tài khoản</p>
+                                                <p class="mb-0 fs-3">Tài khoản</p>
                                             </a>
                                             <a
-                                                href="./authentication-login.html"
+                                                href="<c:url value="/account/hanleLogout.do"/>"
                                                 class="btn btn-outline-primary mx-3 mt-2 d-block"
                                                 >Đăng xuất</a
                                             >
@@ -232,7 +243,7 @@
                             <div class="card-body">
                                 <c:if test="${not empty requestScope.TRIP_DETAIL}">               
                                     <form action="<c:url value="/tour/hanleEditTrip.do"/>" method="post">
-                                        
+
                                         <!-- gán ID TRIP -->
                                         <input type="hidden" name="tripID" value="${TRIP_DETAIL.tripID}"/>
 
@@ -243,7 +254,7 @@
                                                 src="${TRIP_DETAIL.thumbnail}"
                                                 alt="${TRIP_DETAIL.tourName}"
                                                 class="img-thumbnail"
-                                                style="width: 150px"
+                                                style="width: 300px"
                                                 />
                                         </div>
 
@@ -253,7 +264,6 @@
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
                                                         <label
-                                                            style="color: red"
                                                             for="exampleInputEmail1"
                                                             class="form-label"
                                                             >Giá người lớn (VND)</label
@@ -271,7 +281,6 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <label
-                                                            style="color: red"
                                                             for="exampleInputEmail1"
                                                             class="form-label"
                                                             >Giá trẻ em (VND)</label
@@ -289,21 +298,14 @@
                                                 </div>
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
-                                                        <label style="color: red" class="form-label"
-                                                               >Ngày khởi hành
-                                                            <p class="form-text">
-                                                                Ngày hiện tại: ${TRIP_DETAIL.depart_time}
-                                                            </p></label
-                                                        >
+                                                        <label class="form-label">Ngày khởi hành hiện tại: ${TRIP_DETAIL.depart_time}</label>
                                                         <input name="depart_time" type="date" class="form-control" required="" />
                                                     </div>
                                                     <div class="col-6">
                                                         <label
-                                                            style="color: red"
                                                             class="form-label"
                                                             for="tour"
-                                                            >Số chỗ cho phép
-                                                            <p class="form-text">Số chỗ hiện tại: ${TRIP_DETAIL.quantity}</p>
+                                                            >Số chỗ hiện tại: ${TRIP_DETAIL.quantity}
                                                         </label>
                                                         <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" required=""/>
                                                     </div>
@@ -336,13 +338,13 @@
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
         <script>
-                                        const buttonCreate = document.querySelector(".btnCreate");
-                                        const formCreate = document.querySelector(".formTour");
-                                        const formTour_package = document.querySelector(".formTour-package");
-                                        console.log(formTour_package);
-                                        function createTourForm(e) {
-                                            const div = document.createElement("div");
-                                            div.innerHTML = `<div class="mb-3 row">
+            const buttonCreate = document.querySelector(".btnCreate");
+            const formCreate = document.querySelector(".formTour");
+            const formTour_package = document.querySelector(".formTour-package");
+            console.log(formTour_package);
+            function createTourForm(e) {
+                const div = document.createElement("div");
+                div.innerHTML = `<div class="mb-3 row">
                                 <div class="col-6">
                                   <label class="form-label">Mốc thời gian</label>
                                 <input type="text" class="form-control" />
@@ -366,15 +368,15 @@
                                 >
                                 </textarea>
                               </div>`;
-                                            div.classList.add("formTour-package");
-                                            formCreate.appendChild(div);
-                                        }
+                div.classList.add("formTour-package");
+                formCreate.appendChild(div);
+            }
         </script>
 
         <!-- CKEditor -->
         <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
         <script>
-                                        CKEDITOR.replace("editor1");
+            CKEDITOR.replace("editor1");
         </script>
         <!-- CKEditor -->
     </body>
