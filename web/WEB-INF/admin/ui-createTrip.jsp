@@ -314,7 +314,7 @@
                                             <div class="mb-3 row">
                                                 <div class="col-6">
                                                     <label class="form-label">Ngày khởi hành</label>
-                                                    <input name="depart_time" type="date" class="form-control" value="" required=""/>
+                                                    <input name="depart_time" type="date" class="form-control" min="${NOW}" value="" required=""/>
                                                 </div>
                                                 <div class="col-6">
                                                     <label
@@ -322,7 +322,7 @@
                                                         for="tour"
                                                         >Số chỗ cho phép
                                                     </label>
-                                                    <input name="quantity" type="number" class="form-control" value="" required/>
+                                                    <input name="quantity" type="number" class="form-control" min="1" max="20" value="" required/>
                                                 </div>
                                             </div>
                                             <!-- CREATE TRIP -->
@@ -339,6 +339,7 @@
                                                         type="number"
                                                         class="form-control"
                                                         id="exampleInputEmail1"
+                                                        min="10000"
                                                         aria-describedby="emailHelp"
                                                         value="${TOUR.priceAdult}"
                                                         />
@@ -354,11 +355,12 @@
                                                         class="form-control"
                                                         id="exampleInputEmail1"
                                                         name="priceChild"
+                                                        min="10000"
                                                         aria-describedby="emailHelp"
                                                         value="${TOUR.priceChild}"
                                                         />
                                                 </div>
-                                                
+
                                             </div>
                                             <!-- END CREATE TRIP -->
 
@@ -400,7 +402,7 @@
                                             <div class="mb-3 row">
                                                 <div class="col-12">
                                                     <h6 class="fw-semibold mb-1">
-                                                       Tên TOUR: ${TOUR.tourName}
+                                                        Tên TOUR: ${TOUR.tourName}
                                                     </h6>
                                                 </div>
                                             </div>
@@ -426,7 +428,7 @@
                                                     </h6>
                                                 </div>
                                             </div>  
-                                            
+
                                         </div>
                                     </div>
                                 </div>

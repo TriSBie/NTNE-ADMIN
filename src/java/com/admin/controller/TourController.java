@@ -20,6 +20,8 @@ import com.admin.model.TripDTO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,7 +39,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "TourController", urlPatterns = {"/tour"})
 public class TourController extends HttpServlet {
-    
+
     String LIST_TOUR_URL = "ui-listTour.jsp";
     String LIST_TOUR_ITEMS_URL = "ui-listTourItems.jsp";
     String ERROR_URL = "error.jsp";
@@ -49,7 +51,7 @@ public class TourController extends HttpServlet {
     String UPDATE_TRIP = "ui-editTrip.jsp";
     String UPDATE_TOUR = "ui-editTour.jsp";
     String UPDATE_TOURITEM = "ui-editTourItem.jsp";
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -150,7 +152,7 @@ public class TourController extends HttpServlet {
             default:
                 response.sendRedirect(ERROR_URL);
         }
-        
+
     }
 
     /*------------------------------------------------------------------------------
@@ -249,7 +251,7 @@ public class TourController extends HttpServlet {
         int offset = (pageCount - 1) * recordsPerPage;
         try {
             DestinationDAO dao = new DestinationDAO();
-            
+
             int noOfRecords = dao.getAllAvailableRows();
             List<DestinationDTO> listDestination = dao.getAll_List_Destination(offset, recordsPerPage);
             if (listDestination != null) {
@@ -266,7 +268,7 @@ public class TourController extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
-    
+
     protected void getListOfTourItemFromTourByID(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
@@ -275,7 +277,7 @@ public class TourController extends HttpServlet {
             System.out.println(tourID);
             TourItemDAO dao = new TourItemDAO();
             List<TourItemDTO> listTourItemByTourID = dao.getListTourItemByTourID(tourID);
-            
+
             System.out.println(listTourItemByTourID.get(1).getDescription());
             if (listTourItemByTourID != null) {
                 url = Config.LAYOUT + LIST_TOUR_ITEMS_URL;
@@ -363,7 +365,7 @@ public class TourController extends HttpServlet {
                 String dateFormat = sdf.format(date.getDate());
                 datePerWeeks.add(dateFormat);
             }
-            
+
             if (list != null) {
                 url = Config.LAYOUT + DASHBORAD_URL;
                 request.setAttribute("LIST_ALL_TOUR_REVENUE", list);
@@ -371,12 +373,12 @@ public class TourController extends HttpServlet {
                 request.setAttribute("REVENUE_BY_PRIVOUS_MONTH", revenue_privious_month);
                 request.setAttribute("REVENUE_GROWTH_RATE_MONTH", (double) Math.floor(stamp_month * 10) / 10);
                 request.setAttribute("REVENUE_GROWTH_RATE_DOWN_MONTH", (double) Math.floor(stamp_down_month * 10) / 10);
-                
+
                 request.setAttribute("REVENUE_BY_CURENT_DAY", revenue_by_curentDay);
                 request.setAttribute("REVENUE_BY_PRIVIOUS_DAY", revenue_by_priviousDay);
                 request.setAttribute("REVENUE_GROWTH_RATE", (double) Math.floor(stamp * 10) / 10);
                 request.setAttribute("REVENUE_GROWTH_RATE_DOWN", (double) Math.floor(stamp_down * 10) / 10);
-                
+
                 request.setAttribute("LIST_OF_SUMMARY_BOOKING", listOfSummaryBooking);
                 request.setAttribute("TOTAL_TICKET", totalSticket);
                 request.setAttribute("TOTAL_TICKET_PRIVIOUS_DAY", totalSticket_PriviousDay);
@@ -384,9 +386,9 @@ public class TourController extends HttpServlet {
                 request.setAttribute("TOTAL_TICKET_PRIVIOUS_MONTH", totalSticket_PriviousMonth);
                 request.setAttribute("TOTAL_TRIP_ACTIVE", total_TRIP_Available);
                 request.setAttribute("TOTAL_TRIP_IN_THIS_MONTH", total_TRIP_in_this_month);
-                
+
                 request.setAttribute("LIST_REVENUE_CURRENT_DAY_OF_TOUR", listRevenue_Current_Day_Of_Tour);
-                
+
                 request.setAttribute("TOTAL_PRICE_OF_A_WEEKS", chartList);
                 request.setAttribute("TOTAL_PER_DAY_OF_A_WEEKS", datePerWeeks);
                 request.setAttribute("HIGHEST_PRICE_OF_A_WEEKS", highestTotalPrice);
@@ -501,12 +503,16 @@ public class TourController extends HttpServlet {
             throws ServletException, IOException {
         String url = Config.LAYOUT + ERROR_URL;
         try {
-            
+
             List<TourDTO> listTour = new TourDAO().getAllTours();
             TourItemDAO dao = new TourItemDAO();
-            
+
             TourDTO tour = new TourDTO();
             String tourID = request.getParameter("tourID");
+
+            // Lấy ngày hiên tại để kiểm tra validate
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime now = LocalDateTime.now();
             if (listTour != null) {
                 if (tourID == null) {
                     tour = listTour.get(0);
@@ -517,6 +523,8 @@ public class TourController extends HttpServlet {
                 url = Config.LAYOUT + CREATE_TRIP_URL;
                 request.setAttribute("LIST_TOUR", listTour);
                 request.setAttribute("TOUR", tour);
+                request.setAttribute("NOW", dtf.format(now));
+
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -617,11 +625,11 @@ public class TourController extends HttpServlet {
             request.setAttribute("LIST_DESTINATION", listDestination);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TourController.class
                     .getName()).log(Level.SEVERE, null, ex);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(TourController.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -656,9 +664,9 @@ public class TourController extends HttpServlet {
             } catch (Exception e) {
                 System.out.println(e);
             }
-            
+
             TourDTO tour = new TourDTO(name, priceAdult, priceChild, thumbnail, location, code);
-            
+
             ArrayList<TourItemDTO> listTourITem = new ArrayList<>();
             for (int i = 0; i < destination_id_translate.length; i++) {
                 TourItemDTO tourItem = new TourItemDTO(destination_id_translate[i], script[i], duration[i]);
@@ -687,17 +695,23 @@ public class TourController extends HttpServlet {
         String url = Config.LAYOUT + ERROR_URL;
         try {
             int tripID = Integer.parseInt(request.getParameter("tripID"));
-            
+
             // Get TOUR BY TRIP ID
             TourDAO dao_tour = new TourDAO();
             TourDTO tour = dao_tour.getTour_by_TripID(tripID);
-            
+
             TripDAO dao = new TripDAO();
             TripDTO trip = dao.getTrip_by_tripID(tripID);
+            
+            // Lấy ngày hiên tại để kiểm tra validate
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime now = LocalDateTime.now();
             if (trip != null) {
                 url = Config.LAYOUT + UPDATE_TRIP;
                 request.setAttribute("TRIP_DETAIL", trip);
                 request.setAttribute("TOUR", tour);
+                request.setAttribute("NOW", dtf.format(now));
+                
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -718,7 +732,7 @@ public class TourController extends HttpServlet {
             double priceChild = Double.parseDouble(request.getParameter("priceChild"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             String depart_time = (request.getParameter("depart_time"));
-            
+
             TripDAO dao = new TripDAO();
             boolean checkUpdateTrip = dao.updateTrip(priceAdult, priceChild, quantity, depart_time, tripID);
             if (checkUpdateTrip) {
@@ -742,7 +756,7 @@ public class TourController extends HttpServlet {
             String destinationEditLat = request.getParameter("destinationLat");
             String destinationEditLong = request.getParameter("destinationLong");
             String destinationDesc = request.getParameter("destinationDescription");
-            
+
             int destinationID = Integer.parseInt(request.getParameter("destinationID"));
             System.out.println(destinationDesc + "-" + destinationEditLat + "-" + destinationEditName + "-" + destinationID);
             if (destinationDesc != null && destinationEditName != null && destinationEditLat != null && destinationEditLong != null) {
@@ -793,7 +807,7 @@ public class TourController extends HttpServlet {
             String thumbnail = request.getParameter("thumbnail");
             String location = request.getParameter("location");
             String code = request.getParameter("code");
-            
+
             TourDAO dao = new TourDAO();
             boolean checkUpdateTour = dao.updateTour(tourName, priceAdult, priceChild, thumbnail, location, code, tourID);
             if (checkUpdateTour) {
@@ -850,11 +864,11 @@ public class TourController extends HttpServlet {
             String description = request.getParameter("description");
             String duration = request.getParameter("duration");
             int destination_id = Integer.parseInt(request.getParameter("destination_id"));
-            
+
             System.out.println(tourItemID);
             TourItemDAO dao = new TourItemDAO();
             boolean checkUpdateTourItem = dao.updateTourItem_by_TourItemID(destination_id, description, duration, tourItemID);
-            
+
             System.out.println(checkUpdateTourItem);
             if (checkUpdateTourItem) {
                 request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công!");
@@ -878,7 +892,7 @@ public class TourController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);

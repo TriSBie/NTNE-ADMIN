@@ -273,6 +273,7 @@
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="Giá hiện tại:<fmt:formatNumber value ="${TRIP_DETAIL.priceAdult}" type = "currency"/>"
+                                                            min="1000"
                                                             required=""
                                                             />
                                                     </div>
@@ -289,6 +290,7 @@
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="Giá hiện tại: <fmt:formatNumber value ="${TRIP_DETAIL.priceChild}" type = "currency"/>"
+                                                            min="1000"
                                                             required=""
                                                             />
                                                     </div>
@@ -296,7 +298,7 @@
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
                                                         <label class="form-label">Ngày khởi hành hiện tại: ${TRIP_DETAIL.depart_time}</label>
-                                                        <input name="depart_time" type="date" class="form-control" required="" />
+                                                        <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" />
                                                     </div>
                                                     <div class="col-6">
                                                         <label
@@ -304,7 +306,7 @@
                                                             for="tour"
                                                             >Số chỗ hiện tại: ${TRIP_DETAIL.quantity}
                                                         </label>
-                                                        <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" required=""/>
+                                                        <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" min="1" max="20" required=""/>
                                                     </div>
                                                 </div>
                                                 <!-- END CREATE TRIP -->

@@ -282,6 +282,7 @@
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="Giá hiện tại:<fmt:formatNumber value ="${TOUR_DETAIL.priceAdult}" type = "currency"/>"
+                                                            min="1000"
                                                             required
                                                             />
                                                     </div>
@@ -299,6 +300,7 @@
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="Giá hiện tại: <fmt:formatNumber value ="${TOUR_DETAIL.priceChild}" type = "currency"/>"
+                                                            min="1000"
                                                             required
                                                             />
                                                     </div>
@@ -306,7 +308,7 @@
                                                 <div class="mb-3 row">
                                                     <div class="col-12">
                                                         <label class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
-                                                        <textarea name="thumbnail" class="form-control"required>${TOUR_DETAIL.thumbnail}</textarea>
+                                                        <textarea name="thumbnail" class="form-control" required>${TOUR_DETAIL.thumbnail}</textarea>
                                                     </div>
                                                 </div>
                                             </div>

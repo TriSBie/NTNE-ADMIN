@@ -314,6 +314,7 @@
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
                                                 name="priceAdult"
+                                                min="1000"
                                                 required=""
                                                 />
                                         </div>
@@ -328,8 +329,9 @@
                                                 class="form-control "
                                                 id="exampleInputEmail1"
                                                 aria-describedby="emailHelp"
+                                                min="1000"
                                                 name="priceChild"
-
+                                                required=""
                                                 />
                                         </div>
                                     </div>
