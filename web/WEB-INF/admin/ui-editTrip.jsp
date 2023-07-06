@@ -241,23 +241,33 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-8  ">
-                                <div class="card" style="height: 93.5%">
-                                    <div class="card-body">
-                                        <c:if test="${ empty requestScope.BOOKING_DETAILS}">
-                                            <a href="<c:url value="/tour/listTrip.do"/>">
+                        <h2 class="card-title fw-semibold mb-2">THAY ĐỔI THÔNG TIN CHUYẾN ĐI</h2>
+                        <a href="<c:url value="/tour/listTrip.do"/>">
                                                 <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
                                             </a>
-                                        </c:if>
-                                        <h5 class="fw-normal mb-4">
-                                            THAY ĐỔI THÔNG TIN CHUYẾN ĐI
-                                        </h5>
+                        <div class="row">
+                            <div class="col-lg-8  ">
+                                <div class="card" >
+                                    <div class="card-body">
                                         <c:if test="${not empty requestScope.TRIP_DETAIL}">               
                                             <form action="<c:url value="/tour/hanleEditTrip.do"/>" method="post">
                                                 <!-- gán ID TRIP -->
                                                 <input type="hidden" name="tripID" value="${TRIP_DETAIL.tripID}"/>
                                                 <!-- CREATE TRIP -->
+                                                <div class="mb-3 row">
+                                                    <div class="col-6">
+                                                        <label class="form-label">Ngày khởi hành hiện tại: ${TRIP_DETAIL.depart_time}</label>
+                                                        <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" />
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label
+                                                            class="form-label"
+                                                            for="tour"
+                                                            >Số chỗ hiện tại: ${TRIP_DETAIL.quantity}
+                                                        </label>
+                                                        <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" min="1" max="20" required=""/>
+                                                    </div>
+                                                </div>
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
                                                         <label
@@ -285,6 +295,7 @@
                                                         >
                                                         <input
                                                             name="priceChild"
+                                                            type="number"
                                                             value="${TRIP_DETAIL.priceChild}"
                                                             class="form-control"
                                                             id="exampleInputEmail1"
@@ -295,20 +306,7 @@
                                                             />
                                                     </div>
                                                 </div>
-                                                <div class="mb-3 row">
-                                                    <div class="col-6">
-                                                        <label class="form-label">Ngày khởi hành hiện tại: ${TRIP_DETAIL.depart_time}</label>
-                                                        <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" />
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label
-                                                            class="form-label"
-                                                            for="tour"
-                                                            >Số chỗ hiện tại: ${TRIP_DETAIL.quantity}
-                                                        </label>
-                                                        <input name="quantity" value="${TRIP_DETAIL.quantity}" type="number" class="form-control" min="1" max="20" required=""/>
-                                                    </div>
-                                                </div>
+                                                
                                                 <!-- END CREATE TRIP -->
 
                                                 <!-- Hình Ảnh TOUR -->

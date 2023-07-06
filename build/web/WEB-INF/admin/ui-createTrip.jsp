@@ -281,13 +281,14 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
+                        <h2 class="card-title fw-semibold mb-2">LÊN LỊCH CHO CHUYẾN TRONG NGÀY</h2>
+                        <a href="<c:url value="/tour/listTrip.do"/>">
+                            <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                        </a>
                         <div class="row">
                             <div class="col-lg-8  ">
                                 <div class="card">
                                     <div class="card-body">
-                                        <a href="<c:url value="/tour/listTrip.do"/>">
-                                            <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
-                                        </a>
                                         <form action="<c:url value="/tour/hanleCreateTrip.do"/>" method="post">
                                             <!-- Gán TOUR ID để tạo trip -->
                                             <input name="tour_id" type="hidden" class="form-control" value="${TOUR.tourID}"/>

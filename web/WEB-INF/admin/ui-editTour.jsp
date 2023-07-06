@@ -16,7 +16,10 @@
         <title>Chỉnh sửa TOUR</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
-
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            />
     </head>
 
     <body>
@@ -177,6 +180,17 @@
                 <!--  Header Start -->
                 <header class="app-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
+                        <ul class="navbar-nav">
+                            <li class="nav-item d-block d-xl-none">
+                                <a
+                                    class="nav-link sidebartoggler nav-icon-hover"
+                                    id="headerCollapse"
+                                    href="javascript:void(0)"
+                                    >
+                                    <i class="ti ti-menu-2"></i>
+                                </a>
+                            </li>
+                        </ul>
                         <div
                             class="navbar-collapse justify-content-end px-0"
                             id="navbarNav"
@@ -193,7 +207,7 @@
                                         aria-expanded="false"
                                         >
                                         <img
-                                            src="../assets/images/profile/user-1.jpg"
+                                            src="${admin.linkImg}"
                                             alt=""
                                             width="35"
                                             height="35"
@@ -210,10 +224,10 @@
                                                 class="d-flex align-items-center gap-2 dropdown-item"
                                                 >
                                                 <i class="ti ti-mail fs-6"></i>
-                                                <p class="mb-0 fs-3">Quản lí tài khoản</p>
+                                                <p class="mb-0 fs-3">Tài khoản</p>
                                             </a>
                                             <a
-                                                href="./authentication-login.html"
+                                                href="<c:url value="/account/hanleLogout.do"/>"
                                                 class="btn btn-outline-primary mx-3 mt-2 d-block"
                                                 >Đăng xuất</a
                                             >
@@ -227,30 +241,19 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
-                        <h2 class="card-title fw-semibold mb-4">Chỉnh sửa TOUR</h2>
-                        <div class="card">
-                            <div class="card-body">
-                                <c:if test="${not empty requestScope.TOUR_DETAIL}">               
-                                    <form action="<c:url value="/tour/hanleEditTour.do"/>" method="post">
-
-                                        <!-- gán ID Tour -->
-                                        <input type="hidden" name="tourID" value="${TOUR_DETAIL.tourID}"/>
-
-                                        <!-- Tên TOUR -->
-                                        <div class="mb-3">
-                                            <h3 class="text-body">${TOUR_DETAIL.tourName}</h3>
-                                            <img
-                                                src="${TOUR_DETAIL.thumbnail}"
-                                                alt="${TOUR_DETAIL.tourName}"
-                                                class="img-thumbnail"
-                                                style="width: 300px"
-                                                />
-                                        </div>
-
-
-                                        <!-- CREATE TRIP -->
-                                        <div class="formTour">
-                                            <div class="formTour-package">
+                        <h2 class="card-title fw-semibold mb-2">CHỈNH SỬA TOUR</h2>
+                        <a class="mb-0" href="<c:url value="/tour/listTour.do"/>">
+                            <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                        </a>
+                        <div class="row">
+                            <div class="col-lg-8  ">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <c:if test="${not empty requestScope.TOUR_DETAIL}">               
+                                            <form action="<c:url value="/tour/hanleEditTour.do"/>" method="post">
+                                                <!-- gán ID Tour -->
+                                                <input type="hidden" name="tourID" value="${TOUR_DETAIL.tourID}"/>
+                                                <!-- CREATE TRIP -->
                                                 <div class="mb-3 row">
                                                     <div class="col-2">
                                                         <label class="form-label">Mã TOUR</label>
@@ -295,6 +298,7 @@
                                                         >
                                                         <input
                                                             name="priceChild"
+                                                            type="number"
                                                             value="${TOUR_DETAIL.priceChild}"
                                                             class="form-control"
                                                             id="exampleInputEmail1"
@@ -308,24 +312,57 @@
                                                 <div class="mb-3 row">
                                                     <div class="col-12">
                                                         <label class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
-                                                        <textarea name="thumbnail" class="form-control" required>${TOUR_DETAIL.thumbnail}</textarea>
+                                                        <textarea name="thumbnail" class="form-control" rows="4" cols="50" required>${TOUR_DETAIL.thumbnail}</textarea>
                                                     </div>
                                                 </div>
+                                                <!-- END CREATE TRIP -->
+
+                                                <!-- Hình Ảnh TOUR -->
+                                                <!-- Check Box -->
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" class="form-check-input" required/>
+                                                    <label class="form-check-label"
+                                                           >Xác thực thay đổi thông tin TOUR</label
+                                                    >
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Lưu</button>
+                                            </form>
+                                        </c:if>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- TOUR INFO -->
+                            <div class="col-lg-4 ">
+                                <!--GET BOOKING DETAIL BY ID-->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mb-3 row">
+                                            <div class="col-12" >
+                                                <img
+                                                    style="
+                                                    width: 300px;
+                                                    height: 200px;
+                                                    border-radius: 5px;
+                                                    "
+                                                    src="${TOUR_DETAIL.thumbnail}"
+                                                    />
+                                            </div>
+                                        </div> 
+                                        <div class="mb-3 row">
+                                            <div class="col-12">
+                                                <label
+                                                    for="exampleInputEmail1"
+                                                    class="form-check-inline"
+                                                    >Tên TOUR
+                                                </label>
+                                                <h6 class="fw-semibold mb-1">
+                                                    ${TOUR_DETAIL.tourName}
+                                                </h6>
                                             </div>
                                         </div>
-                                        <!-- END CREATE TRIP -->
 
-                                        <!-- Hình Ảnh TOUR -->
-                                        <!-- Check Box -->
-                                        <div class="mb-3 form-check">
-                                            <input type="checkbox" class="form-check-input" required/>
-                                            <label class="form-check-label"
-                                                   >Xác thực thay đổi thông tin TOUR</label
-                                            >
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Lưu</button>
-                                    </form>
-                                </c:if>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

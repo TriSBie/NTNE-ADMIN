@@ -246,7 +246,7 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
-                        <h2 class="card-title fw-semibold mb-4">TẠO TOUR</h2>
+                        <h2 class="card-title fw-semibold mb-2">TẠO TOUR</h2>
                         <a href="<c:url value="/tour/listTour.do"/>">
                             <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
                         </a>
