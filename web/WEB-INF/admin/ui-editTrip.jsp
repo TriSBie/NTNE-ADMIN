@@ -256,7 +256,9 @@
                                                 <!-- CREATE TRIP -->
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
-                                                        <label class="form-label">Ngày khởi hành hiện tại: ${TRIP_DETAIL.depart_time}</label>
+                                                        <label class="form-label">Ngày khởi hành hiện tại:
+                                                             <fmt:formatDate pattern = "dd-MM-yyyy" value = "${TRIP_DETAIL.depart_time}"/>
+                                                        </label>
                                                         <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" />
                                                     </div>
                                                     <div class="col-6">

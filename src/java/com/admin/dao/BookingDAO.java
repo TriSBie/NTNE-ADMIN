@@ -954,6 +954,43 @@ public class BookingDAO implements Serializable {
         return list;
     }
 
+    // LẤY RA DOANH THU TRONG THÁNG VỪA RỒI CỦA TOUR ĐÓ VÀ ID
+    public ArrayList<BookingDTO> getRevenue_Previous_Month_of_Tour() throws ClassNotFoundException, SQLException {
+        ArrayList<BookingDTO> list = null;
+        try {
+            con = DBContext.getConnectionDB();
+            if (con != null) {
+                String SQL = "SELECT SUM(BK.totalPrice), TP.tour_id\n"
+                        + "FROM [dbo].[Booking] as BK, [dbo].[Trip] as TP\n"
+                        + "WHERE BK.trip_id = TP.id\n"
+                        + "AND MONTH(BK.expireDate) = MONTH(GETDATE()) - 1 \n"
+                        + "AND YEAR(BK.expireDate) = YEAR(GETDATE())\n"
+                        + "AND BK.status = 1\n"
+                        + "GROUP BY TP.tour_id";
+                ps = con.prepareStatement(SQL);
+                rs = ps.executeQuery();
+                list = new ArrayList<>();
+                while (rs.next()) {
+                    double revenue = rs.getDouble(1);
+                    int tour_id = rs.getInt(2);
+                    BookingDTO booking = new BookingDTO(revenue, tour_id);
+                    list.add(booking);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+        return list;
+    }
+
     // CHART getSummaryTotalOfWeeks
     public List<Chart> getSummaryTotalOfWeeks()
             throws SQLException, ClassNotFoundException {

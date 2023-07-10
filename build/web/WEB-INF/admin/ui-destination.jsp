@@ -305,7 +305,7 @@
                                                                     <div class="col-6">
                                                                         <label class="form-label"
                                                                                >Nhập vĩ độ </label>
-                                                                        <input name="latitude" type="number" class="form-control" value="" required=""/>
+                                                                        <input name="latitude" type="number" class="form-control" value="" />
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <label
@@ -313,12 +313,12 @@
                                                                             for="tour"
                                                                             >Nhập kinh độ
                                                                         </label>
-                                                                        <input name="longitude" type="number" class="form-control" value="" required=""/>
+                                                                        <input name="longitude" type="number" class="form-control" value="" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="mb-3 col-12">
                                                                     <label class="form-label">Mô tả ngắn</label>
-                                                                    <textarea rows="3" class="form-control" name="editor1" id="editorCreate" value="" required=""></textarea>
+                                                                    <textarea rows="3" class="form-control" name="editor1" id="editorCreate" value="" ></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>

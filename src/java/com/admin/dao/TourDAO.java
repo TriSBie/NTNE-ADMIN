@@ -113,7 +113,7 @@ public class TourDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "INSERT INTO Tour \n"
+                String SQL = "INSERT  INTO Tour \n"
                         + "VALUES(?, ?, ?, ?, ?, ?)";
                 ps = con.prepareStatement(SQL);
                 //Insert tour

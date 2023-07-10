@@ -311,6 +311,9 @@ public class TourController extends HttpServlet {
             // LẤY RA DANH SÁCH DOANH THU CHO MỘT NGÀY HIỆN TẠI CỦA MỘT TOUR
             List<BookingDTO> listRevenue_Current_Day_Of_Tour = new BookingDAO().getRevenue_Current_Day_of_Tour();
 
+            // LẤY RA DANH SÁCH DOANH THU CHO THÁNG VỪA RỒI CỦA MỘT TOUR
+            List<BookingDTO> listRevenue_Previous_Month_Of_Tour = new BookingDAO().getRevenue_Previous_Month_of_Tour();
+            
             // Lấy doanh thu tháng hiện tại           
             double revenue = dao.getRevenueByMonth();
             // Lấy doanh thu tháng trước         
@@ -388,6 +391,7 @@ public class TourController extends HttpServlet {
                 request.setAttribute("TOTAL_TRIP_IN_THIS_MONTH", total_TRIP_in_this_month);
 
                 request.setAttribute("LIST_REVENUE_CURRENT_DAY_OF_TOUR", listRevenue_Current_Day_Of_Tour);
+                request.setAttribute("LIST_REVENUE_PREVIOUS_MONTH_OF_TOUR", listRevenue_Previous_Month_Of_Tour);
 
                 request.setAttribute("TOTAL_PRICE_OF_A_WEEKS", chartList);
                 request.setAttribute("TOTAL_PER_DAY_OF_A_WEEKS", datePerWeeks);
@@ -650,6 +654,7 @@ public class TourController extends HttpServlet {
             String thumbnail = request.getParameter("thumbnail");
             String code = request.getParameter("code");
 
+            
             //get Parameters from TOURITEM
             String[] duration = request.getParameterValues("duration");
             String[] destination_id = request.getParameterValues("destination_id");

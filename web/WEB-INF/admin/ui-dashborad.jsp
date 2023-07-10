@@ -635,10 +635,13 @@
                                                             <h6 class="mb-0 fw-normal">Hình ảnh</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
-                                                            <h6 class="mb-0 fw-normal">Tổng doanh thu</h6>
+                                                            <h6 class="mb-0 fw-normal">Tổng</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
-                                                            <h6 class="mb-0 fw-normal">Doanh thu hôm nay</h6>
+                                                            <h6 class="mb-0 fw-normal">Tháng 6</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="mb-0 fw-normal">Hôm nay</h6>
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -665,9 +668,22 @@
                                                                 <p class="fw-semibold mb-1"><fmt:formatNumber value ="${item.revenue}" type = "currency"/></p>
                                                             </td>
                                                             <td class="border-bottom-0">
+                                                                <c:forEach var="tour" items="${LIST_REVENUE_PREVIOUS_MONTH_OF_TOUR}" varStatus="counter">
+                                                                    <c:if test="${item.tour_id == tour.tour_id}">
+                                                                        <p class="fw-semibold mb-1">
+                                                                            <fmt:formatNumber value ="${tour.revenue}" type = "currency"/>
+                                                                        </p>
+                                                                    </c:if>
+                                                                    
+                                                                </c:forEach>
+
+                                                            </td>
+                                                            <td class="border-bottom-0">
                                                                 <c:forEach var="tour" items="${LIST_REVENUE_CURRENT_DAY_OF_TOUR}" varStatus="counter">
                                                                     <c:if test="${item.tour_id == tour.tour_id}">
-                                                                        <p class="fw-semibold mb-1"><fmt:formatNumber value ="${tour.revenue}" type = "currency"/></p>
+                                                                        <p class="fw-semibold mb-1">
+                                                                            <i class="ti ti-arrow-up-left text-success"></i><fmt:formatNumber value ="${tour.revenue}" type = "currency"/>
+                                                                        </p>
                                                                     </c:if>
                                                                 </c:forEach>
                                                             </td>

@@ -376,7 +376,7 @@
                                             </div>
                                             <div class="mb-3 col-12">
                                                 <label class="form-label">Chi tiết</label>
-                                                <textarea id="textarea1" name="script" rows="5" class="form-control" required="">
+                                                <textarea id="textarea1" name="script" rows="5" class="form-control">
                                                 </textarea>                                               
                                             </div>
                                         </div>
