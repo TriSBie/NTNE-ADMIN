@@ -18,8 +18,14 @@ public class DBContext {
     public static Connection getConnectionDB()
             throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String sql = "jdbc:sqlserver://demo-ms.cestdggebmjp.ap-southeast-1.rds.amazonaws.com.:1433;databaseName=NTNECompany";
-        Connection con = DriverManager.getConnection(sql, "admin", "Dat123vn");
+        String sql = "jdbc:sqlserver://34.142.152.99;databaseName=NTNECompany";
+        Connection con = DriverManager.getConnection(sql, "sqlserver", "Dat123vn");
         return con;
+    }
+    
+    
+    public static void main(String[] args) {
+        DBContext b = new DBContext();
+        System.out.println(b);
     }
 }
