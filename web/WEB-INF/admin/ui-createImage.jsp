@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ui-editTrip
-    Created on : Jun 17, 2023, 8:56:17 PM
-    Author     : thuyk
+    Document   : ui-createTrip
+    Created on : Jun 14, 2023, 11:10:50 PM
+    Author     : buidu
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,13 +13,52 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Chỉnh sửa TOUR</title>
+        <title>Tạo TRIP</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             />
+        <style>
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 12px;
+                border: none;
+            }
+
+            .dropdown {
+                width: 100%;
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                width: 100%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+
+            }
+
+            .dropdown-content a {
+                font-size: 12px;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #ddd;}
+
+            .dropdown:hover .dropdown-content {display: block;}
+
+            .dropdown:hover .dropbtn {background-color: #3e8e41;}
+        </style>
     </head>
 
     <body>
@@ -164,7 +203,7 @@
                                 </a>
                             </li>
                             <!-- End Image management -->
-                            
+
                             <!-- Manage Account -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -190,6 +229,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
+
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
@@ -256,139 +296,131 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
-                        <h2 class="card-title fw-semibold mb-2">CHỈNH SỬA TOUR</h2>
-                        <a class="mb-0" href="<c:url value="/tour/listTour.do"/>">
+                        <h2 class="card-title fw-semibold mb-2">TẠO MỚI HÌNH ẢNH</h2>
+                        <a href="<c:url value="/tour/listTrip.do"/>">
                             <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
                         </a>
                         <div class="row">
                             <div class="col-lg-8  ">
                                 <div class="card">
                                     <div class="card-body">
-                                        <c:if test="${not empty requestScope.TOUR_DETAIL}">               
-                                            <form action="<c:url value="/tour/hanleEditTour.do"/>" method="post">
-                                                <!-- gán ID Tour -->
-                                                <input type="hidden" name="tourID" value="${TOUR_DETAIL.tourID}"/>
-                                                <!-- CREATE TRIP -->
-                                                <div class="mb-3 row">
-                                                    <div class="col-2">
-                                                        <label class="form-label">Mã TOUR</label>
-                                                        <input name="code" type="text" class="form-control" value="${TOUR_DETAIL.code}" placeholder="Tên TOUR hiện tại [ ${TOUR_DETAIL.tourName} ]" required/>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3 row">
-                                                    <div class="col-6">
-                                                        <label class="form-label">Mời bạn nhập tên TOUR</label>
-                                                        <input name="tourName" type="text" class="form-control" value="${TOUR_DETAIL.tourName}" placeholder="Tên TOUR hiện tại [ ${TOUR_DETAIL.tourName} ]" required/>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label class="form-label">Các điểm đến</label>
-                                                        <input name="location" type="text" class="form-control" value="${TOUR_DETAIL.location}" placeholder="Địa điểm hiện tại [ ${TOUR_DETAIL.location} ]" required/>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3 row">
-                                                    <div class="col-6">
-                                                        <label
-                                                            for="exampleInputEmail1"
-                                                            class="form-label"
-                                                            >Giá người lớn (VND)</label
-                                                        >
-                                                        <input
-                                                            name="priceAdult"
-                                                            value="${TOUR_DETAIL.priceAdult}"
-                                                            type="number"
-                                                            class="form-control"
-                                                            id="exampleInputEmail1"
-                                                            aria-describedby="emailHelp"
-                                                            placeholder="Giá hiện tại:<fmt:formatNumber value ="${TOUR_DETAIL.priceAdult}" type = "currency"/>"
-                                                            min="1000"
-                                                            required
-                                                            />
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label
-                                                            for="exampleInputEmail1"
-                                                            class="form-label"
-                                                            >Giá trẻ em (VND)</label
-
-                                                        >
-                                                        <input
-                                                            name="priceChild"
-                                                            type="number"
-                                                            value="${TOUR_DETAIL.priceChild}"
-                                                            class="form-control"
-                                                            id="exampleInputEmail1"
-                                                            aria-describedby="emailHelp"
-                                                            placeholder="Giá hiện tại: <fmt:formatNumber value ="${TOUR_DETAIL.priceChild}" type = "currency"/>"
-                                                            min="1000"
-                                                            required
-                                                            />
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3 row mb-2">
-
-                                                    <div class="wrapper-image-preview mb-2">
-                                                        <div>
-                                                            <i>Ảnh hiển thị</i>
+                                        <form action="<c:url value="/tour/handleCreateImage.do"/>" method="get">
+                                            <!-- Gán TOUR ID để tạo trip -->
+                                            <input name="image_id" type="hidden" class="form-control" value="${TOUR.tourID}"/>
+                                            <!-- Select TOUR -->
+                                            <div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label id="tour-selection" class="form-label">Mời bạn chọn Tour</label>
+                                                    <br>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="form-select">${TOUR.tourName}</button>
+                                                        <div class="dropdown-content">
+                                                            <c:forEach var="tour" items="${requestScope.LIST_TOUR}" varStatus="counter">
+                                                                <c:url var="getDetailTourLink" value="/tour/createImageForm.do">
+                                                                    <c:param name="tourID" value="${tour.tourID}"/>
+                                                                </c:url>
+                                                                <a href="${getDetailTourLink}">${counter.count} - ${tour.tourName}</a>
+                                                            </c:forEach>
                                                         </div>
-                                                        <image id="image_preview" alt="" style="
-                                                               width: 300px;
-                                                               height: 200px;
-                                                               border-radius: 5px;">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <label class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
-                                                        <textarea onchange="handleOnChangeThumbnail" name="thumbnail" class="form-control" rows="4" cols="50" required>${TOUR_DETAIL.thumbnail}</textarea>
                                                     </div>
                                                 </div>
-                                                <!-- END CREATE TRIP -->
+                                            </div>
 
-                                                <!-- Hình Ảnh TOUR -->
-                                                <!-- Check Box -->
-                                                <div class="mb-3 form-check">
-                                                    <input type="checkbox" class="form-check-input" required/>
-                                                    <label class="form-check-label"
-                                                           >Xác thực thay đổi thông tin TOUR</label
-                                                    >
+                                            <div class="mb-3 row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label">Tên hình ảnh</label>
+                                                    <input name="image_name" type="text" class="form-control" value="" required=""/>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Lưu</button>
-                                            </form>
-                                        </c:if>
+                                            </div>
+                                            <div class="mb-3 row mb-2 ">
+
+                                                <div class="mb-2 wrapper-image-preview">
+                                                    <div>
+                                                        <i>Ảnh hiển thị</i>
+                                                    </div>
+                                                    <image id="image_preview" alt="" style="
+                                                           width: 300px;
+                                                           height: 200px;
+                                                           border-radius: 5px;">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
+                                                    <textarea name="thumbnail_image_Link" class="form-control" rows="4" cols="50" required></textarea>
+                                                </div>
+                                            </div>
+                                            <!-- CREATE IMAGE -->
+
+                                            <!-- END CREATE IMAGE -->
+
+                                            <!-- Hình Ảnh TOUR -->
+                                            <!-- Check Box -->
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input" 
+                                                       required />
+                                                <label class="form-check-label">Xác thực tạo Hình Ảnh</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">
+                                                Tạo Hình Ảnh
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                             <!-- TOUR INFO -->
-                            <div class="col-lg-4 ">
-                                <!--GET BOOKING DETAIL BY ID-->
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="mb-3 row">
-                                            <div class="col-12" >
-                                                <img
-                                                    style="
-                                                    width: 300px;
-                                                    height: 200px;
-                                                    border-radius: 5px;
-                                                    "
-                                                    src="${TOUR_DETAIL.thumbnail}"
-                                                    />
+                            <c:if test="${not empty requestScope.TOUR}">
+                                <div class="col-lg-4 d-flex align-items-stretch">
+                                    <!--GET BOOKING DETAIL BY ID-->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="fw-semibold mb-1">
+                                                Thông tin cơ bản của TOUR
+                                            </h5>
+                                            <div class="mb-3 row">
+                                                <div class="col-12">
+                                                    <img
+                                                        style="
+                                                        width: 300px;
+                                                        height: 200px;
+                                                        border-radius: 5px;
+                                                        "
+                                                        src="${TOUR.thumbnail}"
+                                                        />
+                                                </div>
+                                            </div>    
+                                            <div class="mb-3 row">
+                                                <div class="col-12">
+                                                    <h6 class="fw-semibold mb-1">
+                                                        Tên TOUR: ${TOUR.tourName}
+                                                    </h6>
+                                                </div>
                                             </div>
-                                        </div> 
-                                        <div class="mb-3 row">
-                                            <div class="col-12">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-check-inline"
-                                                    >Tên TOUR
-                                                </label>
-                                                <h6 class="fw-semibold mb-1">
-                                                    ${TOUR_DETAIL.tourName}
-                                                </h6>
-                                            </div>
-                                        </div>
+                                            <div class="mb-3 row">
+                                                <div class="col-6">
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-check-inline"
+                                                        >Giá người lớn 
+                                                    </label>
+                                                    <h6 class="mb-0 fw-semibold">
+                                                        <fmt:formatNumber value ="${TOUR.priceAdult}" type = "currency"/>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-check-semibold"
+                                                        >Giá trẻ em
+                                                    </label>
+                                                    <h6 class="mb-0 fw-semibold">
+                                                        <fmt:formatNumber value ="${TOUR.priceChild}" type = "currency"/>
+                                                    </h6>
+                                                </div>
+                                            </div>  
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -400,20 +432,70 @@
         <!-- <script src="../assets/js/editor.js"></script> -->
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script>
+            const buttonCreate = document.querySelector(".btnCreate");
+            const formCreate = document.querySelector(".formTour");
+            const formTour_package = document.querySelector(".formTour-package");
+            function createTourForm(e) {
+                const div = document.createElement("div");
+                div.innerHTML = `<div class="mb-3 row">
+                                <div class="col-6">
+                                  <label class="form-label">Mốc thời gian</label>
+                                <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-6">
+                                  <label class="form-label" for="tour">Mời bạn chọn địa điểm: </label>
+                                  <select class="form-select col-2" name="select_tour" id="tour" aria-label="Default select example">
+                                    <option value="1">khu quần thể Vinpearl</option>
+                                    <option value="2">VinWonders Nha Trang</option>
+                                    <option value="3">Vườn Quý Vương </option>
+                                    <option value="4">Khu trò chơi cảm giác mạnh ngoài trời</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="mb-3 col-12">
+                                <label class="form-label">Chi tiết</label>
+                                <textarea
+                                  rows="5"
+                                  class="form-control"
+                                  name="editor1"
+                                >
+                                </textarea>
+                              </div>`;
+                div.classList.add("formTour-package");
+                formCreate.appendChild(div);
+            }
+        </script>
+
         <style>
-            .disable {
+            .wrapper-image-preview.disable {
                 display: none
             }
         </style>
         <script>
-                                                            var imageText = document.querySelector('[name="thumbnail"]');
-                                                            document.querySelector('#image_preview').src = imageText.value;
-                                                            imageText.addEventListener("keyup", function (e) {
-                                                                document.querySelector('.wrapper-image-preview').classList.remove('disable');
-                                                                document.querySelector('#image_preview').src = imageText.value;
+            var imageText = document.querySelector('[name="thumbnail_image_Link"]');
+            if (imageText.innerHTML.length < 10) {
+                document.querySelector('.wrapper-image-preview').classList.add('disable');
+            }
+            document.querySelector('#image_preview').src = imageText.value;
+            imageText.addEventListener("change", function (e) {
 
-                                                            })
+                if (e.target.value.length >= 10) {
+                    document.querySelector('.wrapper-image-preview.disable').classList.remove('disable');
+
+                } else if (e.target.value.length < 10) {
+                    document.querySelector('.wrapper-image-preview').classList.add('disable');
+                }
+                document.querySelector('#image_preview').src = e.target.value;
+
+            })
         </script>
+        <!-- CKEditor -->
+        <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace("editor1");
+        </script>
+        <!-- CKEditor -->
     </body>
 </html>
 

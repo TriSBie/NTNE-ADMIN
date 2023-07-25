@@ -154,6 +154,21 @@
                             </li>
                             <!-- End destination management -->
 
+                            <!-- Manage Image -->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listImage.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-image"></i>   
+                                    </span>
+                                    <span class="hide-menu">Hình ảnh</span>
+                                </a>
+                            </li>
+                            <!-- End Image management -->
+
                             <!-- Manage Account -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -674,7 +689,7 @@
                                                                             <fmt:formatNumber value ="${tour.revenue}" type = "currency"/>
                                                                         </p>
                                                                     </c:if>
-                                                                    
+
                                                                 </c:forEach>
 
                                                             </td>

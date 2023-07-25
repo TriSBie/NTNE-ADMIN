@@ -1,19 +1,18 @@
 <%-- 
-    Document   : ui-editTrip
-    Created on : Jun 17, 2023, 8:56:17 PM
-    Author     : thuyk
+    Document   : ui-image
+    Created on : Jul 19, 2023, 12:33:05 PM
+    Author     : buidu
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<fmt:setLocale value="vi_VN"/>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Chỉnh sửa TOUR</title>
+        <title>Danh sách hình ảnh của các tour</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
@@ -163,8 +162,8 @@
                                     <span class="hide-menu">Hình ảnh</span>
                                 </a>
                             </li>
-                            <!-- End Image management -->
-                            
+                            <!-- End Image management -->                            
+
                             <!-- Manage Account -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -190,6 +189,7 @@
                 <!-- End Sidebar scroll-->
             </aside>
             <!--  Sidebar End -->
+
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <!--  Header Start -->
@@ -256,136 +256,63 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
-                        <h2 class="card-title fw-semibold mb-2">CHỈNH SỬA TOUR</h2>
-                        <a class="mb-0" href="<c:url value="/tour/listTour.do"/>">
-                            <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
-                        </a>
-                        <div class="row">
-                            <div class="col-lg-8  ">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <c:if test="${not empty requestScope.TOUR_DETAIL}">               
-                                            <form action="<c:url value="/tour/hanleEditTour.do"/>" method="post">
-                                                <!-- gán ID Tour -->
-                                                <input type="hidden" name="tourID" value="${TOUR_DETAIL.tourID}"/>
-                                                <!-- CREATE TRIP -->
-                                                <div class="mb-3 row">
-                                                    <div class="col-2">
-                                                        <label class="form-label">Mã TOUR</label>
-                                                        <input name="code" type="text" class="form-control" value="${TOUR_DETAIL.code}" placeholder="Tên TOUR hiện tại [ ${TOUR_DETAIL.tourName} ]" required/>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3 row">
-                                                    <div class="col-6">
-                                                        <label class="form-label">Mời bạn nhập tên TOUR</label>
-                                                        <input name="tourName" type="text" class="form-control" value="${TOUR_DETAIL.tourName}" placeholder="Tên TOUR hiện tại [ ${TOUR_DETAIL.tourName} ]" required/>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label class="form-label">Các điểm đến</label>
-                                                        <input name="location" type="text" class="form-control" value="${TOUR_DETAIL.location}" placeholder="Địa điểm hiện tại [ ${TOUR_DETAIL.location} ]" required/>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3 row">
-                                                    <div class="col-6">
-                                                        <label
-                                                            for="exampleInputEmail1"
-                                                            class="form-label"
-                                                            >Giá người lớn (VND)</label
-                                                        >
-                                                        <input
-                                                            name="priceAdult"
-                                                            value="${TOUR_DETAIL.priceAdult}"
-                                                            type="number"
-                                                            class="form-control"
-                                                            id="exampleInputEmail1"
-                                                            aria-describedby="emailHelp"
-                                                            placeholder="Giá hiện tại:<fmt:formatNumber value ="${TOUR_DETAIL.priceAdult}" type = "currency"/>"
-                                                            min="1000"
-                                                            required
-                                                            />
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label
-                                                            for="exampleInputEmail1"
-                                                            class="form-label"
-                                                            >Giá trẻ em (VND)</label
-
-                                                        >
-                                                        <input
-                                                            name="priceChild"
-                                                            type="number"
-                                                            value="${TOUR_DETAIL.priceChild}"
-                                                            class="form-control"
-                                                            id="exampleInputEmail1"
-                                                            aria-describedby="emailHelp"
-                                                            placeholder="Giá hiện tại: <fmt:formatNumber value ="${TOUR_DETAIL.priceChild}" type = "currency"/>"
-                                                            min="1000"
-                                                            required
-                                                            />
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3 row mb-2">
-
-                                                    <div class="wrapper-image-preview mb-2">
-                                                        <div>
-                                                            <i>Ảnh hiển thị</i>
-                                                        </div>
-                                                        <image id="image_preview" alt="" style="
-                                                               width: 300px;
-                                                               height: 200px;
-                                                               border-radius: 5px;">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <label class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
-                                                        <textarea onchange="handleOnChangeThumbnail" name="thumbnail" class="form-control" rows="4" cols="50" required>${TOUR_DETAIL.thumbnail}</textarea>
-                                                    </div>
-                                                </div>
-                                                <!-- END CREATE TRIP -->
-
-                                                <!-- Hình Ảnh TOUR -->
-                                                <!-- Check Box -->
-                                                <div class="mb-3 form-check">
-                                                    <input type="checkbox" class="form-check-input" required/>
-                                                    <label class="form-check-label"
-                                                           >Xác thực thay đổi thông tin TOUR</label
-                                                    >
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Lưu</button>
-                                            </form>
-                                        </c:if>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Thông báo nếu thao tác thành công -->
+                                <c:if test="${msg_success != null}">
+                                    <div class="alert alert-success">
+                                        <strong>${msg_success}</strong>
                                     </div>
+                                </c:if>
+                                <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
+                                    <h3 class="mb-3">DANH SÁCH HÌNH ẢNH</h3>
+                                    <a href="<c:url value="/tour/createImageForm.do"/>" alt="createImage">
+                                        <button class="btn btn-primary">
+                                            <i class="ti ti-plus"></i>
+                                        </button>
+                                    </a>
                                 </div>
-                            </div>
-                            <!-- TOUR INFO -->
-                            <div class="col-lg-4 ">
-                                <!--GET BOOKING DETAIL BY ID-->
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="mb-3 row">
-                                            <div class="col-12" >
-                                                <img
-                                                    style="
-                                                    width: 300px;
-                                                    height: 200px;
-                                                    border-radius: 5px;
-                                                    "
-                                                    src="${TOUR_DETAIL.thumbnail}"
-                                                    />
-                                            </div>
-                                        </div> 
-                                        <div class="mb-3 row">
-                                            <div class="col-12">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-check-inline"
-                                                    >Tên TOUR
-                                                </label>
-                                                <h6 class="fw-semibold mb-1">
-                                                    ${TOUR_DETAIL.tourName}
-                                                </h6>
-                                            </div>
-                                        </div>
+                                <!-- Tên Hình Ảnh -->
 
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Tour ID</th>
+                                                    <th scope="col">Tên hình ảnh</th>
+                                                    <th scope="col">Ảnh</th>
+                                                    <th scope="col" style="width: 150px;" >Chức năng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:if test="${not empty requestScope.LIST_IMAGE}">
+                                                    <c:forEach var="imageItem" items="${LIST_IMAGE}" varStatus="counter">    
+                                                        <tr scope="row">
+                                                            <td>${imageItem.imgID}</td>
+                                                            <td>${imageItem.tourID}</td>
+                                                            <td>${imageItem.imgName}</td>
+                                                            <td>
+                                                                <img class="img-thumbnail" style="width: 100px; height: 100px" alt="" src="${imageItem.imgURL}">
+                                                            </td>
+                                                            <td>
+                                                                <form action="<c:url value="/tour/editTourItem.do"/>" method="post">
+                                                                    <button class="btn btn-warning" name="btn-action" value="update">
+                                                                        <input type="hidden" name="tourItemID"  value="${imageItem.imgID}"/>
+                                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                                    </button>
+                                                                    <button type="submit" name="btn-action" value="delete" class="btn btn-danger">
+                                                                        <input type="hidden" name="tourItemID" value="${imageItem.imgID}"/>
+                                                                        <i class="fa-solid fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -394,26 +321,24 @@
                 </div>
             </div>
         </div>
+        <script>
+            const btnActive = document.querySelector(".btnActive");
+
+            function changeStatus() {
+                btnActive.innerText = "Tạm dừng";
+            }
+
+            function myFunction() {
+                let text = "Bạn có chắc muốn xóa hình ảnh này không ?";
+                if (confirm(text) === false) {
+                    event.preventDefault();
+                }
+            }
+        </script>
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/js/sidebarmenu.js"></script>
-        <!-- <script src="../assets/js/editor.js"></script> -->
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-        <style>
-            .disable {
-                display: none
-            }
-        </style>
-        <script>
-                                                            var imageText = document.querySelector('[name="thumbnail"]');
-                                                            document.querySelector('#image_preview').src = imageText.value;
-                                                            imageText.addEventListener("keyup", function (e) {
-                                                                document.querySelector('.wrapper-image-preview').classList.remove('disable');
-                                                                document.querySelector('#image_preview').src = imageText.value;
-
-                                                            })
-        </script>
     </body>
 </html>
-

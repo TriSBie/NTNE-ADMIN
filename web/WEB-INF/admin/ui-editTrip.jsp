@@ -150,6 +150,21 @@
                             </li>
                             <!-- End destination management -->
 
+                            <!-- Manage Image -->
+                            <li class="sidebar-item">
+                                <a
+                                    class="sidebar-link"
+                                    href="<c:url value="/tour/listImage.do"/>"
+                                    aria-expanded="false"
+                                    >
+                                    <span>
+                                        <i class="fa-solid fa-image"></i>   
+                                    </span>
+                                    <span class="hide-menu">Hình ảnh</span>
+                                </a>
+                            </li>
+                            <!-- End Image management -->
+
                             <!-- Manage Account -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -243,8 +258,8 @@
                     <div class="container-fluid">
                         <h2 class="card-title fw-semibold mb-2">THAY ĐỔI THÔNG TIN CHUYẾN ĐI</h2>
                         <a href="<c:url value="/tour/listTrip.do"/>">
-                                                <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
-                                            </a>
+                            <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
+                        </a>
                         <div class="row">
                             <div class="col-lg-8  ">
                                 <div class="card" >
@@ -257,7 +272,7 @@
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
                                                         <label class="form-label">Ngày khởi hành hiện tại:
-                                                             <fmt:formatDate pattern = "dd-MM-yyyy" value = "${TRIP_DETAIL.depart_time}"/>
+                                                            <fmt:formatDate pattern = "dd-MM-yyyy" value = "${TRIP_DETAIL.depart_time}"/>
                                                         </label>
                                                         <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" />
                                                     </div>
@@ -308,7 +323,7 @@
                                                             />
                                                     </div>
                                                 </div>
-                                                
+
                                                 <!-- END CREATE TRIP -->
 
                                                 <!-- Hình Ảnh TOUR -->

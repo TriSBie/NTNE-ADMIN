@@ -8,12 +8,14 @@ package com.admin.controller;
 import com.admin.config.Config;
 import com.admin.dao.BookingDAO;
 import com.admin.dao.DestinationDAO;
+import com.admin.dao.ImageDAO;
 import com.admin.dao.TourDAO;
 import com.admin.dao.TourItemDAO;
 import com.admin.dao.TripDAO;
 import com.admin.model.BookingDTO;
 import com.admin.model.Chart;
 import com.admin.model.DestinationDTO;
+import com.admin.model.ImageDTO;
 import com.admin.model.TourDTO;
 import com.admin.model.TourItemDTO;
 import com.admin.model.TripDTO;
@@ -51,6 +53,8 @@ public class TourController extends HttpServlet {
     String UPDATE_TRIP = "ui-editTrip.jsp";
     String UPDATE_TOUR = "ui-editTour.jsp";
     String UPDATE_TOURITEM = "ui-editTourItem.jsp";
+    String LIST_IMAGE_URL = "ui-image.jsp";
+    String CREATE_IMAGE_URL = "ui-createImage.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -92,6 +96,9 @@ public class TourController extends HttpServlet {
             case "filter_all_trip_this_month":
                 filter_all_trip_this_month(request, response);
                 break;
+            case "listImage":
+                handle_image_tourDetails(request, response);
+                break;
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU CREATE
             ------------------------------------------------------------------------------*/
@@ -102,7 +109,6 @@ public class TourController extends HttpServlet {
             case "hanleCreateTrip":
                 hanleCreateTrip(request, response);
                 break;
-
             // Xử lý khi ADMIN muốn thay đổi trạng thái của TRIP
             case "hanleChangeState":
                 hanleChangeState(request, response);
@@ -118,6 +124,12 @@ public class TourController extends HttpServlet {
             // Xử lí khi Admin click vào tạo tour khi điền đầy đủ tt
             case "handleCreateTour":
                 handleCreateTour(request, response);
+                break;
+            case "createImageForm":
+                createImageForm(request, response);
+                break;
+            case "handleCreateImage":
+                handleCreateImage(request, response);
                 break;
             /*------------------------------------------------------------------------------
                                 FUNCTION XU LY YEU CAU UPDATE
@@ -148,6 +160,17 @@ public class TourController extends HttpServlet {
             // Xử lí cập nhật thông tin TourItem
             case "hanleEditTourItem":
                 hanleEditTourItem(request, response);
+                break;
+            // Xử lí cập nhập thông tin Image-Item dựa theo btn-action
+            case "editImageHandler":
+                editImageHandler(request, response);
+                break;
+            /*------------------------------------------------------------------------------
+                                FUNCTION XU LY YEU CAU DELETE
+            ------------------------------------------------------------------------------*/
+            // Xử lí xóa hình ảnh dựa theo btn-action
+            case "handleDeleteItem":
+                handle_delete_imageItem(request, response);
                 break;
             default:
                 response.sendRedirect(ERROR_URL);
@@ -313,7 +336,7 @@ public class TourController extends HttpServlet {
 
             // LẤY RA DANH SÁCH DOANH THU CHO THÁNG VỪA RỒI CỦA MỘT TOUR
             List<BookingDTO> listRevenue_Previous_Month_Of_Tour = new BookingDAO().getRevenue_Previous_Month_of_Tour();
-            
+
             // Lấy doanh thu tháng hiện tại           
             double revenue = dao.getRevenueByMonth();
             // Lấy doanh thu tháng trước         
@@ -654,7 +677,6 @@ public class TourController extends HttpServlet {
             String thumbnail = request.getParameter("thumbnail");
             String code = request.getParameter("code");
 
-            
             //get Parameters from TOURITEM
             String[] duration = request.getParameterValues("duration");
             String[] destination_id = request.getParameterValues("destination_id");
@@ -707,7 +729,7 @@ public class TourController extends HttpServlet {
 
             TripDAO dao = new TripDAO();
             TripDTO trip = dao.getTrip_by_tripID(tripID);
-            
+
             // Lấy ngày hiên tại để kiểm tra validate
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime now = LocalDateTime.now();
@@ -716,7 +738,7 @@ public class TourController extends HttpServlet {
                 request.setAttribute("TRIP_DETAIL", trip);
                 request.setAttribute("TOUR", tour);
                 request.setAttribute("NOW", dtf.format(now));
-                
+
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
@@ -879,6 +901,130 @@ public class TourController extends HttpServlet {
                 request.setAttribute("msg_success", "Bạn đã cập nhật thông tin thành công!");
                 request.setAttribute("tourID", tourID);
                 request.getRequestDispatcher("/tour/tourDetailByID.do").forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Display all available image of tour Details
+    protected void handle_image_tourDetails(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+
+            ImageDAO dao = new ImageDAO();
+            List<ImageDTO> listOfImages = dao.getAllImage();
+
+//            System.out.println(listTourItemByTourID.get(1).getDescription());
+            if (listOfImages != null) {
+                url = Config.LAYOUT + LIST_IMAGE_URL;
+                request.setAttribute("LIST_IMAGE", listOfImages);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Xử lí luồng dữ liệu dựa theo btn-actions
+    protected void editImageHandler(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        String btnAction = request.getParameter("btn-action");
+        if (btnAction != null) {
+            switch (btnAction) {
+                case "delete":
+                    url = "/tour/listImage.do";
+                    RequestDispatcher rd = request.getRequestDispatcher(url);
+                    rd.forward(request, response);
+                    break;
+                case "update":
+                    url = "/tour/listImage.do";
+                    rd = request.getRequestDispatcher(url);
+                    rd.forward(request, response);
+                    break;
+            }
+        } else {
+            response.sendRedirect(url);
+        }
+    }
+
+    // Xử lí tạo form image
+    protected void createImageForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            List<TourDTO> listTour = new TourDAO().getAllTours();
+            TourItemDAO dao = new TourItemDAO();
+            TourDTO tour = new TourDTO();
+            String tourID = request.getParameter("tourID");
+
+            if (listTour != null) {
+                if (tourID == null) {
+                    tour = listTour.get(0);
+                } else {
+                    int tourID_parse = Integer.parseInt(tourID);
+                    tour = new TourDAO().getTour_by_tourID(tourID_parse);
+                }
+                url = Config.LAYOUT + CREATE_IMAGE_URL;
+                request.setAttribute("LIST_TOUR", listTour);
+                request.setAttribute("TOUR", tour);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Xử lí add dữ liệu từ form xuống DB
+    protected void handleCreateImage(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            ImageDAO dao = new ImageDAO();
+            int tourID = Integer.parseInt(request.getParameter("image_id"));
+            String imageName = request.getParameter("image_name");
+            String imageLink = request.getParameter("thumbnail_image_Link");
+
+            ImageDTO newImg = new ImageDTO(imageName, imageLink, tourID);
+            boolean result = dao.addNewImage(newImg);
+            System.out.println(result);
+            System.out.println(tourID + "=" + imageLink + "=" + imageName);
+            if (result != false) {
+                url = "/tour/listImage.do";
+                request.setAttribute("msg_success", "Hình ảnh mới - " + imageName + " vừa mới tạo thành công !");
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect(url);
+            }
+        } catch (ClassNotFoundException | IOException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Xử lý xóa hình ảnh by ID
+    protected void handle_delete_imageItem(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = Config.LAYOUT + ERROR_URL;
+        try {
+            ImageDAO dao = new ImageDAO();
+            int id = Integer.parseInt(request.getParameter("imageID"));
+            boolean result = dao.deleteImageByID(id);
+
+            if (result == true) {
+                url = "/tour/listImage.do";
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
             } else {
                 response.sendRedirect(url);
             }
