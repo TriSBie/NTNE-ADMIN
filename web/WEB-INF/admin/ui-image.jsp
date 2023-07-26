@@ -264,7 +264,7 @@
                                         <strong>${msg_success}</strong>
                                     </div>
                                 </c:if>
-                                <div style="display: flex; justify-content: space-between; margin: 0px 12px;">
+                                <div style="display: flex; justify-content: space-between;">
                                     <h3 class="mb-3">DANH SÁCH HÌNH ẢNH</h3>
                                     <a href="<c:url value="/tour/createImageForm.do"/>" alt="createImage">
                                         <button class="btn btn-primary">
@@ -272,6 +272,13 @@
                                         </button>
                                     </a>
                                 </div>
+                                <!-- Filter -->
+                                <div class="row alig n-items-start">
+                                    <div class="col-3">
+                                        <input  id="myInput" name="depart_time" type="text" class="form-control" placeholder="Tìm kiếm hình ảnh.." />
+                                    </div>
+                                </div>
+                                <!-- Filter -->
                                 <!-- Tên Hình Ảnh -->
 
                                 <div class="row">
@@ -283,10 +290,10 @@
                                                     <th scope="col">Tour ID</th>
                                                     <th scope="col">Tên hình ảnh</th>
                                                     <th scope="col">Ảnh</th>
-                                                    <th scope="col" style="width: 150px;" >Chức năng</th>
+                                                    <th scope="col">Chức năng</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="myTable">
                                                 <c:if test="${not empty requestScope.LIST_IMAGE}">
                                                     <c:forEach var="imageItem" items="${LIST_IMAGE}" varStatus="counter">    
                                                         <tr scope="row">
@@ -294,19 +301,24 @@
                                                             <td>${imageItem.tourID}</td>
                                                             <td>${imageItem.imgName}</td>
                                                             <td>
-                                                                <img class="img-thumbnail" style="width: 100px; height: 100px" alt="" src="${imageItem.imgURL}">
+                                                                <img class="img-thumbnail" style="width: 200px; height: 150px" alt="" src="${imageItem.imgURL}">
                                                             </td>
                                                             <td>
-                                                                <form action="<c:url value="/tour/editTourItem.do"/>" method="post">
-                                                                    <button class="btn btn-warning" name="btn-action" value="update">
-                                                                        <input type="hidden" name="tourItemID"  value="${imageItem.imgID}"/>
-                                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                                    </button>
-                                                                    <button type="submit" name="btn-action" value="delete" class="btn btn-danger">
-                                                                        <input type="hidden" name="tourItemID" value="${imageItem.imgID}"/>
-                                                                        <i class="fa-solid fa-trash"></i>
-                                                                    </button>
-                                                                </form>
+                                                                <div style="display: flex">
+                                                                    <form action="<c:url value="/tour/editImageHandler.do"/>" method="post">
+                                                                        <button style="margin-right: 5px" class="btn btn-warning" name="btn-action" value="edit">
+                                                                            <input type="hidden" name="imgID"  value="${imageItem.imgID}"/>
+                                                                            <input type="hidden" name="tourID"  value="${imageItem.tourID}"/>
+                                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                    <form action="<c:url value="/tour/handleDeleteItem.do"/>" method="post">
+                                                                        <button onclick="myFunction()" type="submit" class="btn btn-danger">
+                                                                            <input type="hidden" name="imgID" value="${imageItem.imgID}"/>
+                                                                            <i class="fa-solid fa-trash"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -340,5 +352,25 @@
         <script src="../assets/js/sidebarmenu.js"></script>
         <script src="../assets/js/app.min.js"></script>
         <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <!-- Confirm Press btn -->
+        <script>
+            function myFunction() {
+                let text = "Bạn có chắc muốn xóa hình ảnh này hay không ?";
+                if (confirm(text) === false) {
+                    event.preventDefault();
+                }
+            }
+        </script>
+        
+        <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
     </body>
 </html>

@@ -18,7 +18,10 @@
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <!-- CKEditor -->
         <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
-
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            />
     </head>
 
     <body>
@@ -163,7 +166,7 @@
                                 </a>
                             </li>
                             <!-- End Image management -->
-                            
+
                             <!-- Manage Account -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -249,10 +252,10 @@
                             <div class="card-body">
                                 <c:if test="${not empty requestScope.TOUR_ITEM_DETAIL}">               
                                     <form action="<c:url value="/tour/hanleEditTourItem.do"/>" method="get">
-                                        
+
                                         <!-- gán ID ToutItemID -->
                                         <input type="hidden" name="tourItemID" value="${TOUR_ITEM_DETAIL.tourItemID}"/>
-                                        
+
                                         <input type="hidden" name="tourID" value="${tourID}"/>
 
                                         <!-- Tên TOUR -->
@@ -262,7 +265,7 @@
                                                 src="${TOUR_ITEM_DETAIL.tourThumbnail}"
                                                 alt="${TOUR_ITEM_DETAIL.tourName}"
                                                 class="img-thumbnail"
-                                                style="width: 150px"
+                                                style="width: 300px"
                                                 />
                                         </div>
 
@@ -272,7 +275,6 @@
                                                 <div class="mb-3 row">
                                                     <div class="col-6">
                                                         <label
-                                                            style="color: red"
                                                             for="exampleInputEmail1"
                                                             class="form-label"
                                                             >Mốc thời gian</label
@@ -289,7 +291,7 @@
                                                             />
                                                     </div>
                                                     <div class="col-6">
-                                                        <label style="color: red" class="form-label" for="tour"
+                                                        <label class="form-label" for="tour"
                                                                >Mời bạn chọn địa điểm:
                                                         </label>
                                                         <select
@@ -308,7 +310,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 col-12">
-                                                    <label style="color: red" class="form-label">Chi tiết</label>
+                                                    <label  class="form-label">Chi tiết</label>
                                                     <textarea name="description" rows="5" class="form-control" value=${TOUR_ITEM_DETAIL.description}>
                                                     </textarea>     
                                                     <script>

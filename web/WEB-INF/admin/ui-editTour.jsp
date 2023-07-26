@@ -164,7 +164,7 @@
                                 </a>
                             </li>
                             <!-- End Image management -->
-                            
+
                             <!-- Manage Account -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -325,19 +325,18 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row mb-2">
-
-                                                    <div class="wrapper-image-preview mb-2">
+                                                    <div class="col-7">
+                                                        <label class="form-label">Đường dẫn hình ảnh</label>
+                                                        <textarea name="thumbnail" class="form-control" rows="6" cols="50" required>${TOUR_DETAIL.thumbnail}</textarea>
+                                                    </div>
+                                                    <div class="col-5 wrapper-image-preview">
                                                         <div>
                                                             <i>Ảnh hiển thị</i>
                                                         </div>
                                                         <image id="image_preview" alt="" style="
-                                                               width: 300px;
+                                                               width: 270px;
                                                                height: 200px;
                                                                border-radius: 5px;">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <label class="form-label">Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com)</label>
-                                                        <textarea onchange="handleOnChangeThumbnail" name="thumbnail" class="form-control" rows="4" cols="50" required>${TOUR_DETAIL.thumbnail}</textarea>
                                                     </div>
                                                 </div>
                                                 <!-- END CREATE TRIP -->
@@ -385,7 +384,28 @@
                                                 </h6>
                                             </div>
                                         </div>
-
+                                        <div class="mb-3 row">
+                                            <div class="col-6">
+                                                <label
+                                                    for="exampleInputEmail1"
+                                                    class="form-check-inline"
+                                                    >Giá người lớn 
+                                                </label>
+                                                <h6 class="mb-0 fw-semibold">
+                                                    <fmt:formatNumber value ="${TOUR_DETAIL.priceAdult}" type = "currency"/>
+                                                </h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <label
+                                                    for="exampleInputEmail1"
+                                                    class="form-check-semibold"
+                                                    >Giá trẻ em
+                                                </label>
+                                                <h6 class="mb-0 fw-semibold">
+                                                    <fmt:formatNumber value ="${TOUR_DETAIL.priceChild}" type = "currency"/>
+                                                </h6>
+                                            </div>
+                                        </div>  
                                     </div>
                                 </div>
                             </div>
@@ -406,13 +426,22 @@
             }
         </style>
         <script>
-                                                            var imageText = document.querySelector('[name="thumbnail"]');
-                                                            document.querySelector('#image_preview').src = imageText.value;
-                                                            imageText.addEventListener("keyup", function (e) {
-                                                                document.querySelector('.wrapper-image-preview').classList.remove('disable');
-                                                                document.querySelector('#image_preview').src = imageText.value;
+            var imageText = document.querySelector('[name="thumbnail"]');
+            if (imageText.innerHTML.length < 10) {
+                document.querySelector('.wrapper-image-preview').classList.add('disable');
+            }
+            document.querySelector('#image_preview').src = imageText.value;
+            imageText.addEventListener("change", function (e) {
 
-                                                            })
+                if (e.target.value.length >= 10) {
+                    document.querySelector('.wrapper-image-preview.disable').classList.remove('disable');
+
+                } else if (e.target.value.length < 10) {
+                    document.querySelector('.wrapper-image-preview').classList.add('disable');
+                }
+                document.querySelector('#image_preview').src = e.target.value;
+
+            })
         </script>
     </body>
 </html>

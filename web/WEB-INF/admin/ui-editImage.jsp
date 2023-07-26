@@ -13,7 +13,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tạo TRIP</title>
+        <title>Chỉnh sửa thông tin Hình Ảnh</title>
         <link rel="shortcut icon" type="image/png" href="" />
         <link rel="stylesheet" href="../assets/css/styles.min.css" />
         <link
@@ -296,7 +296,7 @@
                 <!--  Header End -->
                 <div class="container-fluid" style="background-color: #E6E9EB;">
                     <div class="container-fluid">
-                        <h2 class="card-title fw-semibold mb-2">TẠO MỚI HÌNH ẢNH</h2>
+                        <h2 class="card-title fw-semibold mb-2">CHỈNH SỬA THÔNG TIN HÌNH ẢNH</h2>
                         <a href="<c:url value="/tour/listImage.do"/>">
                             <i class="fa-solid fa-caret-left"></i> &nbsp; Quay lại
                         </a>
@@ -304,35 +304,20 @@
                             <div class="col-lg-8  ">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form action="<c:url value="/tour/handleCreateImage.do"/>" method="get">
+                                        <form action="<c:url value="/tour/handleEditImage.do"/>" method="post">
                                             <!-- Gán TOUR ID để tạo trip -->
                                             <input name="image_id" type="hidden" class="form-control" value="${TOUR.tourID}"/>
                                             <!-- Select TOUR -->
                                             <div class="mb-3 row">
-                                                <div class="col-7">
-                                                    <label id="tour-selection" class="form-label">Mời bạn chọn Tour</label>
-                                                    <br>
-                                                    <div class="dropdown">
-                                                        <button type="button" class="form-select">${TOUR.tourName}</button>
-                                                        <div class="dropdown-content">
-                                                            <c:forEach var="tour" items="${requestScope.LIST_TOUR}" varStatus="counter">
-                                                                <c:url var="getDetailTourLink" value="/tour/createImageForm.do">
-                                                                    <c:param name="tourID" value="${tour.tourID}"/>
-                                                                </c:url>
-                                                                <a href="${getDetailTourLink}">${counter.count} - ${tour.tourName}</a>
-                                                            </c:forEach>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="col-5">
                                                     <label class="form-label">Tên hình ảnh</label>
-                                                    <input name="image_name" type="text" class="form-control" value="${TOUR.tourName}" required=""/>
+                                                    <input name="image_name" type="text" class="form-control" value="${IMG.imgName}" required=""/>
                                                 </div>
                                             </div>
                                             <div class="mb-3 row mb-2 ">
                                                 <div class="col-7">
                                                     <label class="form-label">Đường dẫn hình ảnh</label>
-                                                    <textarea name="thumbnail_image_Link" class="form-control" rows="6" cols="50" required></textarea>
+                                                    <textarea name="thumbnail_image_Link" class="form-control" rows="7" cols="50" required>${IMG.imgURL}</textarea>
                                                 </div>
                                                 <div class="col-5 wrapper-image-preview">
                                                     <label class="form-label">Ảnh hiển thị</label>
@@ -351,10 +336,11 @@
                                             <div class="mb-3 form-check">
                                                 <input type="checkbox" class="form-check-input" 
                                                        required />
-                                                <label class="form-check-label">Xác thực tạo Hình Ảnh</label>
+                                                <label class="form-check-label">Xác thực cập nhật Hình Ảnh</label>
                                             </div>
                                             <button type="submit" class="btn btn-primary">
-                                                Tạo Hình Ảnh
+                                                <input name="imgID" type="hidden" class="form-control" value="${IMG.imgID}"/>
+                                                Câp nhật Hình Ảnh
                                             </button>
                                         </form>
                                     </div>

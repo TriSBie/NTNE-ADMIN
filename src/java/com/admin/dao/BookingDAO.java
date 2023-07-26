@@ -99,9 +99,10 @@ public class BookingDAO implements Serializable {
                         + "INNER JOIN ( SELECT  tr.thumbnail,tr.code AS code, tp.depart_time as depart_time, tp.id AS tripID, tp.priceAdult, tp.priceChild\n"
                         + "FROM Booking bk, Trip tp, Tour tr\n"
                         + "WHERE bk.trip_id = tp.id\n"
-                        + "AND tp.tour_id = tr.id)Trip\n"
+                        + "AND tp.tour_id = tr.id) Trip\n"
                         + "ON Trip.tripID = bk.trip_id\n"
                         + "JOIN Payment pm ON bk.payment_id = pm.id\n"
+                        + "AND bk.status = 1\n"
                         + "ORDER BY bk.expireDate DESC";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();

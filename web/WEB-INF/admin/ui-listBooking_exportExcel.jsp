@@ -305,14 +305,14 @@
                                                         <c:forEach var="bookingITEM" items="${requestScope.LIST_OF_SUMMARY_BOOKING}">
                                                             <tr>
                                                                 <td class="border-bottom-0">
-                                                                    <c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">
-                                                                        <c:param name="bookingID" value="${bookingITEM.id}"/>
-                                                                    </c:url>
-                                                                    <a href=${getDetaiBookingLink} class="bookingIDLink">
-                                                                        <h6 class="fw-semibold mb-0" title="Xem chi tiết">
+                                                                    <%--<c:url var="getDetaiBookingLink" value="/booking/viewDetailBooking.do">--%>
+                                                                        <%--<c:param name="bookingID" value="${bookingITEM.id}"/>--%>
+                                                                    <%--</c:url>--%>
+                                                                    <!--<a href=${getDetaiBookingLink} class="bookingIDLink">-->
+                                                                        <h6 class="fw-semibold mb-0">
                                                                             ${bookingITEM.id}
                                                                         </h6>
-                                                                    </a>
+                                                                    <!--</a>-->
                                                                 </td>
                                                                 <td class="border-bottom-0">
                                                                     <h6 class="fw-semibold mb-1">

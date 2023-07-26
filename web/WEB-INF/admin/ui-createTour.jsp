@@ -153,7 +153,7 @@
                                 </a>
                             </li>
                             <!-- End destination management -->
-                            
+
                             <!-- Manage Image -->
                             <li class="sidebar-item">
                                 <a
@@ -352,15 +352,23 @@
                                     </div>
 
                                     <!-- Hình Ảnh TOUR -->
-                                    <div class="mb-3">
-                                        <label class="form-label"
-                                               >Mời bạn nhập đường dẫn hình ảnh (https://firebase.google.com/)
-                                        </label>
-                                        <input type="text" class="form-control" name="thumbnail" required=""/>
+
+
+                                    <div class="mb-3 row mb-2 ">
+                                        <div class="col-8">
+                                            <label class="form-label">Đường dẫn hình ảnh</label>
+                                            <textarea name="thumbnail" class="form-control" rows="6" cols="50" required></textarea>
+                                        </div>
+                                        <div class="col-4 wrapper-image-preview">
+                                            <label class="form-label">Ảnh hiển thị</label>
+                                            <image id="image_preview" alt="" style="
+                                                   width: 335px;
+                                                   height: 230px;
+                                                   border-radius: 5px;">
+                                        </div>
                                     </div>
-
-
-
+                                    
+                                    
                                     <!-- CREATE DES -->
                                     <div class="formTour">
                                         <div class="formTour-package">
@@ -593,6 +601,23 @@
                                                 reloadData();
                                             }
         </script>
+        <script>
+            var imageText = document.querySelector('[name="thumbnail"]');
+            if (imageText.innerHTML.length < 10) {
+                document.querySelector('.wrapper-image-preview').classList.add('disable');
+            }
+            document.querySelector('#image_preview').src = imageText.value;
+            imageText.addEventListener("change", function (e) {
 
+                if (e.target.value.length >= 10) {
+                    document.querySelector('.wrapper-image-preview.disable').classList.remove('disable');
+
+                } else if (e.target.value.length < 10) {
+                    document.querySelector('.wrapper-image-preview').classList.add('disable');
+                }
+                document.querySelector('#image_preview').src = e.target.value;
+
+            })
+        </script>
     </body>
 </html>
