@@ -296,7 +296,7 @@
                                                         <tr scope="row">
                                                             <td>${tour.tourID}</td>
                                                             <td>${tour.code}</td>
-                                                            <td style="width: 300px">
+                                                            <td style="width: 220px">
                                                                 <c:url var="getDetaiTourlLink" value="/tour/tourDetailByID.do">
                                                                     <c:param name="tourID" value="${tour.tourID}"/>
                                                                 </c:url>
@@ -314,7 +314,7 @@
                                                                     src="${tour.thumbnail}"
                                                                     />
                                                             </td>
-                                                            <td style="width: 150px">
+                                                            <td style="width: 220px">
                                                                 <p>${tour.location}</p>
                                                             </td>
 

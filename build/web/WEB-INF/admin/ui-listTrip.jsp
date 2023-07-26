@@ -368,10 +368,9 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <!-- Thông báo nếu thao tác thành công -->
-                                        
                                         <c:if test="${msg_success_create != null}">
                                             <div class="alert alert-success">
-                                                <strong>${msg_success_create}!</strong>
+                                                <strong>${msg_success_create}</strong>
                                             </div>
                                         </c:if>
                                         <c:if test="${msg_success != null}">

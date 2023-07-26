@@ -295,6 +295,10 @@
                                                     <fmt:formatNumber value ="${REVENUE_BY_CURENT_DAY}" type = "currency"/>
                                                 </h4>
                                                 <div class="d-flex align-items-center pb-1">
+                                                    <p style="margin-right: 5px;" class="fs-3 mb-0">
+                                                        Hôm qua
+                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVIOUS_DAY}" type = "currency"/>
+                                                    </p>
                                                     <c:if test="${REVENUE_GROWTH_RATE > 100}">
                                                         <span
                                                             class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
@@ -314,11 +318,6 @@
                                                             ${REVENUE_GROWTH_RATE_DOWN}%
                                                         </p>
                                                     </c:if>
-
-                                                    <p class="fs-3 mb-0">
-                                                        Hôm qua
-                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVIOUS_DAY}" type = "currency"/>
-                                                    </p>
                                                 </div>
                                                 <div class="d-flex align-items-center pb-1">
                                                 </div>
@@ -348,7 +347,7 @@
                                                 </h4>
                                                 <div class="d-flex align-items-center pb-1">
                                                     <p class="fs-3 mb-0">
-                                                        Hôm qua
+                                                        [Hôm qua]
                                                         ${TOTAL_TICKET_PRIVIOUS_DAY} Vé
                                                     </p>
                                                 </div>
@@ -398,8 +397,6 @@
                             </div>
                         </div>
                         <!-- Báo cáo hôm nay -->
-
-
                         <h5 class="card-title mb-9 fw-semibold">CHI TIẾT BÁO CÁO THÁNG NÀY</h5>
                         <!-- Báo cáo tháng này -->
                         <div class="row">
@@ -416,6 +413,10 @@
                                                     <fmt:formatNumber value ="${REVENUE_BY_MONTH}" type = "currency"/>
                                                 </h4>
                                                 <div class="d-flex align-items-center pb-1">
+                                                    <p style="margin-right: 5px" class="fs-3 mb-0">
+                                                        [Tháng 6] 
+                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVOUS_MONTH}" type = "currency"/>
+                                                    </p>
                                                     <c:if test="${REVENUE_GROWTH_RATE_MONTH > 100}">
                                                         <span
                                                             class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
@@ -435,11 +436,6 @@
                                                             ${REVENUE_GROWTH_RATE_DOWN_MONTH}%
                                                         </p>
                                                     </c:if>
-
-                                                    <p class="fs-3 mb-0">
-                                                        | Tháng 6 
-                                                        <fmt:formatNumber value ="${REVENUE_BY_PRIVOUS_MONTH}" type = "currency"/>
-                                                    </p>
                                                 </div>
                                                 <div class="d-flex align-items-center pb-1">
 

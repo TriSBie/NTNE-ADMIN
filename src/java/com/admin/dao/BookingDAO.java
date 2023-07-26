@@ -548,8 +548,9 @@ public class BookingDAO implements Serializable {
         try {
             con = DBContext.getConnectionDB();
             if (con != null) {
-                String SQL = "SELECT SUM([quantityAdult] + [quantityChild])  FROM [dbo].[Booking]\n"
-                        + "WHERE DAY([expireDate]) =  DAY(DATEADD(d, -1, DATEADD(m, DATEDIFF(m, 0, GETDATE()), 0))) AND [status] = 1;";
+                String SQL = "SELECT SUM([quantityAdult] + [quantityChild])\n"
+                        + "FROM [dbo].[Booking]\n"
+                        + "WHERE CONVERT(DATE, [expireDate]) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE) AND [status] = 1;";
                 ps = con.prepareStatement(SQL);
                 rs = ps.executeQuery();
                 int total = 0;
