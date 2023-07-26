@@ -367,8 +367,8 @@
                                                    border-radius: 5px;">
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                     <!-- CREATE DES -->
                                     <div class="formTour">
                                         <div class="formTour-package">
@@ -601,6 +601,13 @@
                                                 reloadData();
                                             }
         </script>
+
+        <style>
+            .wrapper-image-preview.disable {
+                display: none
+            }
+        </style>
+       
         <script>
             var imageText = document.querySelector('[name="thumbnail"]');
             if (imageText.innerHTML.length < 10) {

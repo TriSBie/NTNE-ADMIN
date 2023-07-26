@@ -172,7 +172,7 @@
                                 </a>
                             </li>
                             <!-- End Image management -->
-                            
+
                             <!-- Manage Account -->
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -412,7 +412,7 @@
                                                                                             class="form-control"
                                                                                             id="exampleInputEmail1"
                                                                                             aria-describedby="emailHelp"
-                                                                                            />
+                                                                                            >
                                                                                     </div>
                                                                                     <div class="col-6">
                                                                                         <label
@@ -423,11 +423,11 @@
                                                                                         <input
                                                                                             id="destinationLatitude"
                                                                                             name="destinationLat"
-                                                                                            type="number"
+                                                                                            type="text"
                                                                                             class="form-control"
                                                                                             value=${destination.lat}
-                                                                                            />
-                                                                                    </div>
+                                                                                            >
+                                                                                    </div> 
                                                                                     <div class="col-6">
                                                                                         <label
                                                                                             for="destinationLongitude"
@@ -438,10 +438,10 @@
                                                                                         <input
                                                                                             id="destinationLongitude"
                                                                                             name="destinationLong"
-                                                                                            type="number"
+                                                                                            type="text"
                                                                                             class="form-control"
                                                                                             value=${destination.lon}
-                                                                                            />
+                                                                                            >
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="mb-3 row">
