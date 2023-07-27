@@ -274,7 +274,7 @@
                                                         <label class="form-label">Ngày khởi hành hiện tại:
                                                             <fmt:formatDate pattern = "dd-MM-yyyy" value = "${TRIP_DETAIL.depart_time}"/>
                                                         </label>
-                                                        <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" />
+                                                        <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" value= "${TRIP_DETAIL.depart_time}" />
                                                     </div>
                                                     <div class="col-6">
                                                         <label

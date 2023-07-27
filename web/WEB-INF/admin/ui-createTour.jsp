@@ -362,7 +362,7 @@
                                         <div class="col-4 wrapper-image-preview">
                                             <label class="form-label">Ảnh hiển thị</label>
                                             <image id="image_preview" alt="" style="
-                                                   width: 335px;
+                                                   width: 325px;
                                                    height: 230px;
                                                    border-radius: 5px;">
                                         </div>
