@@ -274,7 +274,8 @@
                                                         <label class="form-label">Ngày khởi hành hiện tại:
                                                             <fmt:formatDate pattern = "dd-MM-yyyy" value = "${TRIP_DETAIL.depart_time}"/>
                                                         </label>
-                                                        <input name="depart_time" type="date" class="form-control" min="${NOW}" required="" value= "${TRIP_DETAIL.depart_time}" />
+                                                        <input type="date" class="form-control" min="${NOW}" required="" value= "${TRIP_DETAIL.depart_time}"  disabled=""/>
+                                                        <input name="depart_time" type="hidden" class="form-control" min="${NOW}" required="" value= "${TRIP_DETAIL.depart_time}"/>
                                                     </div>
                                                     <div class="col-6">
                                                         <label
@@ -293,8 +294,6 @@
                                                             >Giá người lớn (VND)</label
                                                         >
                                                         <input
-                                                            name="priceAdult"
-                                                            value="${TRIP_DETAIL.priceAdult}"
                                                             type="number"
                                                             class="form-control"
                                                             id="exampleInputEmail1"
@@ -302,6 +301,12 @@
                                                             placeholder="Giá hiện tại:<fmt:formatNumber value ="${TRIP_DETAIL.priceAdult}" type = "currency"/>"
                                                             min="1000"
                                                             required=""
+                                                            disabled=""
+                                                            />
+                                                        <input
+                                                            name="priceAdult"
+                                                            value="${TRIP_DETAIL.priceAdult}"
+                                                            type="hidden"
                                                             />
                                                     </div>
                                                     <div class="col-6">
@@ -311,15 +316,19 @@
                                                             >Giá trẻ em (VND)</label
                                                         >
                                                         <input
-                                                            name="priceChild"
                                                             type="number"
-                                                            value="${TRIP_DETAIL.priceChild}"
                                                             class="form-control"
                                                             id="exampleInputEmail1"
                                                             aria-describedby="emailHelp"
                                                             placeholder="Giá hiện tại: <fmt:formatNumber value ="${TRIP_DETAIL.priceChild}" type = "currency"/>"
                                                             min="1000"
                                                             required=""
+                                                            disabled=""
+                                                            />
+                                                        <input
+                                                            name="priceChild"
+                                                            value="${TRIP_DETAIL.priceChild}"
+                                                            type="hidden"
                                                             />
                                                     </div>
                                                 </div>

@@ -82,6 +82,7 @@ public class AccountController extends HttpServlet {
 
             if (account != null) {
                 session.setAttribute("admin", account);
+                session.setMaxInactiveInterval(99999999);
                 // chuyen huong ve trang chu
                 request.getRequestDispatcher("/tour/dashborad.do").forward(request, response);
             } else {
